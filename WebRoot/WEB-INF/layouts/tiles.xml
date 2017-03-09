@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+        <tiles-definitions>
+    <definition name="default" template="/WEB-INF/jsp/tilesTest/templet.jsp">
+           <put-attribute name="title" value="" />
+           <put-attribute name="header" value="/WEB-INF/jsp/tilesTest/head.jsp" />
+            <put-attribute name="menu" value="/WEB-INF/jsp/tilesTest/menu.jsp" />
+            <put-attribute name="body" value="" />
+            <put-attribute name="footer" value="/WEB-INF/jsp/tilesTest/foot.jsp" />
+    </definition>
+    <definition name="CustomerForm" extends="default">
+        <put-attribute name="title" value="HHHHHHH"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/CustomerForm.jsp"/>
+    </definition>
+    <definition name="CustomerDetail" extends="default">
+        <put-attribute name="title" value="DDDDDD"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/CustomerDetail.jsp"/>
+    </definition>
+    <definition name="login" extends="default">
+        <put-attribute name="title" value="FFFFFF"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/admin/login.jsp"/>
+    </definition>
+</tiles-definitions>

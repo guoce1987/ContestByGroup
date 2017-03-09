@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	<!-- 添加调度的任务bean 配置对应的class-->
+	<bean id="mySchedule" class="com.guoce.schedule.MyFirstSchedule" />
+
+    <!--配置调度具体执行的方法-->
+	<bean id="myDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="mySchedule" />
+		<property name="targetMethod" value="printSomething" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+
+	<!--配置调度执行的触发的时间-->
+	<bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="myDetail" />
+		<property name="cronExpression">
+			<!-- 每10秒执行任务调度 -->
+			<value>*/10 * * * * ?</value>
+		</property>
+	</bean>
+
+	
+
+	<!-- quartz的调度工厂 调度工厂只能有一个，多个调度任务在list中添加 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		 <property name="jobDetails">
+	        <list>
+	            <ref bean="myDetail" />
+	        </list>
+	    </property>
+		<property name="triggers">
+			<list>
+			     <!-- 所有的调度列表-->
+				<ref bean="myTrigger" />
+				
+			</list>
+		</property>
+	</bean>
+
+</beans> 
