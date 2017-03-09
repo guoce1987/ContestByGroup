@@ -106,8 +106,8 @@ public class LoginController extends BaseController {
 				String PASSWORD  = KEYDATA[1];
 				pd.put("USERNAME", USERNAME);
 				if(!Tools.notEmpty(sessionCode) /*&& sessionCode.equalsIgnoreCase(code)*/){
-					String passwd = new SimpleHash("SHA-1", USERNAME, PASSWORD).toString();	//密码加密
-					pd.put("PASSWORD", passwd);
+//					String passwd = new SimpleHash("SHA-1", USERNAME, PASSWORD).toString();	//密码加密
+					pd.put("PASSWORD", PASSWORD);
 					pd = userService.getUserByNameAndPwd(pd);
 					if(pd != null){
 						pd.put("LAST_LOGIN",DateUtil.getTime().toString());
@@ -257,13 +257,13 @@ public class LoginController extends BaseController {
 				}
 			 	//读取websocket配置
 			 	
-//				mv.setViewName("system/admin/index");
-				mv.setViewName("tilesTest/templet");
+				mv.setViewName("system/admin/index");
+//				mv.setViewName("tilesTest/templet");
 				
-//				mv.addObject("user", user);
-//				mv.addObject("menuList", menuList);
-			    mv.addObject("name", "郭策");
-				mv.addObject("description", "Tiles 测试");
+				mv.addObject("user", user);
+				mv.addObject("menuList", menuList);
+//			    mv.addObject("name", "郭策");
+//				mv.addObject("description", "Tiles 测试");
 			}else {
 				mv.setViewName("system/admin/login");//session失效后跳转登录页面
 			}

@@ -21,7 +21,7 @@ public class MyFirstSchedule {
 	public static int num = 1;
 	public static boolean flag = true;
 	public static void printSomething(){
-		if(flag){
+		if(!flag){
 
 //			System.out.println("定时任务1:is show run "+new Date());
 
@@ -34,7 +34,7 @@ public class MyFirstSchedule {
 	            e1.printStackTrace();
 	        }
 	        
-	        String url="jdbc:mysql://localhost:3306/numysql";    //JDBC的URL    
+	        String url="jdbc:mysql://localhost:3306/test";    //JDBC的URL    
 	        //调用DriverManager对象的getConnection()方法，获得一个Connection对象
 	        Connection conn;
 	        try {
@@ -67,7 +67,7 @@ public class MyFirstSchedule {
 	        }
 		
 		}else{
-			System.out.println("定时任务1:执行但是不连数据库"+new Date());
+//			System.out.println("定时任务1:执行但是不连数据库"+new Date());
 		}
 	}
 
