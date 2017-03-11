@@ -39,9 +39,10 @@
 	</div>
 	
 
-	<div class="container-fluid" id="main-container">
-		<a href="#" id="menu-toggler"><span></span></a>
-		<!-- menu toggler -->
+	<div class="main-container ace-save-state" id="main-container">
+		<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+		</script>
 
 		<!-- 左侧菜单 -->
 		<%@ include file="left.jsp"%>
@@ -55,9 +56,9 @@
 	<!-- basic scripts -->
 		<!-- 引入 -->
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
-		<script src="static/js/bootstrap.min.js"></script>
-		<script src="static/js/ace-elements.min.js"></script>
-		<script src="static/js/ace.min.js"></script>
+		<script src="static/assets/js/bootstrap.min.js"></script>
+		<script src="static/assets/js/ace-elements.min.js"></script>
+		<script src="static/assets/js/ace.min.js"></script>
 		<!-- 引入 -->
 		
 		<script type="text/javascript" src="static/js/jquery.cookie.js"></script>

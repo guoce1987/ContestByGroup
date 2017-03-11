@@ -3,19 +3,19 @@
 <div class="navbar navbar-inverse">
 		  <div class="navbar-inner">
 		   <div class="container-fluid">
-			  <a class="brand"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
+			  <a class="navbar-brand"><small><i class="fa fa-leaf"></i> ${pd.SYSNAME}</small> </a>
 			  
 			  <ul class="nav ace-nav pull-right">
 			  
 			  
-					<li class="grey">
+					<li class="grey dropdown-modal">
 						<a href="javascript:alert('预留功能,待开发');" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-tasks"></i>
-							<span class="badge">1</span>
+							<i class="ace-icon fa fa-tasks"></i>
+							<span class="badge badge-grey">1</span>
 						</a>
-						<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-closer">
-							<li class="nav-header">
-								<i class="icon-ok"></i> 4 任务完成
+						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+							<li class="dropdown-header">
+								<i class="ace-icon fa fa-check"></i> 4 任务完成
 							</li>
 							
 							<li>
@@ -204,7 +204,7 @@
 						</li>
 					
 					
-					<li class="light-blue user-profile">
+<!-- 					<li class="light-blue user-profile">
 						<a class="user-menu dropdown-toggle" href="javascript:;" data-toggle="dropdown">
 							<img alt="FH" src="static/avatars/user.jpg" class="nav-user-photo" />
 							<span id="user_info">
@@ -218,7 +218,43 @@
 							<li class="divider"></li>
 							<li><a href="logout"><i class="icon-off"></i> 退出</a></li>
 						</ul>
-					</li>
+					</li> -->
+						<li class="light-blue dropdown-modal">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="static/avatars/user.jpg" alt="Jason's Photo" />
+								<span class="user-info">
+									<small>Welcome,</small>
+									Jason
+								</span>
+
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a onclick="editUserH();" style="cursor:pointer;">
+										<i class="ace-icon fa fa-user"></i>
+										修改资料
+									</a>
+								</li>
+
+								<li id="systemset">
+									<a onclick="editSys();" style="cursor:pointer;">
+										<i class="ace-icon fa fa-cog"></i>
+										系统设置
+									</a>
+								</li>
+
+								<li class="divider"></li>
+
+								<li>
+									<a href="logout">
+										<i class="ace-icon fa fa-power-off"></i>
+										退出
+									</a>
+								</li>
+							</ul>
+						</li>
 			  </ul><!--/.ace-nav-->
 		   </div><!--/.container-fluid-->
 		  </div><!--/.navbar-inner-->

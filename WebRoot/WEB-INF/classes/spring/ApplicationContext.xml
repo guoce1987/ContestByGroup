@@ -37,11 +37,12 @@
 	
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-    <!-- 连接MySQL-->
+    <!-- 连接MySQL
 	<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 	<property name="url" value="jdbc:mysql://localhost:3306/test"></property>
 	<property name="username" value="root"></property>
 	<property name="password" value="111111"></property>
+	-->
 	
 	<!-- 连接Oracle 
 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
@@ -49,12 +50,12 @@
 	<property name="username" value="scott"></property>
 	<property name="password" value="tiger"></property>
 	-->
-	<!-- 连接SQL Server
+	<!-- 连接SQL Server -->
 	<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
-	<property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=test"></property>
+	<property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=ContestByGroupNew"></property>
 	<property name="username" value="sa"></property>
-	<property name="password" value="yuji"></property>
-	-->
+	<property name="password" value="20001209"></property>
+	
 	<property name="maxActive" value="100"></property>
 	<property name="maxIdle" value="30"></property>
 	<property name="maxWait" value="500"></property>

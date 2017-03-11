@@ -7,10 +7,33 @@
 			</div>
 			</div>
 
-			<div>
+			<div class="main-content">
+				<div class="main-content-inner">
 				<%-- <jsp:include page="../system/fusionChart.jsp" /> --%>
-			</div>
+					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+						<ul class="breadcrumb">
+							<li>
+								<i class="ace-icon fa fa-home home-icon"></i>
+								<a href="#">Home</a>
+							</li>
+
+<!-- 							<li>
+								<a href="#">Other Pages</a>
+							</li> -->
+							<li class="active">首页</li>
+						</ul><!-- /.breadcrumb -->
+
+<!-- 						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div>/.nav-search -->
+					</div>
 			
+			<div class="page-content">
 						<div id="ace-settings-container">
 				<div class="btn btn-app btn-mini btn-warning" id="ace-settings-btn">
 					<i class="icon-cog"></i>
@@ -35,4 +58,7 @@
 						<label><input type='checkbox' name='menusf' id="menusf" onclick="menusf();" /><span class="lbl" style="padding-top: 5px;">菜单缩放</span></label>
 					</div>
 				</div>
+			</div>
+			</div>
+			</div>
 			</div>
