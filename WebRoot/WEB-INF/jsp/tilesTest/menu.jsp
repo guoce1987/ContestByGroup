@@ -1,19 +1,2 @@
-<div>
-    <ul>
-        <li>
-            menu1
-        </li>
-        <li>
-            menu2
-        </li>
-        <li>
-            menu3
-        </li>
-        <li>
-            menu4
-        </li>
-        <li>
-            menu6
-        </li>
-    </ul>
-</div>
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="left.jsp"%>

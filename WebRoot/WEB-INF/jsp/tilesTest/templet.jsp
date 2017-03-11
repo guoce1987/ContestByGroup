@@ -9,8 +9,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 	<base href="<%=basePath%>">
@@ -44,8 +43,9 @@
 				try{ace.settings.loadState('main-container')}catch(e){}
 		</script>
 
-		<!-- 左侧菜单 -->
-		<%@ include file="left.jsp"%>
+		<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+			<tiles:insertAttribute name="menu" />
+		</div><!--/#sidebar-->
 		
 		<div id="main-content" class="clearfix">
 			<tiles:insertAttribute name="body" />
