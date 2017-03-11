@@ -258,12 +258,12 @@ public class LoginController extends BaseController {
 			 	//读取websocket配置
 			 	
 				mv.setViewName("system/admin/index");
-//				mv.setViewName("tilesTest/templet");
+//				mv.setViewName("CustomerForm");
 				
-				mv.addObject("user", user);
-				mv.addObject("menuList", menuList);
-//			    mv.addObject("name", "郭策");
-//				mv.addObject("description", "Tiles 测试");
+//				mv.addObject("user", user);
+//				mv.addObject("menuList", menuList);
+			    mv.addObject("name", "郭策");
+				mv.addObject("description", "Tiles 测试");
 			}else {
 				mv.setViewName("system/admin/login");//session失效后跳转登录页面
 			}

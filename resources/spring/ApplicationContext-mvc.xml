@@ -28,10 +28,9 @@
 	</mvc:interceptors>
 	 
 	<!-- 配置SpringMVC的视图解析器 -->
- 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
- 		<property name="prefix" value="/WEB-INF/jsp/"/>
-		<property name="suffix" value=".jsp"/> 
-	</bean> 
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+    </bean>
 	
 	<bean id="exceptionResolver" class="com.fh.resolver.MyExceptionResolver"></bean>
 	<!-- 上传拦截，如最大上传值及最小上传值 -->
