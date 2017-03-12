@@ -23,10 +23,10 @@
 	<!-- 即时通讯 -->
 	<script type="text/javascript">var wimadress="${pd.WIMIP}:${pd.WIMPORT}";</script>
 	<script type="text/javascript">var oladress="${pd.OLIP}:${pd.OLPORT}";</script>
-	<link rel="stylesheet" type="text/css" href="plugins/websocketInstantMsg/ext4/resources/css/ext-all.css">
+<!-- 	<link rel="stylesheet" type="text/css" href="plugins/websocketInstantMsg/ext4/resources/css/ext-all.css">
 	<link rel="stylesheet" type="text/css" href="plugins/websocketInstantMsg/css/websocket.css" />
 	<script type="text/javascript" src="plugins/websocketInstantMsg/ext4/ext-all-debug.js"></script>
-	<script type="text/javascript" src="plugins/websocketInstantMsg/websocket.js"></script>
+	<script type="text/javascript" src="plugins/websocketInstantMsg/websocket.js"></script> -->
 	<!-- 即时通讯 -->
 	
 </head>
