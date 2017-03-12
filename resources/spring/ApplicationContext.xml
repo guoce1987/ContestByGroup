@@ -52,7 +52,7 @@
 	-->
 	<!-- 连接SQL Server -->
 	<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
-	<property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=ContestByGroupNew"></property>
+	<property name="url" value="jdbc:sqlserver://localhost:1434;databaseName=ContestByGroupNew"></property>
 	<property name="username" value="sa"></property>
 	<property name="password" value="20001209"></property>
 	
