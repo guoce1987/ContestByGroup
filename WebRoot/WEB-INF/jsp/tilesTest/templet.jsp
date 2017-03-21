@@ -9,67 +9,94 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+<tiles:importAttribute name="libJavascripts"/>
+<tiles:importAttribute name="javascripts"/>
+<tiles:importAttribute name="libStylesheets"/>
+
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+	<head>
 	<base href="<%=basePath%>">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title><tiles:insertAttribute name="title"></tiles:insertAttribute></title>
 
-	<!-- jsp文件头和头部 -->
-	<%@ include file="top.jsp"%>
-	<style type="text/css">
-	.commitopacity{position:absolute; width:100%; height:100px; background:#7f7f7f; filter:alpha(opacity=50); -moz-opacity:0.8; -khtml-opacity: 0.5; opacity: 0.5; top:0px; z-index:99999;}
-	</style>
-	
-	<!-- 即时通讯 -->
-	<script type="text/javascript">var wimadress="${pd.WIMIP}:${pd.WIMPORT}";</script>
-	<script type="text/javascript">var oladress="${pd.OLIP}:${pd.OLPORT}";</script>
-<!-- 	<link rel="stylesheet" type="text/css" href="plugins/websocketInstantMsg/ext4/resources/css/ext-all.css">
-	<link rel="stylesheet" type="text/css" href="plugins/websocketInstantMsg/css/websocket.css" />
-	<script type="text/javascript" src="plugins/websocketInstantMsg/ext4/ext-all-debug.js"></script>
-	<script type="text/javascript" src="plugins/websocketInstantMsg/websocket.js"></script> -->
-	<!-- 即时通讯 -->
-	
-</head>
-<body>
+		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-	<!-- 页面顶部¨ -->
-	<div id="navbar" class="navbar navbar-default ace-save-state">
-	<tiles:insertAttribute name="header" />
-	</div>
-	
+	    <!-- stylesheets for libs-->
+	    <c:forEach var="css" items="${libStylesheets}">
+	        <link rel="stylesheet" type="text/css" href="<c:url value="${css}"/>">
+	    </c:forEach>
 
-	<div class="main-container ace-save-state" id="main-container">
-		<script type="text/javascript">
-				try{ace.settings.loadState('main-container')}catch(e){}
-		</script>
+	</head>
 
-		<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-			<tiles:insertAttribute name="menu" />
-		</div><!--/#sidebar-->
-		
-		<div id="main-content" class="clearfix">
-			<tiles:insertAttribute name="body" />
+	<body class="no-skin">
+		<div id="navbar" class="navbar navbar-default          ace-save-state">
+			<tiles:insertAttribute name="header"></tiles:insertAttribute>
 		</div>
-		<!-- #main-content -->
-	</div>
-	<!--/.fluid-container#main-container-->
-	<!-- basic scripts -->
-		<!-- 引入 -->
-		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
-		<script src="static/assets/js/bootstrap.min.js"></script>
-		<script src="static/assets/js/ace-elements.min.js"></script>
-		<script src="static/assets/js/ace.min.js"></script>
-		<!-- 引入 -->
+
+		<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
+
+			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+				<tiles:insertAttribute name="menu"></tiles:insertAttribute>
+			</div>
+
+			<div class="main-content">
+				<div class="main-content-inner">
+					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+						<tiles:insertAttribute name="breadcrumb"></tiles:insertAttribute>
+					</div>
+
+					<div class="page-content">
+						<div class="ace-settings-container" id="ace-settings-container">
+							<tiles:insertAttribute name="ace-setting"></tiles:insertAttribute>
+						</div><!-- /.ace-settings-container -->
+						
+						<tiles:insertAttribute name="body"></tiles:insertAttribute>
+
+					</div><!-- /.page-content -->
+				</div>
+				<!-- <div>${contestResultList}</div> -->
+				
+			</div><!-- /.main-content -->
+
+			<tiles:insertAttribute name="footer"></tiles:insertAttribute>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<script src="static/assets/js/jquery-2.1.4.min.js"></script>
+
+
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
 		
-		<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
-		<script type="text/javascript" src="static/js/myjs/menusf.js"></script>
+		<script type="text/javascript">
+/* 			var grid_data =	${contestResultList};
+			var year = ${year};
+			var month = ${month}; */
+		</script>
 		
-		<!--引入属于此页面的js -->
-		<script type="text/javascript" src="static/js/myjs/index.js"></script>
-</body>
-<h1>Bottom</h1>
-<span style="font-size: 14px;"><p><a href="http://www.qlysou.com/">www.qlysou.com</a></p></span>
-<span style="font-size: 14px;"><p>Copyright <code class="xml plain">©</code><a href="http://www.qlysou.com/">www.qlysou.com</a> </p></span>
- </html>
+		<!-- javascripts libs-->
+		<c:forEach var="js" items="${libJavascripts}">
+		    <script src="<c:url value="${js}"/>"></script>
+		</c:forEach>
+		<!-- javascripts for pages-->
+		<c:forEach var="js" items="${javascripts}">
+		    <script src="<c:url value="${js}"/>"></script>
+		</c:forEach>
+	</body>
+</html>
+
 
 

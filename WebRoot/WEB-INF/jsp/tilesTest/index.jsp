@@ -1,11 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
 						<div class="page-header">
 							<h1>
-								总成绩
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									查询总成绩主页
-								</small>
+								首页
 							</h1>
 						</div><!-- /.page-header -->
 						
@@ -67,6 +63,7 @@
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
+			
 						
 						<input type="hidden" id="contestResultList" value=${contestResultList}>
 						<input type="hidden" id="year" value=${year}>

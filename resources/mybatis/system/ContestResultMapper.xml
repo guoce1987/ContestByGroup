@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ContestResultMapper">
+	
+	<resultMap type="ContestResult" id="contestResultMap">
+		<result column="StatDate" property="StatDate"/>
+		<result column="RJ_SafetyScore" property="RJ_SafetyScore"/>
+		<result column="RJ_PowerScore" property="RJ_PowerScore"/>
+		<result column="RJ_HeatScore" property="RJ_HeatScore"/>
+		<result column="RJ_EconomyScore" property="RJ_EconomyScore"/>
+		<result column="RJ_BugScore" property="RJ_BugScore"/>
+		<result column="RJ_PotralScore" property="RJ_PotralScore"/>
+		<result column="RJ_TrainScore" property="RJ_TrainScore"/>
+		<result column="RJ_SpiritScore" property="RJ_SpiritScore"/>
+		<result column="RJ_TotalScore" property="RJ_TotalScore"/>
+	</resultMap>
+	
+	<!-- 列出所有的竞赛结果 -->
+	<select id="listAllContestResult" resultMap="contestResultMap" parameterType="pd">
+		select 
+		 CONVERT(varchar(100), StatDate, 23) as StatDate,
+		  RJ_SafetyScore,
+		  RJ_PowerScore,
+		  RJ_HeatScore,
+		  RJ_EconomyScore,
+		  RJ_BugScore,
+		  RJ_PotralScore,
+		  RJ_TrainScore,
+		  RJ_SpiritScore,
+		  RJ_TotalScore
+		 from vw_ContestResult
+		 where year(StatDate)= #{year} and month(StatDate) = #{month}
+	</select>
+
+</mapper>

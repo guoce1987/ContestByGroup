@@ -7,7 +7,7 @@
 			}
 		});
 		function cmainFrame(){
-			var hmain = document.getElementById("mainFrame");
+			var hmain = document.getElementById("main-content");
 			var bheight = document.documentElement.clientHeight;
 			hmain .style.width = '100%';
 			hmain .style.height = (bheight  - 51) + 'px';

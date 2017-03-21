@@ -8,13 +8,72 @@
     <definition name="default" template="/WEB-INF/jsp/tilesTest/templet.jsp">
            <put-attribute name="title" value="小指标竞赛管理系统" />
            <put-attribute name="header" value="/WEB-INF/jsp/tilesTest/head.jsp" />
-            <put-attribute name="menu" value="/WEB-INF/jsp/tilesTest/menu.jsp" />
-             <put-attribute name="body" value="" />
-<!--            <put-attribute name="footer" value="/WEB-INF/jsp/tilesTest/foot.jsp" /> -->
+           <put-attribute name="menu" value="/WEB-INF/jsp/tilesTest/menu.jsp" />
+           <put-attribute name="breadcrumb" value="/WEB-INF/jsp/tilesTest/breadcrumb.jsp" />
+           <put-attribute name="ace-setting" value="/WEB-INF/jsp/tilesTest/ace-setting.jsp" />
+           <put-attribute name="body" value="" />
+           <put-attribute name="footer" value="/WEB-INF/jsp/tilesTest/foot.jsp" /> 
+
+        <put-list-attribute name="libJavascripts">
+            <add-attribute value="static/assets/js/bootstrap.min.js"/>
+            <!-- page specific plugin scripts -->
+            <add-attribute value="static/assets/js/bootstrap-datepicker.min.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datepicker.zh-CN.js"/>
+            <add-attribute value="static/assets/js/jquery.jqGrid.min.js"/>
+            <add-attribute value="static/assets/js/grid.locale-en.js" />
+            <!-- 以下js画图用 -->
+            <add-attribute value="static/assets/js/jquery-ui.custom.min.js" />
+            <add-attribute value="static/assets/js/jquery.ui.touch-punch.min.js" />
+            <add-attribute value="static/assets/js/jquery.easypiechart.min.js"/>
+            <add-attribute value="static/assets/js/jquery.sparkline.index.min.js"/>
+            <add-attribute value="static/assets/js/jquery.flot.min.js"/>
+            <add-attribute value="static/assets/js/jquery.flot.pie.min.js"/>
+            <add-attribute value="static/assets/js/jquery.flot.resize.min.js"/>
+            <!-- 以下js FusionChart用 -->
+            <add-attribute value="static/js/fusioncharts-suite/js/fusioncharts.js"/>
+            <add-attribute value="static/js/fusioncharts-suite/js/fusioncharts.charts.js"/>
+            <add-attribute value="static/js/fusioncharts-suite/js/themes/fusioncharts.theme.carbon.js"/>
+            <add-attribute value="static/js/fusioncharts-suite/js/themes/fusioncharts.theme.fint.js"/>
+            <add-attribute value="static/js/fusioncharts-suite/js/themes/fusioncharts.theme.ocean.js"/>
+            <add-attribute value="static/js/fusioncharts-suite/js/themes/fusioncharts.theme.zune.js"/>
+            <!-- ace scripts -->
+            <add-attribute value="static/assets/js/ace-elements.min.js"/>
+            <add-attribute value="static/assets/js/ace.min.js"/>
+            <add-attribute value="static/assets/js/ace-extra.min.js"/>
+        </put-list-attribute>
+        
+        <put-list-attribute name="libStylesheets">
+         	<!-- bootstrap & fontawesome -->
+            <add-attribute value="static/assets/css/bootstrap.min.css"/>
+            <add-attribute value="static/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+            <!-- page specific plugin styles -->
+            <add-attribute value="static/assets/css/jquery-ui.min.css" />
+            <add-attribute value="static/assets/css/bootstrap-datepicker3.min.css"/>
+            <add-attribute value="static/assets/css/ui.jqgrid.min.css"/>
+            <!-- text fonts -->
+            <add-attribute value="static/assets/css/fonts.googleapis.com.css" />
+            <!-- ace styles -->
+            <add-attribute value="static/assets/css/ace.min.css"/>
+            
+            <add-attribute value="static/assets/css/ace-skins.min.css"/>
+            <add-attribute value="static/assets/css/ace-rtl.min.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts">
+        </put-list-attribute>
     </definition>
     <definition name="system/admin/index" extends="default">
         <put-attribute name="title" value="首页"/>
-         <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/body.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/index.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/tileTest/index.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+     <definition name="contestResult/list" extends="default">
+        <put-attribute name="title" value="总成绩"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/body.jsp"/>
+<!--         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/tileTest/body.js?v=1.0.0"/>
+        </put-list-attribute> -->
     </definition>
     <definition name="CustomerDetail" extends="default">
         <put-attribute name="title" value="DDDDDD"/>
