@@ -1,24 +1,10 @@
 package com.fh.controller.system.contestResult;
 
-import java.io.PrintWriter;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,21 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.ContestResult;
+import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.Role;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
-import com.fh.service.system.global.GlobalConstService;
 import com.fh.service.system.role.RoleService;
-import com.fh.util.AppUtil;
 import com.fh.util.Const;
-import com.fh.util.Jurisdiction;
-import com.fh.util.MD5;
-import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
+import com.fh.util.Tools;
 import com.guoce.schedule.MyFirstSchedule;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
 /** 
  * 类名称：GlobalConstController
@@ -84,7 +68,7 @@ public class ContestResultMainController extends BaseController {
 			page.setPd(pd);
 //			List<PageData>	userList = appuserService.listPdPageUser(page);			//列出用户列表
 //			List<Role> roleList = roleService.listAllappERRoles();					//列出所有会员二级角色
-			List<ContestResult> contestResultList = contestResultService.listAllContestResult(pd);
+			List<ContestResult> contestResultList = contestResultService.listAllContestResultForGrid(pd);
 			
 			JSONArray safetyScoreArray = new JSONArray();  //安全得分
 			JSONArray heatScoreArray = new JSONArray();		//供热量得分
@@ -100,6 +84,7 @@ public class ContestResultMainController extends BaseController {
 			}
 			
 			mv.setViewName("system/admin/index");
+			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray jsonArr = JSONArray.fromObject(contestResultList);
 			mv.addObject("contestResultList", jsonArr);
 			
@@ -107,9 +92,6 @@ public class ContestResultMainController extends BaseController {
 			mv.addObject("heatScoreArray", heatScoreArray);
 			mv.addObject("economyScoreArray", economyScoreArray);
 			
-//			mv.setViewName("system/fusionChart");
-//			mv.addObject("userList", userList);
-//			mv.addObject("roleList", roleList);
 			mv.addObject("year", year);
 			mv.addObject("month", month);
 			mv.addObject("pd", pd);
@@ -139,27 +121,35 @@ public class ContestResultMainController extends BaseController {
 					USERNAME = USERNAME.trim();
 					pd.put("USERNAME", USERNAME);
 				}
-				pd.put("year", year);
-				pd.put("month", month);
+				pd.put("year", Integer.parseInt(year));
+				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
-//				List<PageData>	userList = appuserService.listPdPageUser(page);			//列出用户列表
-//				List<Role> roleList = roleService.listAllappERRoles();					//列出所有会员二级角色
-				List<ContestResult> contestResultList = contestResultService.listAllContestResult(pd);
-				
+
+				List<ContestResult> contestResultList = contestResultService.listAllContestResultForGrid(pd);
+				List<ContestResultForChart> contestResultListForChart =contestResultService.listAllContestResultForChart(pd);
 				JSONArray safetyScoreArray = new JSONArray();  //安全得分
 				JSONArray heatScoreArray = new JSONArray();		//供热量得分
 				JSONArray economyScoreArray = new JSONArray();	//经济指标得分
 				JSONObject jsonObject = new JSONObject();
-				for (ContestResult contestResult : contestResultList) {
-					jsonObject.element("value", contestResult.getRJ_SafetyScore());
-					safetyScoreArray.add(jsonObject);
-					jsonObject.element("value", contestResult.getRJ_HeatScore());
-					heatScoreArray.add(jsonObject);
-					jsonObject.element("value", contestResult.getRJ_EconomyScore());
-					economyScoreArray.add(jsonObject);
+				for (ContestResultForChart contestResultForChart : contestResultListForChart) {
+					if(contestResultForChart.getID().equals("1") && contestResultForChart.getID1().equals("2")) //安全得分
+					{
+						buildChartJson(jsonObject, contestResultForChart,safetyScoreArray);
+					}
+
+					if(contestResultForChart.getID().equals("7") && contestResultForChart.getID1().equals("2")) //经济指标得分
+					{
+						buildChartJson(jsonObject, contestResultForChart,heatScoreArray);
+					}
+
+					if(contestResultForChart.getID().equals("9") && contestResultForChart.getID1().equals("2")) //供热量得分
+					{
+						buildChartJson(jsonObject, contestResultForChart,economyScoreArray);
+					}
 				}
 				
 				mv.setViewName("contestResult/list");
+				pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 				JSONArray jsonArr = JSONArray.fromObject(contestResultList);
 				mv.addObject("contestResultList", jsonArr);
 				
@@ -179,6 +169,125 @@ public class ContestResultMainController extends BaseController {
 			return mv;
 		}
 
+	private void buildChartJson(JSONObject jsonObject, ContestResultForChart contestResultForChart,JSONArray safetyScoreArray) {
+		jsonObject.element("value", contestResultForChart.getG1());
+		safetyScoreArray.add(jsonObject);
+		jsonObject.element("value", contestResultForChart.getG2());
+		safetyScoreArray.add(jsonObject);
+		jsonObject.element("value", contestResultForChart.getG3());
+		safetyScoreArray.add(jsonObject);
+		jsonObject.element("value", contestResultForChart.getG4());
+		safetyScoreArray.add(jsonObject);
+		jsonObject.element("value", contestResultForChart.getG5());
+		safetyScoreArray.add(jsonObject);
+		jsonObject.element("value", contestResultForChart.getG6());
+		safetyScoreArray.add(jsonObject);
+	}
+
+	
+	/**
+	 * 图表获取数据
+	 */  
+	@RequestMapping(value="/getChartData")
+	@ResponseBody
+	public JSONObject listGridContest(Page page){
+			PageData pd = new PageData();
+			JSONObject fusionChartJsonObject = new JSONObject();
+			try{
+				pd = this.getPageData();
+				
+				String USERNAME = pd.getString("USERNAME");
+				String year = pd.getString("year");
+				String month = pd.getString("month");
+				String json = pd.getString("json");
+				
+				if(null != USERNAME && !"".equals(USERNAME)){
+					USERNAME = USERNAME.trim();
+					pd.put("USERNAME", USERNAME);
+				}
+				pd.put("year", Integer.parseInt(year));
+				pd.put("month", Integer.parseInt(month));
+				page.setPd(pd);
+
+				
+				List<ContestResultForChart> contestResultListForChart =contestResultService.listAllContestResultForChart(pd);
+				JSONArray safetyScoreArray = new JSONArray();  //安全得分
+				JSONArray heatScoreArray = new JSONArray();		//供热量得分
+				JSONArray energyScoreArray = new JSONArray();	//发电量得分
+				JSONObject jsonObject = new JSONObject();
+				for (ContestResultForChart contestResultForChart : contestResultListForChart) {
+					if(contestResultForChart.getID().equals("1") && contestResultForChart.getID1().equals("2")) //安全得分
+					{
+						buildChartJson(jsonObject, contestResultForChart,safetyScoreArray);
+					}
+
+					if(contestResultForChart.getID().equals("2") && contestResultForChart.getID1().equals("2")) //发电量得分
+					{
+						buildChartJson(jsonObject, contestResultForChart,energyScoreArray);
+					}
+
+					if(contestResultForChart.getID().equals("7") && contestResultForChart.getID1().equals("2")) //供热量得分
+					{
+						buildChartJson(jsonObject, contestResultForChart,heatScoreArray);
+					}
+				}
+
+				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
+
+				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
+				for (int i = 0; i < dataset.size(); i++) {
+					JSONObject data = dataset.getJSONObject(i); 
+					if(null != data && data.get("seriesname").equals("安全得分")){
+						data.element("data", safetyScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("发电量得分")){
+						data.element("data", energyScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("供热得分")){
+						data.element("data", heatScoreArray);
+					}
+				}
+				
+				fusionChartJsonObject.put("dataset", dataset);
+
+			} catch(Exception e){
+				logger.error(e.toString(), e);
+			}
+			
+			return fusionChartJsonObject;
+		}
+	
+	/**
+	 * 表格获取数据
+	 */  
+	@RequestMapping(value="/getGridData")
+	@ResponseBody
+	public JSONArray listChartContest(Page page){
+			ModelAndView mv = this.getModelAndView();
+			PageData pd = new PageData();
+			JSONArray jsonArr = new JSONArray();
+			try{
+				pd = this.getPageData();
+				
+				String USERNAME = pd.getString("USERNAME");
+				String year = pd.getString("year");
+				String month = pd.getString("month");
+				if(null != USERNAME && !"".equals(USERNAME)){
+					USERNAME = USERNAME.trim();
+					pd.put("USERNAME", USERNAME);
+				}
+				pd.put("year", Integer.parseInt(year));
+				pd.put("month", Integer.parseInt(month));
+				page.setPd(pd);
+
+				List<ContestResult> contestResultList = contestResultService.listAllContestResultForGrid(pd);
+				jsonArr = JSONArray.fromObject(contestResultList);
+			} catch(Exception e){
+				logger.error(e.toString(), e);
+			}
+			
+			return jsonArr;
+		}
 	/**
 	 * 定时任务列表
 	 */
@@ -280,145 +389,9 @@ public class ContestResultMainController extends BaseController {
 		return mv;
 	}
 	
-	
-	/**
-	 * 删除用户
-	 */
-	@RequestMapping(value="/deleteU")
-	public void deleteU(PrintWriter out){
-		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){appuserService.deleteU(pd);}
-			out.write("success");
-			out.close();
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		
-	}
-	
-	/**
-	 * 批量删除
-	 */
-	@RequestMapping(value="/deleteAllU")
-	@ResponseBody
-	public Object deleteAllU() {
-		PageData pd = new PageData();
-		Map<String,Object> map = new HashMap<String,Object>();
-		try {
-			pd = this.getPageData();
-			List<PageData> pdList = new ArrayList<PageData>();
-			String USER_IDS = pd.getString("USER_IDS");
-			
-			if(null != USER_IDS && !"".equals(USER_IDS)){
-				String ArrayUSER_IDS[] = USER_IDS.split(",");
-				if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){appuserService.deleteAllU(ArrayUSER_IDS);}
-				pd.put("msg", "ok");
-			}else{
-				pd.put("msg", "no");
-			}
-			
-			pdList.add(pd);
-			map.put("list", pdList);
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		} finally {
-			logAfter(logger);
-		}
-		return AppUtil.returnObject(pd, map);
-	}
-	
-	
-	/*
-	 * 导出会员信息到excel
-	 * @return
-	 */
-	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel(){
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		try{
-			if(Jurisdiction.buttonJurisdiction(menuUrl, "cha")){	
-				//检索条件===
-				String USERNAME = pd.getString("USERNAME");
-				if(null != USERNAME && !"".equals(USERNAME)){
-					USERNAME = USERNAME.trim();
-					pd.put("USERNAME", USERNAME);
-				}
-				String lastLoginStart = pd.getString("lastLoginStart");
-				String lastLoginEnd = pd.getString("lastLoginEnd");
-				if(lastLoginStart != null && !"".equals(lastLoginStart)){
-					lastLoginStart = lastLoginStart+" 00:00:00";
-					pd.put("lastLoginStart", lastLoginStart);
-				}
-				if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
-					lastLoginEnd = lastLoginEnd+" 00:00:00";
-					pd.put("lastLoginEnd", lastLoginEnd);
-				} 
-				//检索条件===
-				
-				Map<String,Object> dataMap = new HashMap<String,Object>();
-				List<String> titles = new ArrayList<String>();
-				
-				titles.add("用户名"); 		//1
-				titles.add("编号");  		//2
-				titles.add("姓名");			//3
-				titles.add("手机号");		//4
-				titles.add("身份证号");		//5
-				titles.add("等级");			//6
-				titles.add("邮箱");			//7
-				titles.add("最近登录");		//8
-				titles.add("到期时间");		//9
-				titles.add("上次登录IP");	//10
-				
-				dataMap.put("titles", titles);
-				
-				List<PageData> userList = appuserService.listAllUser(pd);
-				List<PageData> varList = new ArrayList<PageData>();
-				for(int i=0;i<userList.size();i++){
-					PageData vpd = new PageData();
-					vpd.put("var1", userList.get(i).getString("USERNAME"));		//1
-					vpd.put("var2", userList.get(i).getString("NUMBER"));		//2
-					vpd.put("var3", userList.get(i).getString("NAME"));			//3
-					vpd.put("var4", userList.get(i).getString("PHONE"));		//4
-					vpd.put("var5", userList.get(i).getString("SFID"));			//5
-					vpd.put("var6", userList.get(i).getString("ROLE_NAME"));	//6
-					vpd.put("var7", userList.get(i).getString("EMAIL"));		//7
-					vpd.put("var8", userList.get(i).getString("LAST_LOGIN"));	//8
-					vpd.put("var9", userList.get(i).getString("END_TIME"));		//9
-					vpd.put("var10", userList.get(i).getString("IP"));			//10
-					varList.add(vpd);
-				}
-				
-				dataMap.put("varList", varList);
-				
-				ObjectExcelView erv = new ObjectExcelView();
-				mv = new ModelAndView(erv,dataMap);
-			}
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
-	}
-	
-	//===================================================================================================
+
+
 	
 	
 	
-	
-	@InitBinder
-	public void initBinder(WebDataBinder binder){
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
-	}
-	
-	/* ===============================权限================================== */
-	public Map<String, String> getHC(){
-		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
-		Session session = currentUser.getSession();
-		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
-	}
-	/* ===============================权限================================== */
 }

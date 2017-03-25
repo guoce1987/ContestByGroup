@@ -45,7 +45,7 @@
 
 				<ul class="nav nav-list">
 					<li class="">
-						<a onclick="query()">
+						<a>
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> 首页 </span>
 						</a>
@@ -57,10 +57,10 @@
 				<c:if test="${menu.hasMenu}">
 				<li id="lm${menu.MENU_ID }">
 					<c:if test="${empty menu.subMenu}">
-					  <a style="cursor:pointer;" class="dropdown-toggle" onclick="siMenu('z${menu.MENU_ID }','lm${menu.MENU_ID }','${menu.MENU_NAME }','${menu.MENU_URL }')">
+					  <a style="cursor:pointer;" class="dropdown-toggle" onClick="location.href='<%=basePath%>${menu.MENU_URL}'">
 					</c:if>
 					<c:if test="${!empty menu.subMenu}">
-					  <a style="cursor:pointer;" class="dropdown-toggle" >
+					  <a style="cursor:pointer;" class="dropdown-toggle">
 					</c:if>
 						<i class="${menu.MENU_ICON == null ? 'menu-icon fa fa-desktop' : menu.MENU_ICON}"></i>
 						<span>${menu.MENU_NAME }</span>
@@ -74,7 +74,7 @@
 								<c:choose>
 									<c:when test="${not empty sub.MENU_URL}">
 									<li id="z${sub.MENU_ID }">
-									<a style="cursor:pointer;" target="mainFrame"  onclick="siMenu('z${sub.MENU_ID }','lm${menu.MENU_ID }','${sub.MENU_NAME }','${sub.MENU_URL }')"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>
+									<a style="cursor:pointer;" target="mainFrame"  onClick="location.href='http://www.ddhbb.com/'""siMenu('z${sub.MENU_ID }','lm${menu.MENU_ID }','${sub.MENU_NAME }','${sub.MENU_URL }')"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>
 									</c:when>
 									<c:otherwise>
 									<li><a href="javascript:void(0);"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>

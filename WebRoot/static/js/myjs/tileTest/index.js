@@ -710,11 +710,13 @@ var heatScoreArray = $("#heatScoreArray").val();
  			function query(){
 				var year = $("#datepicker").val().split("-")[0];
 	 			var month = $("#datepicker").val().split("-")[1];
-	 			$.ajax({
+//	 			alert("你确定要跳转到总成绩么？");
+	 			window.location.href="/FHMYSQL/contestResult/getDataForGrid.do?year="+year+"&&month="+month;
+/*	 			$.ajax({
 	 	               type: "GET",
 	 	               url: "contestResult/getDataForGrid.do?year="+year+"&&month="+month,
 	 	               success: function(data){
 	 	                        alert(data);
 	 	                  }
-	 	            });
+	 	            });*/
 			} 

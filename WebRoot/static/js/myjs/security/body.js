@@ -1,10 +1,10 @@
 	var year = $("#year").val();
 	var month = $("#month").val();
 	var safetyScoreArray = JSON.parse($("#safetyScoreArray").val());
-	var economyScoreArray = JSON.parse($("#economyScoreArray").val());
-	var heatScoreArray = JSON.parse($("#heatScoreArray").val());
-	var  grid_data = JSON.parse($("#contestResultList").val());
+
+	var grid_data = JSON.parse($("#securityIndexListForGrid").val());
 	var fusioncharts = null;
+
 			jQuery(function($) {
 				
 				$( "#datepicker" ).datepicker({
@@ -15,13 +15,31 @@
 					  todayBtn: true
 				});
 				$("#datepicker").datepicker("setDate", year+"-"+month);//设置
+				
+				var d1 = [];
+				for (var i = 0; i < Math.PI * 2; i += 0.5) {
+					d1.push([i, Math.sin(i)]);
+				}
+			
+				var d2 = [];
+				for (var i = 0; i < Math.PI * 2; i += 0.5) {
+					d2.push([i, Math.cos(i)]);
+				}
+			
+				var d3 = [];
+				for (var i = 0; i < Math.PI * 2; i += 0.2) {
+					d3.push([i, Math.tan(i)]);
+				}
 
 				var grid_selector = "#grid-table";
 				var pager_selector = "#grid-pager";
 				
 				
 				var parent_column = $(grid_selector).closest('[class*="col-"]');
-
+				//resize to fit page size
+				$(window).on('resize.jqGrid', function () {
+					$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() ).jqGrid('setGridHeight', 260);
+			    })
 				
 				//resize on sidebar collapse/expand
 				$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
@@ -32,37 +50,51 @@
 						}, 20);
 					}
 			    })
+				
+				//if your grid is inside another element, for example a tab pane, you should use its parent's width:
+				/**
+				$(window).on('resize.jqGrid', function () {
+					var parent_width = $(grid_selector).closest('.tab-pane').width();
+					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
+				})
+				//and also set width when tab pane becomes visible
+				$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				  if($(e.target).attr('href') == '#mygrid') {
+					var parent_width = $(grid_selector).closest('.tab-pane').width();
+					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
+				  }
+				})
+				*/
+				
+				
+			
+			
 			
 				jQuery(grid_selector).jqGrid({
-					//direction: "rtl",
-			
-					//subgrid options
+
 					subGrid : true,
-					//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-					//datatype: "xml",
+
 					subGridOptions : {
 						plusicon : "ace-icon fa fa-plus center bigger-110 blue",
 						minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
 						openicon : "ace-icon fa fa-chevron-right center orange"
-					},
+					},	
 			
 					data: grid_data,
 					datatype: "local",
 					height: 250,
-					
-					colNames:['日期','安全得分','班均电量得分', '供热量得分', '经济指标得分','设备消缺得分' ,'巡检得分','培训得分','文明生产得分','月度总分'],
+
+					colNames:[ 'ID','考核日期','责任值', '考核项目', '考核分数','考核奖金' ,'备注','考核指标'],
 					colModel:[
 
-						{name:'statDate',index:'statDate', width:90},
-						{name:'RJ_SafetyScore',index:'RJ_SafetyScore',width:90, sorttype:"double"},
-						{name:'RJ_PowerScore',index:'RJ_PowerScore',width:90, sorttype:"double"},
-						{name:'RJ_HeatScore',index:'RJ_HeatScore',width:90, sorttype:"double"},
-						{name:'RJ_EconomyScore',index:'RJ_EconomyScore',width:90, sorttype:"double"},
-						{name:'RJ_BugScore',index:'RJ_BugScore',width:90, sorttype:"double"},
-						{name:'RJ_PotralScore',index:'RJ_PotralScore',width:90, sorttype:"double"},
-						{name:'RJ_TrainScore',index:'RJ_TrainScore',width:90, sorttype:"double"},
-						{name:'RJ_SpiritScore',index:'RJ_SpiritScore',width:90, sorttype:"double"},
-						{name:'RJ_TotalScore',index:'RJ_TotalScore',width:90, sorttype:"double"},
+						{name:'ID',index:'ID', width:90, sorttype:"text"},
+						{name:'checkDate',index:'checkDate',width:90, sorttype:"text"},
+						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
+						{name:'itemName',index:'itemName',width:90, sorttype:"double"},
+						{name:'score',index:'score',width:90, sorttype:"double"},
+						{name:'money',index:'money',width:90, sorttype:"double"},
+						{name:'memo',index:'memo',width:90},
+						{name:'contestItem',index:'contestItem',width:90}
 					], 
 			
 					viewrecords : true,
@@ -78,13 +110,7 @@
 			
 					loadComplete : function() {
 						var table = this;
-/*						setTimeout(function(){
-							styleCheckbox(table);
-							
-							updateActionIcons(table);
-							updatePagerIcons(table);
-							enableTooltips(table);
-						}, 0);*/
+
 					},
 			
 					editurl: "./dummy.php",//nothing is saved
@@ -231,7 +257,6 @@
 				   position:"last"
 				});
 				
-				//js导出表的两种方法
 				function ExportToExcel (dataSource,ReportTitle, label) {
 			        var arrData;
 			            arrData=typeof dataSource != 'object' ? JSON.parse(dataSource) : dataSource;
@@ -367,11 +392,13 @@
 				    document.body.removeChild(link);
 				}
 
+				
 		var chartContainer = $('#chart-container').css({'width':'100%' , 'height':'500px'});
 
+		
 		FusionCharts.ready(function(){
 		    fusioncharts = new FusionCharts({
-		    type: 'mscombi3d',
+		    type: 'mscombi2d',
 		    renderAt: 'chart-container',
  		    width: chartContainer.width(),
 		    height: chartContainer.height(), 
@@ -525,12 +552,6 @@
 					$.jgrid.gridDestroy(grid_selector);
 					$('.ui-jqdialog').remove();
 				});
-				
-				//resize to fit page size
-				$(window).on('resize.jqGrid', function () {
-					$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() ).jqGrid('setGridHeight', 260);
-					fusioncharts.resizeTo(parent_column.width(),500);
-			    })
 			});
 			
  			function query(){
@@ -539,7 +560,7 @@
 
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "contestResult/getGridData.do?year="+year+"&&month="+month,
+	 	               url: "security/getGridData.do?year="+year+"&&month="+month,
 	 	               success: function(data){
 	 	            	   		grid_data = data;
 	 	            	   		$("#grid-table").jqGrid("clearGridData");
@@ -553,7 +574,7 @@
 	 			var json = fusioncharts.getJSONData();
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "contestResult/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
+	 	               url: "security/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
 	 	               success: function(data){
 	 	            	   		json=data;
 	 	                      fusioncharts.setJSONData(json);

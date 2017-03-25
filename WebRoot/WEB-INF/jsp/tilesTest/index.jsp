@@ -17,7 +17,7 @@
 												</div>
 											</div>
 											<div class="col-sm-2 nowrap">
-						                        <button id="searchBtn" type="button" class="btn btn-sm btn-info">
+						                        <button id="searchBtn" type="button" class="btn btn-sm btn-info" onclick="query()">
 						                            <span class="glyphicon glyphicon-search"></span>&nbsp;查询
 						                        </button>                   
 				                    		</div>

@@ -118,6 +118,6 @@
 	
 	
 		<!--引入属于此页面的js -->
-		<script type="text/javascript" src="static/js/myjs/head.js"></script>
+<!-- 		<script type="text/javascript" src="static/js/myjs/head.js"></script> -->
 
 <div id="websocket_button"></div>

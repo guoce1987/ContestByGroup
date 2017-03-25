@@ -71,16 +71,16 @@
      <definition name="contestResult/list" extends="default">
         <put-attribute name="title" value="总成绩"/>
         <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/body.jsp"/>
-<!--         <put-list-attribute name="javascripts" inherit="true">
+         <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="static/js/myjs/tileTest/body.js?v=1.0.0"/>
-        </put-list-attribute> -->
+        </put-list-attribute>
     </definition>
-    <definition name="CustomerDetail" extends="default">
-        <put-attribute name="title" value="DDDDDD"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/CustomerDetail.jsp"/>
+    <definition name="securityIndex/list" extends="default">
+        <put-attribute name="title" value="安全指标"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/security/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/security/body.js?v=1.0.0"/>
+        </put-list-attribute>
     </definition>
-    <definition name="tilesTest/templet" extends="default">
-        <put-attribute name="title" value="FFFFFF"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/system/admin/login.jsp"/>
-    </definition>
+
 </tiles-definitions>
