@@ -72,11 +72,12 @@
 	</resultMap>
 	
 	<!-- 列出所有的安全指标(图) -->
-	<select id="listAllSecurityIndexForChart" resultMap="securityIndexMapForChart">
+	<select id="listAllSecurityIndexForChart" resultMap="securityIndexMapForChart"   parameterType="pd">
 			select 
  			GroupName,
  			RJ_SafetyScore
  			from vw_ContestResult
+ 			where year(StatDate)= #{year} and month(StatDate) = #{month}
 	</select>
 	<!-- 列出所有的安全指标(表) -->
 	<select id="listAllSecurityIndexForGrid" resultMap="securityIndexMapForGrid"  parameterType="pd">
@@ -95,7 +96,7 @@
 	</select>
 	
 	<!-- 电量指标 -->
-	<resultMap type="PoweIndexForChart" id="powerIndexMapForChart">
+	<resultMap type="PowerIndexForChart" id="powerIndexMapForChart">
 		<result column="GroupName" property="GroupName"/>
 		<result column="RJ_GeneratePowerAvg" property="RJ_GeneratePowerAvg"/>
 	</resultMap>
@@ -109,22 +110,291 @@
 	</resultMap>
 	
 	<!-- 列出所有的电量指标(图) -->
-	<select id="listAllPowerIndexForChart" resultMap="powerIndexMapForChart">
+	<select id="listAllPowerIndexForChart" resultMap="powerIndexMapForChart"  parameterType="pd">
 			select 
 			groupName,
 			RJ_GeneratePowerAvg  
 			from vw_ContestResult
+			where year(StatDate)= #{year} and month(StatDate) = #{month}
 	</select>
 	<!-- 列出所有的电量指标(表) -->
 	<select id="listAllPowerIndexForGrid" resultMap="powerIndexMapForGrid"  parameterType="pd">
 			SELECT 
 			 DutyID, 
-			 StatDate, 
+			 CONVERT(varchar(100), StatDate, 23) as StatDate,
 			 DutyName, 
 			 GroupName, 
 			 RJ_GeneratePower  
 			FROM vw_CoalCost
 			WHERE (YEAR(statDate) = #{year}) AND (MONTH(statDate) = #{month}) Order by Statdate desc,Dutyid desc
+	</select>
+	
+		<!-- 供热指标 -->
+	<resultMap type="HeatIndexForChart" id="heatIndexMapForChart">
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_HeatAvg" property="RJ_HeatAvg"/>
+	</resultMap>
+	
+	<resultMap type="HeatIndexForGrid" id="heatIndexMapForGrid">
+		<result column="DutyID" property="DutyID"/>
+		<result column="StatDate" property="StatDate"/>
+		<result column="DutyName" property="DutyName"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_GenerateHeat" property="RJ_GenerateHeat"/>
+	</resultMap>
+	
+	<!-- 列出所有的供热指标(图) -->
+	<select id="listAllHeatIndexForChart" resultMap="heatIndexMapForChart"  parameterType="pd">
+			select 	 statDate,
+					 groupName,
+					 RJ_HeatAvg
+					 from vw_ContestResult
+					 where year(StatDate)= #{year} and month(StatDate) = #{month}
+	</select>
+	<!-- 列出所有的供热指标(表) -->
+	<select id="listAllHeatIndexForGrid" resultMap="heatIndexMapForGrid"  parameterType="pd">
+			SELECT 
+			 DutyID, 
+			 CONVERT(varchar(100), StatDate, 23) as StatDate,
+			 DutyName, 
+			 GroupName, 
+			 RJ_GenerateHeat  
+			FROM vw_CoalCost
+			WHERE (YEAR(statDate) = #{year}) AND (MONTH(statDate) = #{month}) Order by Statdate desc,Dutyid desc
+	</select>
+	
+	<!-- 燃机总指标 -->
+	<resultMap type="EconomyIndexForChart" id="economyIndexMapForChart">
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_SuplyPowerGasCostScore" property="RJ_SuplyPowerGasCostScore"/>
+		<result column="RJ_PlantUsePowerScore" property="RJ_PlantUsePowerScore"/>
+		<result column="RJ_WaterAdditionScore" property="RJ_WaterAdditionScore"/>
+		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
+		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
+		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
+		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
+	</resultMap>
+	
+	<resultMap type="EconomyIndexForGrid" id="economyIndexMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupId" property="GroupId"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_SuplyPowerGasCost" property="RJ_SuplyPowerGasCost"/>
+		<result column="RJ_SuplyPowerGasCostScore" property="RJ_SuplyPowerGasCostScore"/>
+		<result column="RJ_PlantUsePowerRatio" property="RJ_PlantUsePowerRatio"/>
+		<result column="RJ_PlantUsePowerScore" property="RJ_PlantUsePowerScore"/>
+		<result column="RJ_DesaltWaterRatio" property="RJ_DesaltWaterRatio"/>
+		<result column="RJ_DirtyWaterRatio     " property="RJ_DirtyWaterRatio     "/>
+		<result column="RJ_WaterAdditionScore" property="RJ_WaterAdditionScore"/>
+		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
+		<result column="RJ_GasTempDiff" property="RJ_GasTempDiff"/>
+		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
+		<result column="RJ_VacmDiff" property="RJ_VacmDiff"/>
+		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
+		<result column="RJ_Nox" property="RJ_Nox"/>
+		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
+		<result column="RJ_TotalScore" property="RJ_TotalScore"/>
+	</resultMap>
+	
+	<!-- 列出所有的燃机总指标(图) -->
+	<select id="listAllEconomyIndexForChart" resultMap="economyIndexMapForChart"  parameterType="pd">
+			select
+			 GroupName,
+			 RJ_SuplyPowerGasCostScore,
+			 RJ_PlantUsePowerScore,
+			 RJ_WaterAdditionScore,
+			 RJ_OperationScore,
+			 RJ_GasTempScore,
+			 RJ_VacmScore,
+			 RJ_NoxScore,
+			 RJ_BreakPunishScore
+			from vw_Economy_Month
+					 where year(StatDate)= #{year} and month(StatDate) = #{month}
+	</select>
+	<!-- 列出所有的燃机总指标(表) -->
+	<select id="listAllEconomyIndexForGrid" resultMap="economyIndexMapForGrid"  parameterType="pd">
+			 SELECT r.StatDate
+			      ,r.GroupId
+			      ,groupName
+			      ,RJ_SuplyPowerGasCost
+			      ,RJ_SuplyPowerGasCostScore
+			      ,RJ_PlantUsePowerRatio
+			      ,RJ_PlantUsePowerScore
+			      ,ROUND(RJ_DesaltWaterRatio,4) AS RJ_DesaltWaterRatio
+			      ,ROUND(RJ_DirtyWaterRatio,4) AS RJ_DirtyWaterRatio     
+			      ,RJ_WaterAdditionScore
+			      ,RJ_OperationScore
+			      ,RJ_GasTempDiff
+			      ,RJ_GasTempScore
+			      ,RJ_VacmDiff
+			      ,RJ_VacmScore
+			      ,RJ_Nox
+			      ,RJ_NoxScore
+			      ,RJ_BreakPunishScore
+			      ,r.RJ_TotalScore
+			      FROM  vw_Economy_Month r    
+			 WHERE (YEAR(R.StatDate) = #{year}) AND (MONTH(R.StatDate) = #{month})
+	</select>
+	
+	<!-- 供电气耗 -->
+	<resultMap type="SuplyPowerGasCostForChart" id="suplyPowerGasCostMapForChart">
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_SuplyPowerGasCostScore" property="RJ_SuplyPowerGasCostScore"/>
+		<result column="RJ_PlantUsePowerScore" property="RJ_PlantUsePowerScore"/>
+		<result column="RJ_WaterAdditionScore" property="RJ_WaterAdditionScore"/>
+		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
+		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
+		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
+		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
+	</resultMap>
+	
+	<resultMap type="SuplyPowerGasCostForGrid" id="suplyPowerGasCostMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupId" property="GroupId"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_SuplyPowerGasCost" property="RJ_SuplyPowerGasCost"/>
+		<result column="RJ_SuplyPowerGasCostScore" property="RJ_SuplyPowerGasCostScore"/>
+		<result column="RJ_PlantUsePowerRatio" property="RJ_PlantUsePowerRatio"/>
+		<result column="RJ_PlantUsePowerScore" property="RJ_PlantUsePowerScore"/>
+		<result column="RJ_DesaltWaterRatio" property="RJ_DesaltWaterRatio"/>
+		<result column="RJ_DirtyWaterRatio     " property="RJ_DirtyWaterRatio     "/>
+		<result column="RJ_WaterAdditionScore" property="RJ_WaterAdditionScore"/>
+		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
+		<result column="RJ_GasTempDiff" property="RJ_GasTempDiff"/>
+		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
+		<result column="RJ_VacmDiff" property="RJ_VacmDiff"/>
+		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
+		<result column="RJ_Nox" property="RJ_Nox"/>
+		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
+		<result column="RJ_TotalScore" property="RJ_TotalScore"/>
+	</resultMap>
+	
+	<!-- 列出所有的燃机总指标(图) -->
+	<select id="listAllSuplyPowerGasCostForChart" resultMap="suplyPowerGasCostMapForChart"  parameterType="pd">
+			select
+			 GroupName,
+			 RJ_SuplyPowerGasCostScore,
+			 RJ_PlantUsePowerScore,
+			 RJ_WaterAdditionScore,
+			 RJ_OperationScore,
+			 RJ_GasTempScore,
+			 RJ_VacmScore,
+			 RJ_NoxScore,
+			 RJ_BreakPunishScore
+			from vw_Economy_Month
+					 where year(StatDate)= #{year} and month(StatDate) = #{month}
+	</select>
+	<!-- 列出所有的燃机总指标(表) -->
+	<select id="listAllSuplyPowerGasCostForGrid" resultMap="suplyPowerGasCostMapForGrid"  parameterType="pd">
+			 SELECT r.StatDate
+			      ,r.GroupId
+			      ,groupName
+			      ,RJ_SuplyPowerGasCost
+			      ,RJ_SuplyPowerGasCostScore
+			      ,RJ_PlantUsePowerRatio
+			      ,RJ_PlantUsePowerScore
+			      ,ROUND(RJ_DesaltWaterRatio,4) AS RJ_DesaltWaterRatio
+			      ,ROUND(RJ_DirtyWaterRatio,4) AS RJ_DirtyWaterRatio     
+			      ,RJ_WaterAdditionScore
+			      ,RJ_OperationScore
+			      ,RJ_GasTempDiff
+			      ,RJ_GasTempScore
+			      ,RJ_VacmDiff
+			      ,RJ_VacmScore
+			      ,RJ_Nox
+			      ,RJ_NoxScore
+			      ,RJ_BreakPunishScore
+			      ,r.RJ_TotalScore
+			      FROM  vw_Economy_Month r    
+			 WHERE (YEAR(R.StatDate) = #{year}) AND (MONTH(R.StatDate) = #{month})
+	</select>
+	
+	<!-- 真空 -->
+	<resultMap type="VacmIndexForChart" id="vacmIndexMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_VacmDiff" property="RJ_VacmDiff"/>
+		<result column="RJ_VacmRank" property="RJ_VacmRank"/>
+		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
+	</resultMap>
+	
+	<resultMap type="VacmIndexForGrid" id="vacmIndexMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_VacmDiff" property="RJ_VacmDiff"/>
+		<result column="RJ_VacmRank" property="RJ_VacmRank"/>
+		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
+	</resultMap>
+	
+	<!-- 列出所有的真空指标(图) -->
+	<select id="listAllVacmIndexForChart" resultMap="vacmIndexMapForChart"  parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupName,
+				 RJ_VacmDiff,
+				 RJ_VacmRank,
+				 RJ_VacmScore
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
+	</select>
+	<!-- 列出所有的真空指标(表) -->
+	<select id="listAllVacmIndexForGrid" resultMap="vacmIndexMapForGrid"  parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupName,
+				 RJ_VacmDiff,
+				 RJ_VacmRank,
+				 RJ_VacmScore
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
+	</select>
+	
+	<!-- 脱硝 -->
+	<resultMap type="NoxIndexForChart" id="noxIndexMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_NoxDiff" property="RJ_NoxDiff"/>
+		<result column="RJ_NoxRank" property="RJ_NoxRank"/>
+		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+	</resultMap>
+	
+	<resultMap type="NoxIndexForGrid" id="noxIndexMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_NoxDiff" property="RJ_NoxDiff"/>
+		<result column="RJ_NoxRank" property="RJ_NoxRank"/>
+		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+	</resultMap>
+	
+	<!-- 列出所有的脱硝指标(图) -->
+	<select id="listAllNoxIndexForChart" resultMap="noxIndexMapForChart"  parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupName,
+				 RJ_Nox,
+				 RJ_NoxRank,
+				 RJ_NoxScore
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
+	</select>
+	<!-- 列出所有的脱硝指标(表) -->
+	<select id="listAllNoxIndexForGrid" resultMap="noxIndexMapForGrid"  parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupName,
+				 RJ_Nox,
+				 RJ_NoxRank,
+				 RJ_NoxScore
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
 	</select>
 
 </mapper>

@@ -32,14 +32,17 @@
 	</head>
 
 	<body class="no-skin">
-						<input type="hidden" id="contestResultList" value=${contestResultList}>
-						<input type="hidden" id="year" value=${year}>
-						<input type="hidden" id="month" value=${month}>
-						<input type="hidden" id="safetyScoreArray" value=${safetyScoreArray}>
-						<input type="hidden" id="economyScoreArray" value=${economyScoreArray}>
-						<input type="hidden" id="heatScoreArray" value=${heatScoreArray}>
-						<input type="hidden" id="securityIndexListForGrid" value=${securityIndexListForGrid}>
-
+		<input type="hidden" id="contestResultList" value=${contestResultList}>
+		<input type="hidden" id="year" value=${year}>
+		<input type="hidden" id="month" value=${month}>
+		<input type="hidden" id="safetyScoreArray" value=${safetyScoreArray}>
+		<input type="hidden" id="economyScoreArray" value=${economyScoreArray}>
+		<input type="hidden" id="heatScoreArray" value=${heatScoreArray}>
+		<input type="hidden" id="securityIndexListForGrid" value=${securityIndexListForGrid}>
+		<input type="hidden" id="powerScoreArray" value=${powerScoreArray}>
+		<input type="hidden" id="powerIndexListForGrid" value=${powerIndexListForGrid}>
+		<input type="hidden" id="heatIndexListForGrid" value=${heatIndexListForGrid}>
+		
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>
 		</div>

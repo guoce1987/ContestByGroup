@@ -82,5 +82,12 @@
             <add-attribute value="static/js/myjs/security/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    <definition name="powerIndex/list" extends="default">
+        <put-attribute name="title" value="电量指标"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/power/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/power/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
 
 </tiles-definitions>

@@ -17,8 +17,10 @@
 		<typeAlias type="com.fh.entity.system.ContestResultForChart" alias="ContestResultForChart"/>
 		<typeAlias type="com.fh.entity.system.SecurityIndexForGrid" alias="SecurityIndexForGrid"/>
 		<typeAlias type="com.fh.entity.system.SecurityIndexForChart" alias="SecurityIndexForChart"/>
-		<typeAlias type="com.fh.entity.system.PowerIndexForChart" alias="PoweIndexForChart"/>
+		<typeAlias type="com.fh.entity.system.PowerIndexForChart" alias="PowerIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.PowerIndexForGrid" alias="PowerIndexForGrid"/>
+		<typeAlias type="com.fh.entity.system.HeatIndexForChart" alias="HeatIndexForChart"/>
+		<typeAlias type="com.fh.entity.system.HeatIndexForGrid" alias="HeatIndexForGrid"/>
 		<typeAlias type="com.fh.util.PageData" alias="pd"/>
 		<!-- 分页 -->
 		<typeAlias type="com.fh.entity.Page" alias="Page"/>
