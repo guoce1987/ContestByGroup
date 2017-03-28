@@ -21,8 +21,45 @@
 		<typeAlias type="com.fh.entity.system.PowerIndexForGrid" alias="PowerIndexForGrid"/>
 		<typeAlias type="com.fh.entity.system.HeatIndexForChart" alias="HeatIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.HeatIndexForGrid" alias="HeatIndexForGrid"/>
-		<typeAlias type="com.fh.util.PageData" alias="pd"/>
+		
+		<typeAlias type="com.fh.entity.system.EconomyIndexForChart" alias="EconomyIndexForChart"/>
+		<typeAlias type="com.fh.entity.system.EconomyIndexForGrid" alias="EconomyIndexForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForChart" alias="SuplyPowerGasCostForChart"/>
+		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForGrid" alias="SuplyPowerGasCostForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForChart" alias="SuplyPowerGasCostForChart"/>
+		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForGrid" alias="SuplyPowerGasCostForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.VacmIndexForChart" alias="VacmIndexForChart"/>
+		<typeAlias type="com.fh.entity.system.VacmIndexForGrid" alias="VacmIndexForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.NoxIndexForChart" alias="NoxIndexForChart"/>
+		<typeAlias type="com.fh.entity.system.NoxIndexForGrid" alias="NoxIndexForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.AuxPowerRatioForChart" alias="AuxPowerRatioForChart"/>
+		<typeAlias type="com.fh.entity.system.AuxPowerRatioForGrid" alias="AuxPowerRatioForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.OperationScoreForChart" alias="OperationScoreForChart"/>
+		<typeAlias type="com.fh.entity.system.OperationScoreForGrid" alias="OperationScoreForGrid"/>
+
+		<typeAlias type="com.fh.entity.system.WaterCostForChart" alias="WaterCostForChart"/>
+		<typeAlias type="com.fh.entity.system.WaterCostForGrid" alias="WaterCostForGrid"/>
+
+		<typeAlias type="com.fh.entity.system.BreakPointForChart" alias="BreakPointForChart"/>
+		<typeAlias type="com.fh.entity.system.BreakPointForGrid" alias="BreakPointForGrid"/>
+
+		<typeAlias type="com.fh.entity.system.BugStatForChart" alias="BugStatForChart"/>
+		<typeAlias type="com.fh.entity.system.BugStatForGrid" alias="BugStatForGrid"/>
+
+		<typeAlias type="com.fh.entity.system.SpiritScoreForChart" alias="SpiritScoreForChart"/>
+		<typeAlias type="com.fh.entity.system.SpiritScoreForGrid" alias="SpiritScoreForGrid"/>
+
+		<typeAlias type="com.fh.entity.system.TrainScoreForChart" alias="TrainScoreForChart"/>
+		<typeAlias type="com.fh.entity.system.TrainScoreForGrid" alias="TrainScoreForGrid"/>
+
 		<!-- 分页 -->
+		<typeAlias type="com.fh.util.PageData" alias="pd"/>
 		<typeAlias type="com.fh.entity.Page" alias="Page"/>
 	</typeAliases>
 	

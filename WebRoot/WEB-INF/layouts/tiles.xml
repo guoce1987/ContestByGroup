@@ -89,5 +89,12 @@
             <add-attribute value="static/js/myjs/power/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    <definition name="heatIndex/list" extends="default">
+        <put-attribute name="title" value="供热指标"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/heat/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/heat/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
 
 </tiles-definitions>

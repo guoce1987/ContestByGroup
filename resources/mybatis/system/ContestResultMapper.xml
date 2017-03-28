@@ -140,7 +140,7 @@
 		<result column="StatDate" property="StatDate"/>
 		<result column="DutyName" property="DutyName"/>
 		<result column="GroupName" property="GroupName"/>
-		<result column="RJ_GenerateHeat" property="RJ_GenerateHeat"/>
+		<result column="RJ_SuplyHeat" property="RJ_SuplyHeat"/>
 	</resultMap>
 	
 	<!-- 列出所有的供热指标(图) -->
@@ -158,7 +158,7 @@
 			 CONVERT(varchar(100), StatDate, 23) as StatDate,
 			 DutyName, 
 			 GroupName, 
-			 RJ_GenerateHeat  
+			 RJ_SuplyHeat  
 			FROM vw_CoalCost
 			WHERE (YEAR(statDate) = #{year}) AND (MONTH(statDate) = #{month}) Order by Statdate desc,Dutyid desc
 	</select>
@@ -396,5 +396,308 @@
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
+	
+	<!-- 综合厂用电率 -->
+	<resultMap type="AuxPowerRatioForChart" id="auxPowerRatioMapForChart">
+		<result column="ID" property="ID"/>
+		<result column="StatDate" property="StatDate"/>
+		<result column="DutyName" property="DutyName"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_AuxPowerRatio" property="RJ_AuxPowerRatio"/>
+		<result column="RJ_GeneratePower" property="RJ_GeneratePower"/>
+		<result column="RJ_SuplyPower" property="RJ_SuplyPower"/>
+		<result column="XL2213PowerFLow" property="XL2213PowerFLow"/>
+	</resultMap>
+	
+	<resultMap type="AuxPowerRatioForGrid" id="auxPowerRatioMapForGrid">
+		<result column="ID" property="ID"/>
+		<result column="StatDate" property="StatDate"/>
+		<result column="DutyName" property="DutyName"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_AuxPowerRatio" property="RJ_AuxPowerRatio"/>
+		<result column="RJ_GeneratePower" property="RJ_GeneratePower"/>
+		<result column="RJ_SuplyPower" property="RJ_SuplyPower"/>
+		<result column="XL2213PowerFLow" property="XL2213PowerFLow"/>
+	</resultMap>
+	
+	<!-- 列出所有的综合厂用电率指标(图) -->
+	<select id="listAllAuxPowerRatioForChart" resultMap="auxPowerRatioMapForChart"  parameterType="pd">
+			  SELECT 
+				    ID, 
+				    StatDate, 
+				    DutyName, 
+				    GroupName,
+				    RJ_AuxPowerRatio,  
+				    RJ_GeneratePower, 
+				    RJ_SuplyPower,
+				    XL2213PowerFLow
+				FROM vw_CoalCost
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				ORDER BY statDate DESC, DutyID DESC
+	</select>
+	<!-- 列出所有的综合厂用电率指标(表) -->
+	<select id="listAllAuxPowerRatioForGrid" resultMap="auxPowerRatioMapForGrid"  parameterType="pd">
+			SELECT 
+				    ID, 
+				    StatDate, 
+				    DutyName, 
+				    GroupName,
+				    RJ_AuxPowerRatio,  
+				    RJ_GeneratePower, 
+				    RJ_SuplyPower,
+				    XL2213PowerFLow
+				FROM vw_CoalCost
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				ORDER BY statDate DESC, DutyID DESC
+	</select>
+	
+	<!-- 操作加分 -->
+	<resultMap type="OperationScoreForChart" id="operationScoreMapForChart">
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
+	</resultMap>
+	
+	<resultMap type="OperationScoreForGrid" id="operationScoreMapForGrid">
+		<result column="ID" property="ID"/>
+		<result column="CheckDate" property="CheckDate"/>
+		<result column="ItemName" property="ItemName"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="OperateAddScore" property="OperateAddScore"/>
+		<result column="Memo" property="Memo"/>
+	</resultMap>
+	
+	<!-- 列出所有的操作加分指标(图) -->
+	<select id="listAllOperationScoreForChart" resultMap="operationScoreMapForChart"  parameterType="pd">
+			  SELECT
+				    GroupName,
+				    RJ_OperationScore 
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+	</select>
+	<!-- 列出所有的操作加分指标(表) -->
+	<select id="listAllOperationScoreForGrid" resultMap="operationScoreMapForGrid"  parameterType="pd">
+			SELECT 
+				    ID, 
+				    CheckDate,
+				    GroupName,
+				    ItemName
+				    abs(Score) * ratio as OperateAddScore,  
+					Memo
+				FROM Vw_RewardPunishLog
+				where year(CheckDate)= #{year} and month(CheckDate) = #{month}
+	</select>
+	
+	<!-- 燃机综合水耗 -->
+	<resultMap type="WaterCostForChart" id="waterCostMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="DutyName" property="DutyName"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_DirtyWater" property="RJ_DirtyWater"/>
+		<result column="RJ_RawWater" property="RJ_RawWater"/>
+		<result column="RJ_DeSaltWater" property="RJ_DeSaltWater"/>
+		<result column="RJ_BoilerSteam" property="RJ_BoilerSteam"/>
+		<result column="RJ_GeneratePower" property="RJ_GeneratePower"/>
+	</resultMap>
+	
+	<resultMap type="WaterCostForGrid" id="waterCostMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="DutyName" property="DutyName"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_DirtyWater" property="RJ_DirtyWater"/>
+		<result column="RJ_RawWater" property="RJ_RawWater"/>
+		<result column="RJ_DeSaltWater" property="RJ_DeSaltWater"/>
+		<result column="RJ_BoilerSteam" property="RJ_BoilerSteam"/>
+		<result column="RJ_GeneratePower" property="RJ_GeneratePower"/>
+	</resultMap>
+	
+	<!-- 列出所有的燃机综合水耗(图) -->
+	<select id="listAllWaterCostForChart" resultMap="waterCostMapForChart"  parameterType="pd">
+			  SELECT 
+				 StatDate
+				 ,GroupName
+				 ,DutyName
+				 ,GroupID
+				 ,RJ_DirtyWater
+				 ,RJ_RawWater
+				 ,RJ_DeSaltWater
+				 ,RJ_BoilerSteam
+				 ,RJ_GeneratePower
+				FROM vw_CoalCost
+				  where year(StatDate)= #{year} and month(StatDate) = #{month} 
+				  ORDER BY StatDate,DutyId
+	</select>
+	<!-- 列出所有的燃机综合水耗(表) -->
+	<select id="listAllWaterCostForGrid" resultMap="waterCostMapForGrid"  parameterType="pd">
+			SELECT 
+				 StatDate
+				 ,GroupName
+				 ,DutyName
+				 ,GroupID
+				 ,RJ_DirtyWater
+				 ,RJ_RawWater
+				 ,RJ_DeSaltWater
+				 ,RJ_BoilerSteam
+				 ,RJ_GeneratePower
+				FROM vw_CoalCost
+				  where year(StatDate)= #{year} and month(StatDate) = #{month} 
+				  ORDER BY StatDate,DutyId
+	</select>
+	
+	<!-- 违规扣分 -->
+	<resultMap type="BreakPointForChart" id="breakPointMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="Unit" property="Unit"/>
+		<result column="KKS" property="KKS"/>
+		<result column="Description" property="Description"/>
+		<result column="Lower" property="Lower"/>
+		<result column="Upper" property="Upper"/>
+		<result column="BreakCount" property="BreakCount"/>
+		<result column="DutyHours" property="DutyHours"/>
+		<result column="BreakCountPerHour" property="BreakCountPerHour"/>
+		<result column="PunishWay" property="PunishWay"/>
+		<result column="PunishStandard" property="PunishStandard"/>
+		<result column="PunishPoint" property="PunishPoint"/>
+	</resultMap>
+	
+	<resultMap type="BreakPointForGrid" id="breakPointMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="Unit" property="Unit"/>
+		<result column="KKS" property="KKS"/>
+		<result column="Description" property="Description"/>
+		<result column="Lower" property="Lower"/>
+		<result column="Upper" property="Upper"/>
+		<result column="BreakCount" property="BreakCount"/>
+		<result column="DutyHours" property="DutyHours"/>
+		<result column="BreakCountPerHour" property="BreakCountPerHour"/>
+		<result column="PunishWay" property="PunishWay"/>
+		<result column="PunishStandard" property="PunishStandard"/>
+		<result column="PunishPoint" property="PunishPoint"/>
+	</resultMap>
+	
+	<!-- 列出所有的违规扣分(图) -->
+	<select id="listAllBreakPointForChart" resultMap="breakPointMapForChart"  statementType="CALLABLE" parameterType="pd">
+			{ call query_breakPoint_RJ(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
+	</select>
+	<!-- 列出所有的违规扣分(表) -->
+	<select id="listAllBreakPointForGrid" resultMap="breakPointMapForGrid"  statementType="CALLABLE" parameterType="pd">
+			{ call query_breakPoint_RJ(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
+	</select>
+	
+	<!-- 设备消缺 -->
+	<resultMap type="BugStatForChart" id="bugStatMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="RJ_BugSum" property="RJ_BugSum"/>
+	</resultMap>
+	
+	<resultMap type="BugStatForGrid" id="bugStatMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="YxbUser" property="YxbUser"/>
+		<result column="LogAmount" property="LogAmount"/>
+		<result column="RemoveAmount" property="RemoveAmount"/>
+		<result column="RepeatBug" property="RepeatBug"/>
+		<result column="Total" property="Total"/>
+	</resultMap>
+	
+	<!-- 列出所有的设备消缺(图) -->
+	<select id="listAllBugStatForChart" resultMap="bugStatMapForChart"  statementType="CALLABLE" parameterType="pd">
+			select 
+				 StatDate,
+				 GroupID,
+				 RJ_BugSum 
+				from vw_ContestResult
+				where year(StatDate)= #{year} and month(StatDate) = #{month} 
+	</select>
+	<!-- 列出所有的设备消缺(表) -->
+	<select id="listAllBugStatForGrid" resultMap="bugStatMapForGrid"  statementType="CALLABLE" parameterType="pd">
+			SELECT 
+				 StatDate, 
+				 YxbUser, 
+				 GroupName, 
+				 LogAmount, 
+				 RemoveAmount,
+				 RepeatBug,
+				 isnull(logamount,0)+isnull(removeamount,0)-5*isnull(repeatBug,0) AS Total
+				FROM Vw_BugStatByPerson 
+				WHERE year(StatDate)= #{year} and month(StatDate) = #{month}
+	</select>
 
+
+	<!-- 精神文明 -->
+	<resultMap type="SpiritScoreForChart" id="spiritScoreMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="RJ_SpiritScore" property="RJ_SpiritScore"/>
+	</resultMap>
+	
+	<resultMap type="SpiritScoreForGrid" id="spiritScoreMapForGrid">
+		<result column="ID" property="ID"/>
+		<result column="CheckDate" property="CheckDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="Score" property="Score"/>
+		<result column="Money" property="Money"/>
+		<result column="Memo" property="Memo"/>
+	</resultMap>
+	
+	<!-- 列出所有的精神文明(图) -->
+	<select id="listAllSpiritScoreForChart" resultMap="spiritScoreMapForChart"  statementType="CALLABLE" parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupID,
+				 RJ_SpiritScore
+				FROM vw_ContestResult
+				where year(StatDate)= #{year} and month(StatDate) = #{month} 
+	</select>
+	<!-- 列出所有的精神文明(表) -->
+	<select id="listAllSpiritScoreForGrid" resultMap="spiritScoreMapForGrid"  statementType="CALLABLE" parameterType="pd">
+		SELECT 
+			 ID,
+			 CheckDate, 
+			 GroupName, 
+			 ItemName, 
+			 abs(Score) * ratio as Score, 
+			 abs(Money) * ratio as Money, 
+			 Memo
+			FROM vw_RewardPunishLog
+			WHERE ContestItemID = 10 AND YEAR(CheckDate) = #{year} AND MONTH(CheckDate) = #{month}
+
+	</select>
+	
+	<!-- 培训得分 -->
+	<resultMap type="TrainScoreForChart" id="trainScoreMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="RJ_TrainScore" property="RJ_TrainScore"/>
+	</resultMap>
+	
+	<resultMap type="TrainScoreForGrid" id="trainScoreMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="Score" property="Score"/>
+	</resultMap>
+	
+	<!-- 列出所有的培训得分(图) -->
+	<select id="listAllTrainScoreForChart" resultMap="trainScoreMapForChart"  statementType="CALLABLE" parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupID,
+				 RJ_TrainScore
+				FROM vw_ContestResult
+				where year(StatDate)= #{year} and month(StatDate) = #{month} 
+	</select>
+	<!-- 列出所有的培训得分(表) -->
+	<select id="listAllTrainScoreForGrid" resultMap="trainScoreMapForGrid"  statementType="CALLABLE" parameterType="pd">
+		SELECT 
+			 StatDate,
+			 GroupID,
+			 Score
+			FROM vw_train
+			WHERE year(StatDate)= #{year} and month(StatDate) = #{month} 
+
+	</select>
 </mapper>

@@ -7,6 +7,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.fh.dao.DaoSupport;
+import com.fh.entity.system.AuxPowerRatioForChart;
+import com.fh.entity.system.AuxPowerRatioForGrid;
+import com.fh.entity.system.BreakPointForChart;
+import com.fh.entity.system.BreakPointForGrid;
+import com.fh.entity.system.BugStatForChart;
+import com.fh.entity.system.BugStatForGrid;
 import com.fh.entity.system.ContestResult;
 import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.EconomyIndexForChart;
@@ -15,15 +21,23 @@ import com.fh.entity.system.HeatIndexForChart;
 import com.fh.entity.system.HeatIndexForGrid;
 import com.fh.entity.system.NoxIndexForChart;
 import com.fh.entity.system.NoxIndexForGrid;
+import com.fh.entity.system.OperationScoreForChart;
+import com.fh.entity.system.OperationScoreForGrid;
 import com.fh.entity.system.PowerIndexForChart;
 import com.fh.entity.system.PowerIndexForGrid;
 import com.fh.entity.system.Role;
 import com.fh.entity.system.SecurityIndexForChart;
 import com.fh.entity.system.SecurityIndexForGrid;
+import com.fh.entity.system.SpiritScoreForChart;
+import com.fh.entity.system.SpiritScoreForGrid;
 import com.fh.entity.system.SuplyPowerGasCostForChart;
 import com.fh.entity.system.SuplyPowerGasCostForGrid;
+import com.fh.entity.system.TrainScoreForChart;
+import com.fh.entity.system.TrainScoreForGrid;
 import com.fh.entity.system.VacmIndexForChart;
 import com.fh.entity.system.VacmIndexForGrid;
+import com.fh.entity.system.WaterCostForChart;
+import com.fh.entity.system.WaterCostForGrid;
 import com.fh.util.PageData;
 
 @Service("contestResultService")
@@ -112,12 +126,83 @@ public class ContestResultService{
 	}
 	
 	//综合厂用电率
-	public List<NoxIndexForGrid> listAllNoxIndexForGrid(PageData pd) throws Exception {
-		return (List<NoxIndexForGrid>) dao.findForList("ContestResultMapper.listAllNoxIndexForGrid", pd);
+	public List<AuxPowerRatioForGrid> listAllAuxPowerRatioForGrid(PageData pd) throws Exception {
+		return (List<AuxPowerRatioForGrid>) dao.findForList("ContestResultMapper.listAllAuxPowerRatioForGrid", pd);
 		
 	}
-	public List<NoxIndexForChart> listAllNoxIndexForChart(PageData pd) throws Exception {
-		return (List<NoxIndexForChart>) dao.findForList("ContestResultMapper.listAllNoxIndexForChart", pd);
+	public List<AuxPowerRatioForChart> listAllAuxPowerRatioForChart(PageData pd) throws Exception {
+		return (List<AuxPowerRatioForChart>) dao.findForList("ContestResultMapper.listAllAuxPowerRatioForChart", pd);
 		
 	}
+	
+	//操作加分
+	public List<OperationScoreForGrid> listAllOperationScoreForGrid(PageData pd) throws Exception {
+		return (List<OperationScoreForGrid>) dao.findForList("ContestResultMapper.listAllOperationScoreForGrid", pd);
+		
+	}
+	public List<OperationScoreForChart> listAllOperationScoreForChart(PageData pd) throws Exception {
+		return (List<OperationScoreForChart>) dao.findForList("ContestResultMapper.listAllOperationScoreForChart", pd);
+		
+	}
+	
+	//燃机综合水耗
+	public List<WaterCostForGrid> listAllWaterCostForGrid(PageData pd) throws Exception {
+		return (List<WaterCostForGrid>) dao.findForList("ContestResultMapper.listAllWaterCostForGrid", pd);
+		
+	}
+	public List<WaterCostForChart> listAllWaterCostForChart(PageData pd) throws Exception {
+		return (List<WaterCostForChart>) dao.findForList("ContestResultMapper.listAllWaterCostForChart", pd);
+		
+	}
+	
+	//违规扣分
+	public List<BreakPointForGrid> listAllBreakPointForGrid(PageData pd) throws Exception {
+		return (List<BreakPointForGrid>) dao.findForList("ContestResultMapper.listAllBreakPointForGrid", pd);
+		
+	}
+	public List<BreakPointForChart> listAllBreakPointForChart(PageData pd) throws Exception {
+		return (List<BreakPointForChart>) dao.findForList("ContestResultMapper.listAllBreakPointForChart", pd);
+		
+	}
+	
+	//设备消缺
+	public List<BugStatForGrid> listAllBugStatForGrid(PageData pd) throws Exception {
+		return (List<BugStatForGrid>) dao.findForList("ContestResultMapper.listAllBugStatForGrid", pd);
+		
+	}
+	public List<BugStatForChart> listAllBugStatForChart(PageData pd) throws Exception {
+		return (List<BugStatForChart>) dao.findForList("ContestResultMapper.listAllBugStatForChart", pd);
+		
+	}
+	
+	//精神文明
+	public List<SpiritScoreForGrid> listAllSpiritScoreForGrid(PageData pd) throws Exception {
+		return (List<SpiritScoreForGrid>) dao.findForList("ContestResultMapper.listAllSpiritScoreForGrid", pd);
+		
+	}
+	public List<SpiritScoreForChart> listAllSpiritScoreForChart(PageData pd) throws Exception {
+		return (List<SpiritScoreForChart>) dao.findForList("ContestResultMapper.listAllSpiritScoreForChart", pd);
+		
+	}
+	
+	//培训得分
+	public List<TrainScoreForGrid> listAllTrainScoreForGrid(PageData pd) throws Exception {
+		return (List<TrainScoreForGrid>) dao.findForList("ContestResultMapper.listAllTrainScoreForGrid", pd);
+		
+	}
+	public List<TrainScoreForChart> listAllTrainScoreForChart(PageData pd) throws Exception {
+		return (List<TrainScoreForChart>) dao.findForList("ContestResultMapper.listAllTrainScoreForChart", pd);
+		
+	}
+	
+	//重大操作
+//	public List<OperationScoreForGrid> listAllOperationScoreForGrid(PageData pd) throws Exception {
+//		return (List<OperationScoreForGrid>) dao.findForList("ContestResultMapper.listAllOperationScoreForGrid", pd);
+//		
+//	}
+//	public List<OperationScoreForChart> listAllOperationScoreForChart(PageData pd) throws Exception {
+//		return (List<OperationScoreForChart>) dao.findForList("ContestResultMapper.listAllOperationScoreForChart", pd);
+//		
+//	}
+	
 }

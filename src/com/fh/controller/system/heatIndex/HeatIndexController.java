@@ -53,7 +53,7 @@ public class HeatIndexController extends BaseController {
 	/**
 	 * 变量列表
 	 */
-	@RequestMapping(value="/list")
+	@RequestMapping(value="/list1")
 	@ResponseBody
 	public ModelAndView listUsers(Page page){
 		ModelAndView mv = this.getModelAndView();
@@ -97,6 +97,14 @@ public class HeatIndexController extends BaseController {
 		}
 		
 		return mv;
+	}
+	
+	/**
+	 * 变量列表
+	 */
+	@RequestMapping(value="/list")
+	public String listUsers1(Page page){
+		return "heatIndex/list";
 	}
 	
 	/**
