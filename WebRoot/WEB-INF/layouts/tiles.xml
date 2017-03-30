@@ -96,5 +96,96 @@
             <add-attribute value="static/js/myjs/heat/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
-
+    <definition name="economy/list" extends="default">
+        <put-attribute name="title" value="燃机总指标"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/economy/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/economy/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="gascost/list" extends="default">
+        <put-attribute name="title" value="供电气耗"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/gascost/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/gascost/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="gastemp/list" extends="default">
+        <put-attribute name="title" value="排烟温度"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/gastemp/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/gastemp/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+        <definition name="vacm/list" extends="default">
+        <put-attribute name="title" value="真空"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/vacm/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/vacm/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="nox/list" extends="default">
+        <put-attribute name="title" value="脱硝"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/nox/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/nox/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="breakpoint/list" extends="default">
+        <put-attribute name="title" value="违规扣分"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/breakpoint/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/breakpoint/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="reward/list" extends="default">
+        <put-attribute name="title" value="操作加分"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/reward/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/reward/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="watercost/list" extends="default">
+        <put-attribute name="title" value="燃机综合水耗"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/watercost/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/watercost/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="bugstat/list" extends="default">
+        <put-attribute name="title" value="设备消缺"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/bugstat/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/bugstat/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="powerratio/list" extends="default">
+        <put-attribute name="title" value="综合厂用电率"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/powerratio/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/powerratio/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+        <definition name="spiritscore/list" extends="default">
+        <put-attribute name="title" value="精神文明"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/spiritscore/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/spiritscore/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="trainscore/list" extends="default">
+        <put-attribute name="title" value="培训得分"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/trainscore/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/trainscore/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="operation/list" extends="default">
+        <put-attribute name="title" value="重大操作"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/operation/body.jsp"/>
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/operation/body.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
+   
 </tiles-definitions>
