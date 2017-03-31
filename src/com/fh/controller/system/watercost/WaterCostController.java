@@ -1,4 +1,4 @@
-package com.fh.controller.system.gascost;
+package com.fh.controller.system.watercost;
 
 import java.util.List;
 
@@ -11,41 +11,33 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.Role;
-import com.fh.entity.system.SecurityIndexForChart;
-import com.fh.entity.system.SecurityIndexForGrid;
-import com.fh.entity.system.SuplyPowerGasCostForChart;
-import com.fh.entity.system.SuplyPowerGasCostForGrid;
+import com.fh.entity.system.WaterCostForChart;
+import com.fh.entity.system.WaterCostForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
-import com.guoce.schedule.MyFirstSchedule;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 /**
- * @ClassName: GasCostController.java
- * @Description: 供电气耗
+ * @ClassName: RewardController.java
+ * @Description: 燃机综合水耗
  * @author Guoce
  * @date 2017年3月29日下午3:55:22
  * 
  */
 @Controller
-@RequestMapping(value="/gascost")
-public class GasCostController extends BaseController {
+@RequestMapping(value="/watercost")
+public class WaterCostController extends BaseController {
 	
-	String menuUrl = "gascost/list.do"; //菜单地址(权限用)
+	String menuUrl = "watercost/list.do"; //菜单地址(权限用)
 	@Resource(name="appuserService")
 	private AppuserService appuserService;
 	@Resource(name="roleService")
@@ -76,22 +68,22 @@ public class GasCostController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<SuplyPowerGasCostForGrid> suplyPowerGasCostListForGrid = contestResultService.listAllSuplyPowerGasCostForGrid(pd);
-			List<SuplyPowerGasCostForChart> suplyPowerGasCostListForChart = contestResultService.listAllSuplyPowerGasCostForChart(pd);
+			List<WaterCostForGrid> watercostListForGrid = contestResultService.listAllWaterCostForGrid(pd);
+			List<WaterCostForChart> watercostListForChart = contestResultService.listAllWaterCostForChart(pd);
 			
-			JSONArray suplyPowerGasCostArray = new JSONArray();  
+			JSONArray watercostArray = new JSONArray();  
 
 			JSONObject jsonObject = new JSONObject();
-			for (SuplyPowerGasCostForChart SuplyPowerGasCostForChart : suplyPowerGasCostListForChart) {
-				jsonObject.element("value", SuplyPowerGasCostForChart.ge);
-				suplyPowerGasCostArray.add(jsonObject);
+			for (WaterCostForChart WaterCostForChart : watercostListForChart) {
+				jsonObject.element("value", WaterCostForChart.get);
+				watercostArray.add(jsonObject);
 			}
 			
 			mv.setViewName("economy/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray suplyPowerGasCostListForGridList = JSONArray.fromObject(suplyPowerGasCostListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", suplyPowerGasCostListForGridList);
-			mv.addObject("heatScoreArray", suplyPowerGasCostArray);
+			JSONArray watercostForGridList = JSONArray.fromObject(watercostListForGrid);
+			mv.addObject("suplyPowerGasCostListForGridList", watercostForGridList);
+			mv.addObject("watercostArray", watercostArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -102,7 +94,6 @@ public class GasCostController extends BaseController {
 		
 		return mv;
 	}
-
 	
 	/**
 	 * 图表获取数据
@@ -129,14 +120,14 @@ public class GasCostController extends BaseController {
 				page.setPd(pd);
 
 				
-				List<SuplyPowerGasCostForChart> suplyPowerGasCostListForChart = contestResultService.listAllSuplyPowerGasCostForChart(pd);
+				List<WaterCostForChart> watercostListForChart = contestResultService.listAllWaterCostForChart(pd);
 				
-				JSONArray suplyPowerGasCostArray = new JSONArray();  
+				JSONArray watercostArray = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
-				for (SuplyPowerGasCostForChart SuplyPowerGasCostForChart : suplyPowerGasCostListForChart) {
-					jsonObject.element("value", SuplyPowerGasCostForChart.ge);
-					suplyPowerGasCostArray.add(jsonObject);
+				for (WaterCostForChart WaterCostForChart : watercostListForChart) {
+					jsonObject.element("value", WaterCostForChart.get);
+					watercostArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -145,7 +136,7 @@ public class GasCostController extends BaseController {
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
 					if(null != data && data.get("seriesname").equals("安全得分")){
-						data.element("data", suplyPowerGasCostArray);
+						data.element("data", watercostArray);
 					}
 				}
 				
@@ -180,8 +171,8 @@ public class GasCostController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
-				List<EconomyIndexForGrid> economyIndexListForGrid = contestResultService.listAllEconomyIndexForGrid(pd);
-				jsonArr = JSONArray.fromObject(economyIndexListForGrid);
+				List<WaterCostForGrid> watercostListForGrid = contestResultService.listAllWaterCostForGrid(pd);
+				jsonArr = JSONArray.fromObject(watercostListForGrid);
 			} catch(Exception e){
 				logger.error(e.toString(), e);
 			}

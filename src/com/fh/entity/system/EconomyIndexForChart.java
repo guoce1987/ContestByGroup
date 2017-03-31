@@ -2,7 +2,7 @@ package com.fh.entity.system;
 
 
 /**
- * @ClassName: EconomyIndexForChart.java
+ * @ClassName: GasCostForChart.java
  * @Description: 燃机总指标实体类(图)
  * @author Guoce
  * @date 2017年3月24日上午11:28:04

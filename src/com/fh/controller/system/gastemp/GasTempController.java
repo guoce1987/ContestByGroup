@@ -1,4 +1,4 @@
-package com.fh.controller.system.gascost;
+package com.fh.controller.system.gastemp;
 
 import java.util.List;
 
@@ -15,13 +15,11 @@ import com.fh.entity.system.ContestResult;
 import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
+import com.fh.entity.system.GasTempForChart;
+import com.fh.entity.system.GasTempForGrid;
 import com.fh.entity.system.Role;
 import com.fh.entity.system.SecurityIndexForChart;
 import com.fh.entity.system.SecurityIndexForGrid;
-import com.fh.entity.system.SuplyPowerGasCostForChart;
-import com.fh.entity.system.SuplyPowerGasCostForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
@@ -35,17 +33,17 @@ import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 /**
- * @ClassName: GasCostController.java
- * @Description: 供电气耗
+ * @ClassName: GasTempController.java
+ * @Description: 排烟温度
  * @author Guoce
  * @date 2017年3月29日下午3:55:22
  * 
  */
 @Controller
-@RequestMapping(value="/gascost")
-public class GasCostController extends BaseController {
+@RequestMapping(value="/gastemp")
+public class GasTempController extends BaseController {
 	
-	String menuUrl = "gascost/list.do"; //菜单地址(权限用)
+	String menuUrl = "gastemp/list.do"; //菜单地址(权限用)
 	@Resource(name="appuserService")
 	private AppuserService appuserService;
 	@Resource(name="roleService")
@@ -76,22 +74,22 @@ public class GasCostController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<SuplyPowerGasCostForGrid> suplyPowerGasCostListForGrid = contestResultService.listAllSuplyPowerGasCostForGrid(pd);
-			List<SuplyPowerGasCostForChart> suplyPowerGasCostListForChart = contestResultService.listAllSuplyPowerGasCostForChart(pd);
+			List<GasTempForGrid> gasTempListForGrid = contestResultService.listAllGasTempForGrid(pd);
+			List<GasTempForChart> gasTempListForChart = contestResultService.listAllGasTempForChart(pd);
 			
-			JSONArray suplyPowerGasCostArray = new JSONArray();  
+			JSONArray gasTempArray = new JSONArray();  
 
 			JSONObject jsonObject = new JSONObject();
-			for (SuplyPowerGasCostForChart SuplyPowerGasCostForChart : suplyPowerGasCostListForChart) {
-				jsonObject.element("value", SuplyPowerGasCostForChart.ge);
-				suplyPowerGasCostArray.add(jsonObject);
+			for (GasTempForChart GasTempForChart : gasTempListForChart) {
+				jsonObject.element("value", GasTempForChart.ge);
+				gasTempArray.add(jsonObject);
 			}
 			
 			mv.setViewName("economy/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray suplyPowerGasCostListForGridList = JSONArray.fromObject(suplyPowerGasCostListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", suplyPowerGasCostListForGridList);
-			mv.addObject("heatScoreArray", suplyPowerGasCostArray);
+			JSONArray gasTempListForGridList = JSONArray.fromObject(gasTempListForGrid);
+			mv.addObject("gasTempListForGridList", gasTempListForGridList);
+			mv.addObject("gasTempArray", gasTempArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -128,24 +126,23 @@ public class GasCostController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
+				List<GasTempForChart> gasTempListForChart = contestResultService.listAllGasTempForChart(pd);
 				
-				List<SuplyPowerGasCostForChart> suplyPowerGasCostListForChart = contestResultService.listAllSuplyPowerGasCostForChart(pd);
-				
-				JSONArray suplyPowerGasCostArray = new JSONArray();  
+				JSONArray gasTempArray = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
-				for (SuplyPowerGasCostForChart SuplyPowerGasCostForChart : suplyPowerGasCostListForChart) {
-					jsonObject.element("value", SuplyPowerGasCostForChart.ge);
-					suplyPowerGasCostArray.add(jsonObject);
+				for (GasTempForChart GasTempForChart : gasTempListForChart) {
+					jsonObject.element("value", GasTempForChart.ge);
+					gasTempArray.add(jsonObject);
 				}
-
+				
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
 
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
 					if(null != data && data.get("seriesname").equals("安全得分")){
-						data.element("data", suplyPowerGasCostArray);
+						data.element("data", gasTempArray);
 					}
 				}
 				
@@ -180,8 +177,8 @@ public class GasCostController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
-				List<EconomyIndexForGrid> economyIndexListForGrid = contestResultService.listAllEconomyIndexForGrid(pd);
-				jsonArr = JSONArray.fromObject(economyIndexListForGrid);
+				List<GasTempForGrid> gasTempListForGrid = contestResultService.listAllGasTempForGrid(pd);
+				jsonArr = JSONArray.fromObject(gasTempListForGrid);
 			} catch(Exception e){
 				logger.error(e.toString(), e);
 			}

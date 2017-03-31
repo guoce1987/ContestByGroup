@@ -17,6 +17,8 @@ import com.fh.entity.system.ContestResult;
 import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
+import com.fh.entity.system.GasTempForChart;
+import com.fh.entity.system.GasTempForGrid;
 import com.fh.entity.system.HeatIndexForChart;
 import com.fh.entity.system.HeatIndexForGrid;
 import com.fh.entity.system.NoxIndexForChart;
@@ -102,6 +104,16 @@ public class ContestResultService{
 	}
 	public List<SuplyPowerGasCostForChart> listAllSuplyPowerGasCostForChart(PageData pd) throws Exception {
 		return (List<SuplyPowerGasCostForChart>) dao.findForList("ContestResultMapper.listAllSuplyPowerGasCostForChart", pd);
+		
+	}
+	
+	//排烟温度
+	public List<GasTempForGrid> listAllGasTempForGrid(PageData pd) throws Exception {
+		return (List<GasTempForGrid>) dao.findForList("ContestResultMapper.listAllGasTempForGrid", pd);
+		
+	}
+	public List<GasTempForChart> listAllGasTempForChart(PageData pd) throws Exception {
+		return (List<GasTempForChart>) dao.findForList("ContestResultMapper.listAllGasTempForChart", pd);
 		
 	}
 	
