@@ -77,19 +77,39 @@ public class EconomyController extends BaseController {
 			List<EconomyIndexForGrid> economyIndexListForGrid = contestResultService.listAllEconomyIndexForGrid(pd);
 			List<EconomyIndexForChart> economyIndexListForChart = contestResultService.listAllEconomyIndexForChart(pd);
 			
-			JSONArray economyIndexArray = new JSONArray();  //安全得分
+			JSONArray suplyPowerGasCostArray = new JSONArray();  //供电气耗
+			JSONArray gasTempArray = new JSONArray();  //排烟温度
+			JSONArray vacmIndexArray = new JSONArray();  //真空
+			JSONArray noxIndexArray = new JSONArray();  //脱硝
+			JSONArray auxPowerRatioArray = new JSONArray();  //厂用电率    ? 这个没有取值
+			JSONArray operationScoreArray = new JSONArray();  //操作加分
+			JSONArray waterCostArray = new JSONArray();  //综合水耗
+			JSONArray breakPointArray = new JSONArray();  //违规扣分
+			
 
 			JSONObject jsonObject = new JSONObject();
 			for (EconomyIndexForChart EconomyIndexForChart : economyIndexListForChart) {
-				jsonObject.element("value", EconomyIndexForChart.get);
-				economyIndexArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_SuplyPowerGasCostScore());
+				suplyPowerGasCostArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_GasTempScore());
+				gasTempArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_VacmScore());
+				vacmIndexArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_NoxScore());
+				noxIndexArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_OperationScore());
+				operationScoreArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_WaterAdditionScore());
+				waterCostArray.add(jsonObject);
+				jsonObject.element("value", EconomyIndexForChart.getRJ_BreakPunishScore());
+				breakPointArray.add(jsonObject);
 			}
 			
 			mv.setViewName("economy/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray economyIndexListForGridList = JSONArray.fromObject(economyIndexListForGrid);
 			mv.addObject("economyIndexListForGrid", economyIndexListForGridList);
-			mv.addObject("economyIndexArray", economyIndexArray);
+			mv.addObject("suplyPowerGasCostArray", suplyPowerGasCostArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);

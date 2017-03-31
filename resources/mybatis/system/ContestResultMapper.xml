@@ -313,6 +313,48 @@
 			 WHERE (YEAR(R.StatDate) = #{year}) AND (MONTH(R.StatDate) = #{month})
 	</select>
 	
+	<!-- 排烟温度 -->
+	<resultMap type="GasTempForChart" id="gasTempMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_GasTempDiff" property="RJ_GasTempDiff"/>
+		<result column="RJ_GasTempRank" property="RJ_GasTempRank"/>
+		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
+	</resultMap>
+	
+	<resultMap type="GasTempForGrid" id="gasTempMapForGrid">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_GasTempDiff" property="RJ_GasTempDiff"/>
+		<result column="RJ_GasTempRank" property="RJ_GasTempRank"/>
+		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
+	</resultMap>
+	
+	<!-- 列出所有的排烟温度(图) -->
+	<select id="listAllGasTempForChart" resultMap="gasTempMapForChart"  parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupName,
+				 RJ_GasTempDiff,
+				 RJ_GasTempRank,
+				 RJ_GasTempScore
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
+	</select>
+	<!-- 列出所有的排烟温度 (表) -->
+	<select id="listAllGasTempForGrid" resultMap="gasTempMapForGrid"  parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupName,
+				 RJ_GasTempDiff,
+				 RJ_GasTempRank,
+				 RJ_GasTempScore
+				FROM vw_Economy_Month
+				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
+	</select>
+	
 	<!-- 真空 -->
 	<resultMap type="VacmIndexForChart" id="vacmIndexMapForChart">
 		<result column="StatDate" property="StatDate"/>

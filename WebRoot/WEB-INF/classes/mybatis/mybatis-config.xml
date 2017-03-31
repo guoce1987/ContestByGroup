@@ -28,8 +28,8 @@
 		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForChart" alias="SuplyPowerGasCostForChart"/>
 		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForGrid" alias="SuplyPowerGasCostForGrid"/>
 		
-		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForChart" alias="SuplyPowerGasCostForChart"/>
-		<typeAlias type="com.fh.entity.system.SuplyPowerGasCostForGrid" alias="SuplyPowerGasCostForGrid"/>
+		<typeAlias type="com.fh.entity.system.GasTempForChart" alias="GasTempForChart"/>
+		<typeAlias type="com.fh.entity.system.GasTempForGrid" alias="GasTempForGrid"/>
 		
 		<typeAlias type="com.fh.entity.system.VacmIndexForChart" alias="VacmIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.VacmIndexForGrid" alias="VacmIndexForGrid"/>
