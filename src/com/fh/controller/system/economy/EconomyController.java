@@ -110,6 +110,13 @@ public class EconomyController extends BaseController {
 			JSONArray economyIndexListForGridList = JSONArray.fromObject(economyIndexListForGrid);
 			mv.addObject("economyIndexListForGrid", economyIndexListForGridList);
 			mv.addObject("suplyPowerGasCostArray", suplyPowerGasCostArray);
+			mv.addObject("gasTempArray", gasTempArray);
+			mv.addObject("vacmIndexArray", vacmIndexArray);
+			mv.addObject("noxIndexArray", noxIndexArray);
+			mv.addObject("auxPowerRatioArray", auxPowerRatioArray);
+			mv.addObject("operationScoreArray", operationScoreArray);
+			mv.addObject("waterCostArray", waterCostArray);
+			mv.addObject("breakPointArray", breakPointArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -121,13 +128,6 @@ public class EconomyController extends BaseController {
 		return mv;
 	}
 	
-	/**
-	 * 变量列表
-	 */
-	@RequestMapping(value="/list1")
-	public String listUsers1(Page page){
-		return "economyIndex/list";
-	}
 	
 	/**
 	 * 图表获取数据
@@ -156,11 +156,31 @@ public class EconomyController extends BaseController {
 				
 				List<EconomyIndexForChart> economyIndexListForChart = contestResultService.listAllEconomyIndexForChart(pd);
 				
-				JSONArray safetyScoreArray = new JSONArray();  //安全得分
+				JSONArray suplyPowerGasCostArray = new JSONArray();  //供电气耗
+				JSONArray gasTempArray = new JSONArray();  //排烟温度
+				JSONArray vacmIndexArray = new JSONArray();  //真空
+				JSONArray noxIndexArray = new JSONArray();  //脱硝
+				JSONArray auxPowerRatioArray = new JSONArray();  //厂用电率    ? 这个没有取值
+				JSONArray operationScoreArray = new JSONArray();  //操作加分
+				JSONArray waterCostArray = new JSONArray();  //综合水耗
+				JSONArray breakPointArray = new JSONArray();  //违规扣分
+				
 				JSONObject jsonObject = new JSONObject();
 				for (EconomyIndexForChart EconomyIndexForChart : economyIndexListForChart) {
-					jsonObject.element("value", EconomyIndexForChart.getRJ_HeatAvg());
-					safetyScoreArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_SuplyPowerGasCostScore());
+					suplyPowerGasCostArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_GasTempScore());
+					gasTempArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_VacmScore());
+					vacmIndexArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_NoxScore());
+					noxIndexArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_OperationScore());
+					operationScoreArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_WaterAdditionScore());
+					waterCostArray.add(jsonObject);
+					jsonObject.element("value", EconomyIndexForChart.getRJ_BreakPunishScore());
+					breakPointArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -168,8 +188,29 @@ public class EconomyController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
-						data.element("data", safetyScoreArray);
+					if(null != data && data.get("seriesname").equals("供电气耗")){
+						data.element("data", suplyPowerGasCostArray);
+					}
+					if(null != data && data.get("seriesname").equals("排烟温度")){
+						data.element("data", gasTempArray);
+					}
+					if(null != data && data.get("seriesname").equals("真空")){
+						data.element("data", vacmIndexArray);
+					}
+					if(null != data && data.get("seriesname").equals("脱硝")){
+						data.element("data", noxIndexArray);
+					}
+					if(null != data && data.get("seriesname").equals("厂用电率")){
+						data.element("data", auxPowerRatioArray);
+					}
+					if(null != data && data.get("seriesname").equals("操作加分")){
+						data.element("data", operationScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("综合水耗")){
+						data.element("data", waterCostArray);
+					}
+					if(null != data && data.get("seriesname").equals("违规扣分")){
+						data.element("data", breakPointArray);
 					}
 				}
 				

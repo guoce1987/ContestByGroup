@@ -43,6 +43,18 @@
 		<input type="hidden" id="powerIndexListForGrid" value=${powerIndexListForGrid}>
 		<input type="hidden" id="heatIndexListForGrid" value=${heatIndexListForGrid}>
 		
+		<!-- 综合经济指标：供电气耗  排烟温度 真空 脱硝 厂用电率 操作加分 综合水耗 违规扣分-->
+		<input type="hidden" id="economyIndexListForGrid" value=${economyIndexListForGrid}>
+		
+		<input type="hidden" id="suplyPowerGasCostArray" value=${suplyPowerGasCostArray}>  
+		<input type="hidden" id="gasTempArray" value=${gasTempArray}>
+		<input type="hidden" id="vacmIndexArray" value=${vacmIndexArray}>
+		<input type="hidden" id="noxIndexArray" value=${noxIndexArray}>
+		<input type="hidden" id="auxPowerRatioArray" value=${auxPowerRatioArray}>
+		<input type="hidden" id="operationScoreArray" value=${operationScoreArray}>
+		<input type="hidden" id="waterCostArray" value=${waterCostArray}>
+		<input type="hidden" id="breakPointArray" value=${breakPointArray}>
+		
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>
 		</div>

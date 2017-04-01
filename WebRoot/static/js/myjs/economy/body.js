@@ -1,7 +1,14 @@
 	var year = $("#year").val();
 	var month = $("#month").val();
-	var heatScoreArray = JSON.parse($("#heatScoreArray").val());
-	var grid_data = JSON.parse($("#heatIndexListForGrid").val());
+	JSONArray suplyPowerGasCostArray = JSON.parse($("#suplyPowerGasCostArray").val());  //供电气耗
+	JSONArray gasTempArray = JSON.parse($("#gasTempArray").val()); //排烟温度
+	JSONArray vacmIndexArray = JSON.parse($("#vacmIndexArray").val());  //真空
+	JSONArray noxIndexArray = JSON.parse($("#noxIndexArray").val());  //脱硝
+	JSONArray auxPowerRatioArray = JSON.parse($("#auxPowerRatioArray").val()); //厂用电率    ? 这个没有取值
+	JSONArray operationScoreArray = JSON.parse($("#operationScoreArray").val());  //操作加分
+	JSONArray waterCostArray =  JSON.parse($("#waterCostArray").val()); //综合水耗
+	JSONArray breakPointArray = JSON.parse($("#breakPointArray").val());  //违规扣分
+	var grid_data = JSON.parse($("#economyIndexListForGrid").val());
 	var fusioncharts = null;
 
 			jQuery(function($) {
@@ -431,19 +438,43 @@
 		            }]
 		        }],
 		        "dataset": [{
-		            "seriesName": "安全得分",
+		            "seriesName": "供电气耗",
 		            "showValues": "1",
-		            "data": safetyScoreArray
+		            "data": suplyPowerGasCostArray
 		        }, {
-		            "seriesName": "发电量得分",
+		            "seriesName": "排烟温度",
 		            "renderAs": "line",
 		            "showValues": "1",
-		            "data": heatScoreArray
+		            "data": gasTempArray
 		        }, {
-		            "seriesName": "供热得分",
+		            "seriesName": "真空",
 		            "renderAs": "area",
 		            "showValues": "1",
-		            "data": heatScoreArray
+		            "data": vacmIndexArray
+		        }, {
+		            "seriesName": "脱硝",
+		            "showValues": "1",
+		            "data": noxIndexArray
+		        }, {
+		            "seriesName": "厂用电率",
+		            "renderAs": "line",
+		            "showValues": "1",
+		            "data": auxPowerRatioArray
+		        }, {
+		            "seriesName": "操作加分",
+		            "renderAs": "area",
+		            "showValues": "1",
+		            "data": operationScoreArray
+		        }, {
+		            "seriesName": "综合水耗",
+		            "renderAs": "line",
+		            "showValues": "1",
+		            "data": waterCostArray
+		        }, {
+		            "seriesName": "违规扣分",
+		            "renderAs": "area",
+		            "showValues": "1",
+		            "data": breakPointArray
 		        }]
 		    }
 		}
