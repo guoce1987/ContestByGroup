@@ -75,14 +75,14 @@ public class BreakPointController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (BreakPointForChart BreakPointForChart : breakPointListForChart) {
-				jsonObject.element("value", BreakPointForChart.get);
+				jsonObject.element("value", BreakPointForChart.getBreakCount());
 				breakPointArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("breakpoint/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray breakPointForGridList = JSONArray.fromObject(breakPointListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", breakPointForGridList);
+			mv.addObject("breakPointForGridList", breakPointForGridList);
 			mv.addObject("breakPointArray", breakPointArray);
 			
 			mv.addObject("year", year);
@@ -126,7 +126,7 @@ public class BreakPointController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (BreakPointForChart BreakPointForChart : breakPointListForChart) {
-					jsonObject.element("value", BreakPointForChart.get);
+					jsonObject.element("value", BreakPointForChart.getBreakCount());
 					breakPointArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class BreakPointController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("违规扣分")){
 						data.element("data", breakPointArray);
 					}
 				}

@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
 						<div class="page-header">
 							<h1>
-								供热指标
+								燃机总指标
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									查询供热指标
+									查询燃机总指标
 								</small>
 							</h1>
 						</div><!-- /.page-header -->

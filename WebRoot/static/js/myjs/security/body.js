@@ -15,21 +15,6 @@
 					  todayBtn: true
 				});
 				$("#datepicker").datepicker("setDate", year+"-"+month);//设置
-				
-				var d1 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d1.push([i, Math.sin(i)]);
-				}
-			
-				var d2 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d2.push([i, Math.cos(i)]);
-				}
-			
-				var d3 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.2) {
-					d3.push([i, Math.tan(i)]);
-				}
 
 				var grid_selector = "#grid-table";
 				var pager_selector = "#grid-pager";

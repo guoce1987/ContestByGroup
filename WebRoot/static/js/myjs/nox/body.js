@@ -1,10 +1,15 @@
 	var year = $("#year").val();
 	var month = $("#month").val();
-	var heatScoreArray = JSON.parse($("#heatScoreArray").val());
-	var grid_data = JSON.parse($("#heatIndexListForGrid").val());
+	var noxIndexArray = JSON.parse($("#noxIndexArray").val());
+	var grid_data = JSON.parse($("#noxIndexForGridList").val());
 	var fusioncharts = null;
 
 			jQuery(function($) {
+				
+				$("#lm5 ul").removeClass("nav-hide");
+				$("#lm5 ul").addClass("nav-show");
+				$("#lm5 ul").show();
+				$("#z10").addClass("active");  //设置该页菜单为选中状态
 				
 				$( "#datepicker" ).datepicker({
 					  language: 'zh-CN',	
@@ -14,21 +19,6 @@
 					  todayBtn: true
 				});
 				$("#datepicker").datepicker("setDate", year+"-"+month);//设置
-				
-				var d1 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d1.push([i, Math.sin(i)]);
-				}
-			
-				var d2 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d2.push([i, Math.cos(i)]);
-				}
-			
-				var d3 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.2) {
-					d3.push([i, Math.tan(i)]);
-				}
 
 				var grid_selector = "#grid-table";
 				var pager_selector = "#grid-pager";
@@ -49,47 +39,20 @@
 						}, 20);
 					}
 			    })
-				
-				//if your grid is inside another element, for example a tab pane, you should use its parent's width:
-				/**
-				$(window).on('resize.jqGrid', function () {
-					var parent_width = $(grid_selector).closest('.tab-pane').width();
-					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-				})
-				//and also set width when tab pane becomes visible
-				$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-				  if($(e.target).attr('href') == '#mygrid') {
-					var parent_width = $(grid_selector).closest('.tab-pane').width();
-					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-				  }
-				})
-				*/
-				
-				
-			
-			
 			
 				jQuery(grid_selector).jqGrid({
-
-					subGrid : true,
-
-					subGridOptions : {
-						plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-						minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-						openicon : "ace-icon fa fa-chevron-right center orange"
-					},	
 			
 					data: grid_data,
 					datatype: "local",
 					height: 250,
 
-					colNames:['日期','班次','班名', '值别', '供热量'],
+					colNames:['日期','值别','偏差', '名次', '得分'],
 					colModel:[
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'dutyID',index:'dutyID',width:90, sorttype:"text"},
-						{name:'dutyName',index:'dutyName',width:90, sorttype:"text"},
 						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
-						{name:'RJ_SuplyHeat',index:'RJ_SuplyHeat',width:90, sorttype:"double"}
+						{name:'RJ_Nox',index:'RJ_Nox',width:90, sorttype:"double"},
+						{name:'RJ_NoxRank',index:'RJ_NoxRank',width:90, sorttype:"double"},
+						{name:'RJ_NoxScore',index:'RJ_NoxScore',width:90, sorttype:"double"}
 					], 
 			
 					viewrecords : true,
@@ -115,34 +78,13 @@
 					},
 			
 					editurl: "./dummy.php",//nothing is saved
-					caption: "jqGrid with inline editing"
+					caption: "jqGrid with inline editing",
 			
-					//,autowidth: true,
-			
-			
-					/**
-					,
-					grouping:true, 
-					groupingView : { 
-						 groupField : ['name'],
-						 groupDataSorted : true,
-						 plusicon : 'fa fa-chevron-down bigger-110',
-						 minusicon : 'fa fa-chevron-up bigger-110'
-					},
-					caption: "Grouping"
-					*/
+					autowidth: true
+
 			
 				});
 				$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-				
-
-				
-
-
-				//enable search/filter toolbar
-				//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-				//jQuery(grid_selector).filterToolbar({});
-			
 			
 				//switch element when editing inline
 				function aceSwitch( cellvalue, options, cell ) {
@@ -431,19 +373,9 @@
 		            }]
 		        }],
 		        "dataset": [{
-		            "seriesName": "安全得分",
+		            "seriesName": "脱硝",
 		            "showValues": "1",
-		            "data": safetyScoreArray
-		        }, {
-		            "seriesName": "发电量得分",
-		            "renderAs": "line",
-		            "showValues": "1",
-		            "data": heatScoreArray
-		        }, {
-		            "seriesName": "供热得分",
-		            "renderAs": "area",
-		            "showValues": "1",
-		            "data": heatScoreArray
+		            "data": noxIndexArray
 		        }]
 		    }
 		}
@@ -561,7 +493,7 @@
 
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "heat/getGridData.do?year="+year+"&&month="+month,
+	 	               url: "nox/getGridData.do?year="+year+"&&month="+month,
 	 	               success: function(data){
 	 	            	   		grid_data = data;
 	 	            	   		$("#grid-table").jqGrid("clearGridData");
@@ -575,7 +507,7 @@
 	 			var json = fusioncharts.getJSONData();
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "heat/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
+	 	               url: "nox/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
 	 	               success: function(data){
 	 	            	   		json=data;
 	 	                      fusioncharts.setJSONData(json);

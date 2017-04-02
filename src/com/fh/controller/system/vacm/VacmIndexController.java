@@ -75,15 +75,15 @@ public class VacmIndexController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (VacmIndexForChart VacmIndexForChart : vacmIndexListForChart) {
-				jsonObject.element("value", VacmIndexForChart.get);
+				jsonObject.element("value", VacmIndexForChart.getRJ_VacmDiff());
 				vacmIndexArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("vacm/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray vacmIndexForGridList = JSONArray.fromObject(vacmIndexListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", vacmIndexForGridList);
-			mv.addObject("heatScoreArray", vacmIndexArray);
+			mv.addObject("vacmIndexForGridList", vacmIndexForGridList);
+			mv.addObject("vacmIndexArray", vacmIndexArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -126,7 +126,7 @@ public class VacmIndexController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (VacmIndexForChart VacmIndexForChart : vacmIndexListForChart) {
-					jsonObject.element("value", VacmIndexForChart.get);
+					jsonObject.element("value", VacmIndexForChart.getRJ_VacmDiff());
 					vacmIndexArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class VacmIndexController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("真空")){
 						data.element("data", vacmIndexArray);
 					}
 				}

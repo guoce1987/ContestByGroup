@@ -9,33 +9,27 @@ package com.fh.entity.system;
  * 
  */
 public class BreakPointForChart {
+
 	
 	private String StatDate;	//日期
-	private String GroupName;	//值别
-	private String DutyName;	//班次
-	private String GroupID;
-	private double RJ_DirtyWater;	//污水用量
-	private double RJ_RawWater;	//生水用量
-	private double RJ_DeSaltWater;	//除盐水用量
-	private double RJ_BoilerSteam; //锅炉蒸发量
-	private double RJ_GeneratePower; //发电量
+	private String GroupID;	//值别
+	private String Unit;	//机组
+	private String KKS;
+	private String Description;	//描述
+	private double Lower;	//下限
+	private double Upper;	//上限
+	private double BreakCount; //违规点数量
+	private double DutyHours; //统计小时数
+	private double BreakCountPerHour; //违规点儿数
+	private String PunishWay; //扣分方式
+	private String PunishStandard; 
+	private String PunishPoint;
+	
 	public String getStatDate() {
 		return StatDate;
 	}
 	public void setStatDate(String statDate) {
 		StatDate = statDate;
-	}
-	public String getGroupName() {
-		return GroupName;
-	}
-	public void setGroupName(String groupName) {
-		GroupName = groupName;
-	}
-	public String getDutyName() {
-		return DutyName;
-	}
-	public void setDutyName(String dutyName) {
-		DutyName = dutyName;
 	}
 	public String getGroupID() {
 		return GroupID;
@@ -43,35 +37,72 @@ public class BreakPointForChart {
 	public void setGroupID(String groupID) {
 		GroupID = groupID;
 	}
-	public double getRJ_DirtyWater() {
-		return RJ_DirtyWater;
+	public String getUnit() {
+		return Unit;
 	}
-	public void setRJ_DirtyWater(double rJ_DirtyWater) {
-		RJ_DirtyWater = rJ_DirtyWater;
+	public void setUnit(String unit) {
+		Unit = unit;
 	}
-	public double getRJ_RawWater() {
-		return RJ_RawWater;
+	public String getKKS() {
+		return KKS;
 	}
-	public void setRJ_RawWater(double rJ_RawWater) {
-		RJ_RawWater = rJ_RawWater;
+	public void setKKS(String kKS) {
+		KKS = kKS;
 	}
-	public double getRJ_DeSaltWater() {
-		return RJ_DeSaltWater;
+	public String getDescription() {
+		return Description;
 	}
-	public void setRJ_DeSaltWater(double rJ_DeSaltWater) {
-		RJ_DeSaltWater = rJ_DeSaltWater;
+	public void setDescription(String description) {
+		Description = description;
 	}
-	public double getRJ_BoilerSteam() {
-		return RJ_BoilerSteam;
+	public double getLower() {
+		return Lower;
 	}
-	public void setRJ_BoilerSteam(double rJ_BoilerSteam) {
-		RJ_BoilerSteam = rJ_BoilerSteam;
+	public void setLower(double lower) {
+		Lower = lower;
 	}
-	public double getRJ_GeneratePower() {
-		return RJ_GeneratePower;
+	public double getUpper() {
+		return Upper;
 	}
-	public void setRJ_GeneratePower(double rJ_GeneratePower) {
-		RJ_GeneratePower = rJ_GeneratePower;
+	public void setUpper(double upper) {
+		Upper = upper;
+	}
+	public double getBreakCount() {
+		return BreakCount;
+	}
+	public void setBreakCount(double breakCount) {
+		BreakCount = breakCount;
+	}
+	public double getDutyHours() {
+		return DutyHours;
+	}
+	public void setDutyHours(double dutyHours) {
+		DutyHours = dutyHours;
+	}
+	public double getBreakCountPerHour() {
+		return BreakCountPerHour;
+	}
+	public void setBreakCountPerHour(double breakCountPerHour) {
+		BreakCountPerHour = breakCountPerHour;
+	}
+
+	public String getPunishStandard() {
+		return PunishStandard;
+	}
+	public void setPunishStandard(String punishStandard) {
+		PunishStandard = punishStandard;
+	}
+	public String getPunishPoint() {
+		return PunishPoint;
+	}
+	public void setPunishPoint(String punishPoint) {
+		PunishPoint = punishPoint;
+	}
+	public void setPunishWay(String punishWay) {
+		PunishWay = punishWay;
+	}
+	public String getPunishWay() {
+		return PunishWay;
 	}
 
 

@@ -9,19 +9,20 @@ package com.fh.entity.system;
  * 
  */
 public class BreakPointForGrid {
+
 	
 	private String StatDate;	//日期
 	private String GroupID;	//值别
-	private String Unit;	
+	private String Unit;	//机组
 	private String KKS;
-	private String Description;
-	private double Lower;	
-	private double Upper;	
-	private double BreakCount;	
-	private double DutyHours; 
-	private double BreakCountPerHour; 
-	private String PunishWay;
-	private String PunishStandard;
+	private String Description;	//描述
+	private double Lower;	//下限
+	private double Upper;	//上限
+	private double BreakCount; //违规点数量
+	private double DutyHours; //统计小时数
+	private double BreakCountPerHour; //违规点儿数
+	private String PunishWay; //扣分方式
+	private String PunishStandard; 
 	private String PunishPoint;
 	
 	public String getStatDate() {
@@ -84,12 +85,7 @@ public class BreakPointForGrid {
 	public void setBreakCountPerHour(double breakCountPerHour) {
 		BreakCountPerHour = breakCountPerHour;
 	}
-	public String getPunishWay() {
-		return PunishWay;
-	}
-	public void setPunishWay(String punishWay) {
-		PunishWay = punishWay;
-	}
+
 	public String getPunishStandard() {
 		return PunishStandard;
 	}
@@ -102,5 +98,12 @@ public class BreakPointForGrid {
 	public void setPunishPoint(String punishPoint) {
 		PunishPoint = punishPoint;
 	}
+	public void setPunishWay(String punishWay) {
+		PunishWay = punishWay;
+	}
+	public String getPunishWay() {
+		return PunishWay;
+	}
+
 
 }

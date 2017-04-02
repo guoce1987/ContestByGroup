@@ -77,15 +77,15 @@ public class PowerRatioController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (AuxPowerRatioForChart AuxPowerRatioForChart : powerRatioListForChart) {
-				jsonObject.element("value", AuxPowerRatioForChart.get);
+				jsonObject.element("value", AuxPowerRatioForChart.getRJ_AuxPowerRatio());
 				powerRatioArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("powerratio/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray powerRatioForGridList = JSONArray.fromObject(powerRatioListForGrid);
 			mv.addObject("powerRatioForGridList", powerRatioForGridList);
-			mv.addObject("powerRatioArray", powerRatioArray);
+			mv.addObject("auxPowerRatioArray", powerRatioArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -128,7 +128,7 @@ public class PowerRatioController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (AuxPowerRatioForChart AuxPowerRatioForChart : powerRatioListForChart) {
-					jsonObject.element("value", AuxPowerRatioForChart.get);
+					jsonObject.element("value", AuxPowerRatioForChart.getRJ_AuxPowerRatio());
 					powerRatioArray.add(jsonObject);
 				}
 
@@ -137,7 +137,7 @@ public class PowerRatioController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("厂用电率")){
 						data.element("data", powerRatioArray);
 					}
 				}

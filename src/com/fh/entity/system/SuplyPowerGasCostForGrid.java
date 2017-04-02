@@ -11,7 +11,8 @@ package com.fh.entity.system;
 public class SuplyPowerGasCostForGrid {
 	
 	private String StatDate;
-	private String GroupId;
+	private String Dutyid;
+	private String Dutyname;
 	private String GroupName;
 	private double  RJ_generatepower;
 	private double  RJ_suplypower;
@@ -31,12 +32,6 @@ public class SuplyPowerGasCostForGrid {
 	}
 	public void setStatDate(String statDate) {
 		StatDate = statDate;
-	}
-	public String getGroupId() {
-		return GroupId;
-	}
-	public void setGroupId(String groupId) {
-		GroupId = groupId;
 	}
 	public String getGroupName() {
 		return GroupName;
@@ -73,6 +68,18 @@ public class SuplyPowerGasCostForGrid {
 	}
 	public void setRJ_gas3flow(double rJ_gas3flow) {
 		RJ_gas3flow = rJ_gas3flow;
+	}
+	public String getDutyid() {
+		return Dutyid;
+	}
+	public void setDutyid(String dutyid) {
+		Dutyid = dutyid;
+	}
+	public String getDutyname() {
+		return Dutyname;
+	}
+	public void setDutyname(String dutyname) {
+		Dutyname = dutyname;
 	}
 	public double getRJ_gastotal() {
 		return RJ_gastotal;

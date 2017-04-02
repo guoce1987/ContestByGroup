@@ -75,14 +75,14 @@ public class NoxIndexController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (NoxIndexForChart NoxIndexForChart : noxIndexListForChart) {
-				jsonObject.element("value", NoxIndexForChart.get);
+				jsonObject.element("value", NoxIndexForChart.getRJ_Nox());
 				noxIndexArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("nox/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray noxIndexForGridList = JSONArray.fromObject(noxIndexListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", noxIndexForGridList);
+			mv.addObject("noxIndexForGridList", noxIndexForGridList);
 			mv.addObject("noxIndexArray", noxIndexArray);
 			
 			mv.addObject("year", year);
@@ -126,7 +126,7 @@ public class NoxIndexController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (NoxIndexForChart NoxIndexForChart : noxIndexListForChart) {
-					jsonObject.element("value", NoxIndexForChart.get);
+					jsonObject.element("value", NoxIndexForChart.getRJ_Nox());
 					noxIndexArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class NoxIndexController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("脱硝")){
 						data.element("data", noxIndexArray);
 					}
 				}

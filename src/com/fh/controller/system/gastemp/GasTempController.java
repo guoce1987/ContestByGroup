@@ -81,11 +81,11 @@ public class GasTempController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (GasTempForChart GasTempForChart : gasTempListForChart) {
-				jsonObject.element("value", GasTempForChart.ge);
+				jsonObject.element("value", GasTempForChart.getRJ_GasTempDiff());
 				gasTempArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("gastemp/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray gasTempListForGridList = JSONArray.fromObject(gasTempListForGrid);
 			mv.addObject("gasTempListForGridList", gasTempListForGridList);
@@ -132,7 +132,7 @@ public class GasTempController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (GasTempForChart GasTempForChart : gasTempListForChart) {
-					jsonObject.element("value", GasTempForChart.ge);
+					jsonObject.element("value", GasTempForChart.getRJ_GasTempDiff());
 					gasTempArray.add(jsonObject);
 				}
 				
@@ -141,7 +141,7 @@ public class GasTempController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("排烟温度")){
 						data.element("data", gasTempArray);
 					}
 				}

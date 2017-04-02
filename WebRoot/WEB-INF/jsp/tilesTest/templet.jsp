@@ -56,7 +56,22 @@
 		<input type="hidden" id="breakPointArray" value=${breakPointArray}>
 		
 		<!-- 供电气耗 -->
-		<input type="hidden" id="suplyPowerGasCostListForGridList" value=${suplyPowerGasCostListForGridList}> 
+		<input type="hidden" id="suplyPowerGasCostListForGridList" value=${suplyPowerGasCostListForGridList}>
+		
+		<!-- 排烟温度 -->
+		<input type="hidden" id="gasTempListForGridList" value=${gasTempListForGridList}>
+		
+		<!-- 真空 -->
+		<input type="hidden" id="vacmIndexForGridList" value=${vacmIndexForGridList}>
+		
+		<!-- 脱硝 -->
+		<input type="hidden" id="noxIndexForGridList" value=${noxIndexForGridList}>
+		
+		<!-- 违规扣分 -->
+		<input type="hidden" id="breakPointForGridList" value=${breakPointForGridList}>
+		
+		<!-- 厂用电率 -->
+		<input type="hidden" id="powerRatioForGridList" value=${powerRatioForGridList}>
 		
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>
@@ -125,6 +140,3 @@
 		</c:forEach>
 	</body>
 </html>
-
-
-

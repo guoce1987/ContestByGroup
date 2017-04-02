@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.EconomyIndexForGrid;
 import com.fh.entity.system.SuplyPowerGasCostForChart;
 import com.fh.entity.system.SuplyPowerGasCostForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -171,8 +170,8 @@ public class GasCostController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
-				List<EconomyIndexForGrid> economyIndexListForGrid = contestResultService.listAllEconomyIndexForGrid(pd);
-				jsonArr = JSONArray.fromObject(economyIndexListForGrid);
+				List<SuplyPowerGasCostForGrid> suplyPowerGasCostListForGrid = contestResultService.listAllSuplyPowerGasCostForGrid(pd);
+				jsonArr = JSONArray.fromObject(suplyPowerGasCostListForGrid);
 			} catch(Exception e){
 				logger.error(e.toString(), e);
 			}
