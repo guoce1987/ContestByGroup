@@ -74,7 +74,7 @@
 								<c:choose>
 									<c:when test="${not empty sub.MENU_URL}">
 									<li id="z${sub.MENU_ID }">
-									<a style="cursor:pointer;" target="mainFrame"  onClick="location.href='http://www.ddhbb.com/'""siMenu('z${sub.MENU_ID }','lm${menu.MENU_ID }','${sub.MENU_NAME }','${sub.MENU_URL }')"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>
+									<a style="cursor:pointer;" target="page-content"  onClick="location.href='<%=basePath%>${sub.MENU_URL}'"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>
 									</c:when>
 									<c:otherwise>
 									<li><a href="javascript:void(0);"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>

@@ -55,6 +55,9 @@
 		<input type="hidden" id="waterCostArray" value=${waterCostArray}>
 		<input type="hidden" id="breakPointArray" value=${breakPointArray}>
 		
+		<!-- 供电气耗 -->
+		<input type="hidden" id="suplyPowerGasCostListForGridList" value=${suplyPowerGasCostListForGridList}> 
+		
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>
 		</div>

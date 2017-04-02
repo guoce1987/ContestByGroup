@@ -1,17 +1,21 @@
 	var year = $("#year").val();
 	var month = $("#month").val();
-	JSONArray suplyPowerGasCostArray = JSON.parse($("#suplyPowerGasCostArray").val());  //供电气耗
-	JSONArray gasTempArray = JSON.parse($("#gasTempArray").val()); //排烟温度
-	JSONArray vacmIndexArray = JSON.parse($("#vacmIndexArray").val());  //真空
-	JSONArray noxIndexArray = JSON.parse($("#noxIndexArray").val());  //脱硝
-	JSONArray auxPowerRatioArray = JSON.parse($("#auxPowerRatioArray").val()); //厂用电率    ? 这个没有取值
-	JSONArray operationScoreArray = JSON.parse($("#operationScoreArray").val());  //操作加分
-	JSONArray waterCostArray =  JSON.parse($("#waterCostArray").val()); //综合水耗
-	JSONArray breakPointArray = JSON.parse($("#breakPointArray").val());  //违规扣分
+	var suplyPowerGasCostArray = JSON.parse($("#suplyPowerGasCostArray").val());  //供电气耗
+	var gasTempArray = JSON.parse($("#gasTempArray").val()); //排烟温度
+	var vacmIndexArray = JSON.parse($("#vacmIndexArray").val());  //真空
+	var noxIndexArray = JSON.parse($("#noxIndexArray").val());  //脱硝
+	var auxPowerRatioArray = JSON.parse($("#auxPowerRatioArray").val()); //厂用电率    ? 这个没有取值
+	var operationScoreArray = JSON.parse($("#operationScoreArray").val());  //操作加分
+	var waterCostArray =  JSON.parse($("#waterCostArray").val()); //综合水耗
+	var breakPointArray = JSON.parse($("#breakPointArray").val());  //违规扣分
 	var grid_data = JSON.parse($("#economyIndexListForGrid").val());
 	var fusioncharts = null;
 
 			jQuery(function($) {
+				$("#lm5 ul").removeClass("nav-hide");
+				$("#lm5 ul").addClass("nav-show");
+				$("#lm5 ul").show();
+				$("#z6").addClass("active");  //设置该页菜单为选中状态
 				
 				$( "#datepicker" ).datepicker({
 					  language: 'zh-CN',	
@@ -21,21 +25,6 @@
 					  todayBtn: true
 				});
 				$("#datepicker").datepicker("setDate", year+"-"+month);//设置
-				
-				var d1 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d1.push([i, Math.sin(i)]);
-				}
-			
-				var d2 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d2.push([i, Math.cos(i)]);
-				}
-			
-				var d3 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.2) {
-					d3.push([i, Math.tan(i)]);
-				}
 
 				var grid_selector = "#grid-table";
 				var pager_selector = "#grid-pager";
@@ -89,14 +78,24 @@
 					data: grid_data,
 					datatype: "local",
 					height: 250,
-
-					colNames:['日期','班次','班名', '值别', '供热量'],
+					colNames:['日期','值别','供电气耗', '得分','综合厂用电率', '操作加分','NOX偏差累计','得分','排烟温度偏差累计','得分','真空偏差累计','得分','二级污水补水率', '除盐水补水率','违规点罚分','总分'],
 					colModel:[
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'dutyID',index:'dutyID',width:90, sorttype:"text"},
-						{name:'dutyName',index:'dutyName',width:90, sorttype:"text"},
 						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
-						{name:'RJ_SuplyHeat',index:'RJ_SuplyHeat',width:90, sorttype:"double"}
+						{name:'RJ_SuplyPowerGasCost',index:'RJ_SuplyPowerGasCost',width:90, sorttype:"double"},
+						{name:'RJ_SuplyPowerGasCostScore',index:'RJ_SuplyPowerGasCostScore',width:90, sorttype:"double"},
+						{name:'RJ_PlantUsePowerRatio',index:'RJ_PlantUsePowerScore',width:110, sorttype:"double"},
+						{name:'RJ_OperationScore',index:'RJ_OperationScore',width:90, sorttype:"double"},
+						{name:'RJ_Nox',index:'RJ_Nox',width:110, sorttype:"double"},
+						{name:'RJ_NoxScore',index:'RJ_NoxScore',width:90, sorttype:"double"},
+						{name:'RJ_GasTempDiff',index:'RJ_GasTempDiff',width:120, sorttype:"double"},
+						{name:'RJ_GasTempScore',index:'RJ_GasTempScore',width:90, sorttype:"double"},
+						{name:'RJ_VacmDiff',index:'RJ_VacmDiff',width:150, sorttype:"double"},
+						{name:'RJ_VacmScore',index:'RJ_VacmScore',width:90, sorttype:"double"},
+						{name:'RJ_DirtyWaterRatio',index:'RJ_DirtyWaterRatio',width:130, sorttype:"double"},
+						{name:'RJ_DesaltWaterRatio',index:'RJ_DesaltWaterRatio',width:130, sorttype:"double"},
+						{name:'RJ_BreakPunishScore',index:'RJ_BreakPunishScore',width:90, sorttype:"double"},
+						{name:'RJ_TotalScore',index:'RJ_TotalScore',width:90, sorttype:"double"}
 					], 
 			
 					viewrecords : true,
@@ -592,7 +591,7 @@
 
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "heat/getGridData.do?year="+year+"&&month="+month,
+	 	               url: "economy/getGridData.do?year="+year+"&&month="+month,
 	 	               success: function(data){
 	 	            	   		grid_data = data;
 	 	            	   		$("#grid-table").jqGrid("clearGridData");
@@ -606,7 +605,7 @@
 	 			var json = fusioncharts.getJSONData();
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "heat/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
+	 	               url: "economy/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
 	 	               success: function(data){
 	 	            	   		json=data;
 	 	                      fusioncharts.setJSONData(json);

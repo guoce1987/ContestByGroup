@@ -241,76 +241,70 @@
 	<!-- 供电气耗 -->
 	<resultMap type="SuplyPowerGasCostForChart" id="suplyPowerGasCostMapForChart">
 		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_SuplyPowerCoalCost" property="RJ_SuplyPowerCoalCost"/>
 		<result column="RJ_SuplyPowerGasCostScore" property="RJ_SuplyPowerGasCostScore"/>
-		<result column="RJ_PlantUsePowerScore" property="RJ_PlantUsePowerScore"/>
-		<result column="RJ_WaterAdditionScore" property="RJ_WaterAdditionScore"/>
-		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
-		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
-		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
-		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
-		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
+		<result column="RJ_SuplyPowerGasCost" property="RJ_SuplyPowerGasCost"/>
 	</resultMap>
 	
 	<resultMap type="SuplyPowerGasCostForGrid" id="suplyPowerGasCostMapForGrid">
 		<result column="StatDate" property="StatDate"/>
-		<result column="GroupId" property="GroupId"/>
+		<result column="Dutyname" property="Dutyname"/>
+		<result column="Dutyid" property="Dutyid"/>
 		<result column="GroupName" property="GroupName"/>
-		<result column="RJ_SuplyPowerGasCost" property="RJ_SuplyPowerGasCost"/>
-		<result column="RJ_SuplyPowerGasCostScore" property="RJ_SuplyPowerGasCostScore"/>
-		<result column="RJ_PlantUsePowerRatio" property="RJ_PlantUsePowerRatio"/>
-		<result column="RJ_PlantUsePowerScore" property="RJ_PlantUsePowerScore"/>
-		<result column="RJ_DesaltWaterRatio" property="RJ_DesaltWaterRatio"/>
-		<result column="RJ_DirtyWaterRatio     " property="RJ_DirtyWaterRatio     "/>
-		<result column="RJ_WaterAdditionScore" property="RJ_WaterAdditionScore"/>
-		<result column="RJ_OperationScore" property="RJ_OperationScore"/>
-		<result column="RJ_GasTempDiff" property="RJ_GasTempDiff"/>
-		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
-		<result column="RJ_VacmDiff" property="RJ_VacmDiff"/>
-		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
-		<result column="RJ_Nox" property="RJ_Nox"/>
-		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
-		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
-		<result column="RJ_TotalScore" property="RJ_TotalScore"/>
+		<result column="RJ_generatepower" property="RJ_generatepower"/>
+		<result column="RJ_suplypower" property="RJ_suplypower"/>
+		<result column="RJ_gas1flow" property="RJ_gas1flow"/>
+		<result column="RJ_gas2flow" property="RJ_gas2flow"/>
+		<result column="RJ_gas3flow" property="RJ_gas3flow"/>
+		<result column="RJ_gastotal" property="RJ_gastotal"/>
+		<result column="RJ_gasquantity" property="RJ_gasquantity"/>
+		<result column="RJ_gascost" property="RJ_gascost"/>
+		<result column="RJ_suplypowercoalcost" property="RJ_suplypowercoalcost"/>
+		<result column="RJ_totalplantusepowerflow" property="RJ_totalplantusepowerflow"/>
+		<result column="RJ_produceusepowerflow" property="RJ_produceusepowerflow"/>
+		<result column="RJ_heatpureusepowerflow" property="RJ_heatpureusepowerflow"/>
 	</resultMap>
 	
-	<!-- 列出所有的燃机总指标(图) -->
+	<!-- 列出所有的供电气耗 指标(图) -->
 	<select id="listAllSuplyPowerGasCostForChart" resultMap="suplyPowerGasCostMapForChart"  parameterType="pd">
 			select
 			 GroupName,
+			 RJ_SuplyPowerCoalCost,
 			 RJ_SuplyPowerGasCostScore,
-			 RJ_PlantUsePowerScore,
-			 RJ_WaterAdditionScore,
-			 RJ_OperationScore,
-			 RJ_GasTempScore,
-			 RJ_VacmScore,
-			 RJ_NoxScore,
-			 RJ_BreakPunishScore
+			 RJ_SuplyPowerGasCost
 			from vw_Economy_Month
 					 where year(StatDate)= #{year} and month(StatDate) = #{month}
 	</select>
-	<!-- 列出所有的燃机总指标(表) -->
+	<!-- 列出所有的供电气耗指标(表) -->
 	<select id="listAllSuplyPowerGasCostForGrid" resultMap="suplyPowerGasCostMapForGrid"  parameterType="pd">
-			 SELECT r.StatDate
-			      ,r.GroupId
-			      ,groupName
-			      ,RJ_SuplyPowerGasCost
-			      ,RJ_SuplyPowerGasCostScore
-			      ,RJ_PlantUsePowerRatio
-			      ,RJ_PlantUsePowerScore
-			      ,ROUND(RJ_DesaltWaterRatio,4) AS RJ_DesaltWaterRatio
-			      ,ROUND(RJ_DirtyWaterRatio,4) AS RJ_DirtyWaterRatio     
-			      ,RJ_WaterAdditionScore
-			      ,RJ_OperationScore
-			      ,RJ_GasTempDiff
-			      ,RJ_GasTempScore
-			      ,RJ_VacmDiff
-			      ,RJ_VacmScore
-			      ,RJ_Nox
-			      ,RJ_NoxScore
-			      ,RJ_BreakPunishScore
-			      ,r.RJ_TotalScore
-			      FROM  vw_Economy_Month r    
-			 WHERE (YEAR(R.StatDate) = #{year}) AND (MONTH(R.StatDate) = #{month})
+	
+			 select c.Dutyid,
+			        c.Statdate                  ,
+			        d.Dutyname                  ,
+			        g.Groupname                 ,
+			        c.RJ_generatepower          ,
+			        c.RJ_suplypower             ,
+			        t.RJ_gas1flow               ,
+			        t.RJ_gas2flow               ,
+			        t.RJ_gas3flow               ,
+			        c.RJ_gastotal               ,
+			        c.RJ_gasquantity            ,
+			        RJ_gascost                  ,
+			        RJ_suplypowercoalcost       ,
+			        t.RJ_totalplantusepowerflow ,
+			        t.RJ_produceusepowerflow    ,
+			        t.RJ_heatpureusepowerflow   
+			   from coalcost as c
+			  inner join dutydic as d
+			     on c.dutyid = d.dutyid
+			  inner join groupdic as g
+			     on c.groupid = g.id
+			  inner join tablefloor as t
+			     on c.statdate = t.statdate
+			    and c.dutyid = t.dutyid
+			  where (year(c.statdate) = #{year})
+			    and (month(c.statdate) = #{month})
+			  order by c.statdate desc, c.dutyid desc
 	</select>
 	
 	<!-- 排烟温度 -->

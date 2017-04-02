@@ -11,15 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
-import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.Role;
-import com.fh.entity.system.SecurityIndexForChart;
-import com.fh.entity.system.SecurityIndexForGrid;
 import com.fh.entity.system.SuplyPowerGasCostForChart;
 import com.fh.entity.system.SuplyPowerGasCostForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -28,7 +20,6 @@ import com.fh.service.system.role.RoleService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
-import com.guoce.schedule.MyFirstSchedule;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -83,15 +74,15 @@ public class GasCostController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (SuplyPowerGasCostForChart SuplyPowerGasCostForChart : suplyPowerGasCostListForChart) {
-				jsonObject.element("value", SuplyPowerGasCostForChart.ge);
+				jsonObject.element("value", SuplyPowerGasCostForChart.getRJ_SuplyPowerGasCost());
 				suplyPowerGasCostArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("gascost/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray suplyPowerGasCostListForGridList = JSONArray.fromObject(suplyPowerGasCostListForGrid);
 			mv.addObject("suplyPowerGasCostListForGridList", suplyPowerGasCostListForGridList);
-			mv.addObject("heatScoreArray", suplyPowerGasCostArray);
+			mv.addObject("suplyPowerGasCostArray", suplyPowerGasCostArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -135,7 +126,7 @@ public class GasCostController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (SuplyPowerGasCostForChart SuplyPowerGasCostForChart : suplyPowerGasCostListForChart) {
-					jsonObject.element("value", SuplyPowerGasCostForChart.ge);
+					jsonObject.element("value", SuplyPowerGasCostForChart.getRJ_SuplyPowerGasCost());
 					suplyPowerGasCostArray.add(jsonObject);
 				}
 
@@ -144,7 +135,7 @@ public class GasCostController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("供电气耗")){
 						data.element("data", suplyPowerGasCostArray);
 					}
 				}
