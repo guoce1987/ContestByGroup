@@ -12,20 +12,21 @@ public class OperationScoreForChart {
 
 	
 	private String GroupName;	//值别
-	private double RJ_OperationScore ;	//班均发电量
-	
+	private double RJ_OperationScore ;	//操作加分
 	public String getGroupName() {
 		return GroupName;
 	}
 	public void setGroupName(String groupName) {
 		GroupName = groupName;
 	}
-	public double getRJ_GeneratePowerAvg() {
+	public double getRJ_OperationScore() {
 		return RJ_OperationScore;
 	}
-	public void setRJ_GeneratePowerAvg(double rJ_OperationScore) {
+	public void setRJ_OperationScore(double rJ_OperationScore) {
 		RJ_OperationScore = rJ_OperationScore;
 	}
+	
+
 
 
 	

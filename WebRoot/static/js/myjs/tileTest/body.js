@@ -7,6 +7,8 @@
 	var fusioncharts = null;
 			jQuery(function($) {
 				
+				$("#lm1").addClass("active");  //设置该页菜单为选中状态
+				
 				$( "#datepicker" ).datepicker({
 					  language: 'zh-CN',	
 					  autoclose: true,

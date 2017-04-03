@@ -41,26 +41,27 @@
 			    })
 
 				jQuery(grid_selector).jqGrid({
-
-					subGrid : true,
-
-					subGridOptions : {
-						plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-						minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-						openicon : "ace-icon fa fa-chevron-right center orange"
-					},	
 			
 					data: grid_data,
 					datatype: "local",
 					height: 250,
 
-					colNames:['日期','班次','班名', '值别', '供热量'],
+
+					colNames:['日期','值别','机组', '测点', '描述','下限','上限','违规点数量','统计小时数','违规点数(每小时)','扣分方式','扣分标准','扣分点'],
 					colModel:[
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'dutyID',index:'dutyID',width:90, sorttype:"text"},
-						{name:'dutyName',index:'dutyName',width:90, sorttype:"text"},
-						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
-						{name:'RJ_SuplyHeat',index:'RJ_SuplyHeat',width:90, sorttype:"double"}
+						{name:'GroupID',index:'GroupID',width:90, sorttype:"text"},
+						{name:'Unit',index:'Unit',width:90, sorttype:"text"},
+						{name:'KKS',index:'KKS',width:90, sorttype:"text"},
+						{name:'Description',index:'Description',width:90, sorttype:"text"},
+						{name:'Lower',index:'Lower',width:90, sorttype:"double"},
+						{name:'Upper',index:'Upper',width:90, sorttype:"double"},
+						{name:'BreakCount',index:'BreakCount',width:90, sorttype:"double"},
+						{name:'DutyHours',index:'DutyHours',width:90, sorttype:"double"},
+						{name:'BreakCountPerHour',index:'BreakCountPerHour',width:90, sorttype:"double"},
+						{name:'PunishWay',index:'PunishWay',width:90, sorttype:"text"},
+						{name:'PunishStandard',index:'PunishStandard',width:90, sorttype:"text"},
+						{name:'PunishPoint',index:'PunishPoint',width:90, sorttype:"text"}
 					], 
 			
 					viewrecords : true,

@@ -75,14 +75,14 @@ public class RewardController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (OperationScoreForChart OperationScoreForChart : rewardListForChart) {
-				jsonObject.element("value", OperationScoreForChart.get);
+				jsonObject.element("value", OperationScoreForChart.getRJ_OperationScore());
 				rewardArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("reward/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray rewardForGridList = JSONArray.fromObject(rewardListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", rewardForGridList);
+			mv.addObject("rewardForGridList", rewardForGridList);
 			mv.addObject("rewardArray", rewardArray);
 			
 			mv.addObject("year", year);
@@ -126,7 +126,7 @@ public class RewardController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (OperationScoreForChart OperationScoreForChart : rewardListForChart) {
-					jsonObject.element("value", OperationScoreForChart.get);
+					jsonObject.element("value", OperationScoreForChart.getRJ_OperationScore());
 					rewardArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class RewardController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("操作加分")){
 						data.element("data", rewardArray);
 					}
 				}

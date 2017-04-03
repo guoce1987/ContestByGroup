@@ -68,22 +68,22 @@ public class TrainScoreController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<TrainScoreForGrid> spiritScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
-			List<TrainScoreForChart> spiritScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
+			List<TrainScoreForGrid> trainScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
+			List<TrainScoreForChart> trainScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
 			
-			JSONArray spiritScoreArray = new JSONArray();  
+			JSONArray trainScoreArray = new JSONArray();  
 
 			JSONObject jsonObject = new JSONObject();
-			for (TrainScoreForChart TrainScoreForChart : spiritScoreListForChart) {
-				jsonObject.element("value", TrainScoreForChart.get);
-				spiritScoreArray.add(jsonObject);
+			for (TrainScoreForChart TrainScoreForChart : trainScoreListForChart) {
+				jsonObject.element("value", TrainScoreForChart.getRJ_TrainScore());
+				trainScoreArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("trainscore/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray spiritScoreForGridList = JSONArray.fromObject(spiritScoreListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", spiritScoreForGridList);
-			mv.addObject("spiritScoreArray", spiritScoreArray);
+			JSONArray trainScoreForGridList = JSONArray.fromObject(trainScoreListForGrid);
+			mv.addObject("trainScoreForGridList", trainScoreForGridList);
+			mv.addObject("trainScoreArray", trainScoreArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -120,14 +120,14 @@ public class TrainScoreController extends BaseController {
 				page.setPd(pd);
 
 				
-				List<TrainScoreForChart> spiritScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
+				List<TrainScoreForChart> trainScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
 				
-				JSONArray spiritScoreArray = new JSONArray();  
+				JSONArray trainScoreArray = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
-				for (TrainScoreForChart TrainScoreForChart : spiritScoreListForChart) {
-					jsonObject.element("value", TrainScoreForChart.get);
-					spiritScoreArray.add(jsonObject);
+				for (TrainScoreForChart TrainScoreForChart : trainScoreListForChart) {
+					jsonObject.element("value", TrainScoreForChart.getRJ_TrainScore());
+					trainScoreArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -135,8 +135,8 @@ public class TrainScoreController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
-						data.element("data", spiritScoreArray);
+					if(null != data && data.get("seriesname").equals("培训得分")){
+						data.element("data", trainScoreArray);
 					}
 				}
 				
@@ -171,8 +171,8 @@ public class TrainScoreController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
-				List<TrainScoreForGrid> spiritScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
-				jsonArr = JSONArray.fromObject(spiritScoreListForGrid);
+				List<TrainScoreForGrid> trainScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
+				jsonArr = JSONArray.fromObject(trainScoreListForGrid);
 			} catch(Exception e){
 				logger.error(e.toString(), e);
 			}

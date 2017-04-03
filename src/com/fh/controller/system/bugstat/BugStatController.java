@@ -75,14 +75,14 @@ public class BugStatController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (BugStatForChart BugStatForChart : bugStatListForChart) {
-				jsonObject.element("value", BugStatForChart.get);
+				jsonObject.element("value", BugStatForChart.getRJ_BugSum());
 				bugStatArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("bugstat/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray bugStatForGridList = JSONArray.fromObject(bugStatListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", bugStatForGridList);
+			mv.addObject("bugStatForGridList", bugStatForGridList);
 			mv.addObject("bugStatArray", bugStatArray);
 			
 			mv.addObject("year", year);
@@ -126,7 +126,7 @@ public class BugStatController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (BugStatForChart BugStatForChart : bugStatListForChart) {
-					jsonObject.element("value", BugStatForChart.get);
+					jsonObject.element("value", BugStatForChart.getRJ_BugSum());
 					bugStatArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class BugStatController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("设备消缺")){
 						data.element("data", bugStatArray);
 					}
 				}

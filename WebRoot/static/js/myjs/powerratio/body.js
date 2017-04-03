@@ -46,13 +46,16 @@
 					datatype: "local",
 					height: 250,
 
-					colNames:['日期','班次','班名', '值别', '供热量'],
+					colNames:['ID','日期','值别','班名','厂用电率', '燃机发电量', '燃机供电量','#3启备变电量'],
 					colModel:[
+					    {name:'ID',index:'ID', width:90, sorttype:"text"},
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'dutyID',index:'dutyID',width:90, sorttype:"text"},
-						{name:'dutyName',index:'dutyName',width:90, sorttype:"text"},
 						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
-						{name:'RJ_SuplyHeat',index:'RJ_SuplyHeat',width:90, sorttype:"double"}
+						{name:'dutyName',index:'DutyName',width:90, sorttype:"text"},
+						{name:'RJ_AuxPowerRatio',index:'RJ_AuxPowerRatio',width:90, sorttype:"double"},
+						{name:'RJ_GeneratePower',index:'RJ_GeneratePower',width:90, sorttype:"double"},
+						{name:'RJ_SuplyPower',index:'RJ_SuplyPower',width:90, sorttype:"double"},
+						{name:'XL2213PowerFLow',index:'XL2213PowerFLow',width:90, sorttype:"double"}
 					], 
 			
 					viewrecords : true,

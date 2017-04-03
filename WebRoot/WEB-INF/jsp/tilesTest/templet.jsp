@@ -73,6 +73,25 @@
 		<!-- 厂用电率 -->
 		<input type="hidden" id="powerRatioForGridList" value=${powerRatioForGridList}>
 		
+		<!-- 操作加分 -->
+		<input type="hidden" id="rewardForGridList" value=${rewardForGridList}>
+		<input type="hidden" id="rewardArray" value=${rewardArray}>
+		
+		<!-- 燃机综合水耗 -->
+		<input type="hidden" id="watercostForGridList" value=${watercostForGridList}>
+		
+		<!-- 设备消缺 -->
+		<input type="hidden" id="bugStatForGridList" value=${bugStatForGridList}>
+		<input type="hidden" id="bugStatArray" value=${bugStatArray}>
+
+		<!-- 精神文明 -->
+		<input type="hidden" id="spiritScoreForGridList" value=${spiritScoreForGridList}>
+		<input type="hidden" id="spiritScoreArray" value=${spiritScoreArray}>
+		
+		<!-- 培训得分 -->
+		<input type="hidden" id="trainScoreForGridList" value=${trainScoreForGridList}>
+		<input type="hidden" id="trainScoreArray" value=${trainScoreArray}>
+		
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>
 		</div>

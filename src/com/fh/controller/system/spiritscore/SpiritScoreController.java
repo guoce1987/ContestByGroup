@@ -75,14 +75,14 @@ public class SpiritScoreController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (SpiritScoreForChart SpiritScoreForChart : spiritScoreListForChart) {
-				jsonObject.element("value", SpiritScoreForChart.get);
+				jsonObject.element("value", SpiritScoreForChart.getRJ_SpiritScore());
 				spiritScoreArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("spiritscore/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray spiritScoreForGridList = JSONArray.fromObject(spiritScoreListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", spiritScoreForGridList);
+			mv.addObject("spiritScoreForGridList", spiritScoreForGridList);
 			mv.addObject("spiritScoreArray", spiritScoreArray);
 			
 			mv.addObject("year", year);
@@ -126,7 +126,7 @@ public class SpiritScoreController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (SpiritScoreForChart SpiritScoreForChart : spiritScoreListForChart) {
-					jsonObject.element("value", SpiritScoreForChart.get);
+					jsonObject.element("value", SpiritScoreForChart.getRJ_SpiritScore());
 					spiritScoreArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class SpiritScoreController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("精神文明")){
 						data.element("data", spiritScoreArray);
 					}
 				}

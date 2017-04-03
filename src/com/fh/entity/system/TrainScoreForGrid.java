@@ -11,7 +11,7 @@ package com.fh.entity.system;
 public class TrainScoreForGrid {	
 	
 	private String StatDate;	//日期
-	private String GroupID;	//职别
+	private String GroupName;	//职别
 	private double Score;	//
 	
 
@@ -22,17 +22,17 @@ public class TrainScoreForGrid {
 		StatDate = statDate;
 	}
 
-	public String getGroupID() {
-		return GroupID;
-	}
-	public void setGroupID(String groupID) {
-		GroupID = groupID;
-	}
 	public double getScore() {
 		return Score;
 	}
 	public void setScore(double score) {
 		Score = score;
+	}
+	public String getGroupName() {
+		return GroupName;
+	}
+	public void setGroupName(String groupName) {
+		GroupName = groupName;
 	}
 
 

@@ -7,6 +7,8 @@
 
 			jQuery(function($) {
 				
+				$("#lm2").addClass("active");  //设置该页菜单为选中状态
+				
 				$( "#datepicker" ).datepicker({
 					  language: 'zh-CN',	
 					  autoclose: true,

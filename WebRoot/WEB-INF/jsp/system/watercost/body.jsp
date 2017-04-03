@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
 						<div class="page-header">
 							<h1>
-								供热指标
+								燃机综合水耗
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									查询供热指标
+									查询燃机综合水耗
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -36,7 +36,7 @@
 											<div class="widget-header widget-header-flat">
 												<h4 class="widget-title lighter">
 													<i class="ace-icon fa fa-signal"></i>
-													安全指标
+													燃机综合水耗
 												</h4>
 
 												<div class="widget-toolbar">

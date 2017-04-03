@@ -75,15 +75,15 @@ public class WaterCostController extends BaseController {
 
 			JSONObject jsonObject = new JSONObject();
 			for (WaterCostForChart WaterCostForChart : watercostListForChart) {
-				jsonObject.element("value", WaterCostForChart.get);
+				jsonObject.element("value", WaterCostForChart.getRJ_DeSaltWater());
 				watercostArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("watercost/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray watercostForGridList = JSONArray.fromObject(watercostListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", watercostForGridList);
-			mv.addObject("watercostArray", watercostArray);
+			mv.addObject("watercostForGridList", watercostForGridList);
+			mv.addObject("waterCostArray", watercostArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -126,7 +126,7 @@ public class WaterCostController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (WaterCostForChart WaterCostForChart : watercostListForChart) {
-					jsonObject.element("value", WaterCostForChart.get);
+					jsonObject.element("value", WaterCostForChart.getRJ_DeSaltWater());
 					watercostArray.add(jsonObject);
 				}
 
@@ -135,7 +135,7 @@ public class WaterCostController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
+					if(null != data && data.get("seriesname").equals("综合水耗")){
 						data.element("data", watercostArray);
 					}
 				}

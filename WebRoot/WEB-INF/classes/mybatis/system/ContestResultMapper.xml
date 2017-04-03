@@ -516,7 +516,7 @@
 				    ID, 
 				    CheckDate,
 				    GroupName,
-				    ItemName
+				    ItemName,
 				    abs(Score) * ratio as OperateAddScore,  
 					Memo
 				FROM Vw_RewardPunishLog
@@ -626,7 +626,7 @@
 	<!-- 设备消缺 -->
 	<resultMap type="BugStatForChart" id="bugStatMapForChart">
 		<result column="StatDate" property="StatDate"/>
-		<result column="GroupID" property="GroupID"/>
+		<result column="GroupName" property="GroupName"/>
 		<result column="RJ_BugSum" property="RJ_BugSum"/>
 	</resultMap>
 	
@@ -644,7 +644,7 @@
 	<select id="listAllBugStatForChart" resultMap="bugStatMapForChart"  statementType="CALLABLE" parameterType="pd">
 			select 
 				 StatDate,
-				 GroupID,
+				 GroupName,
 				 RJ_BugSum 
 				from vw_ContestResult
 				where year(StatDate)= #{year} and month(StatDate) = #{month} 
@@ -667,7 +667,7 @@
 	<!-- 精神文明 -->
 	<resultMap type="SpiritScoreForChart" id="spiritScoreMapForChart">
 		<result column="StatDate" property="StatDate"/>
-		<result column="GroupID" property="GroupID"/>
+		<result column="GroupName" property="GroupName"/>
 		<result column="RJ_SpiritScore" property="RJ_SpiritScore"/>
 	</resultMap>
 	
@@ -684,7 +684,7 @@
 	<select id="listAllSpiritScoreForChart" resultMap="spiritScoreMapForChart"  statementType="CALLABLE" parameterType="pd">
 			SELECT 
 				 StatDate,
-				 GroupID,
+				 GroupName,
 				 RJ_SpiritScore
 				FROM vw_ContestResult
 				where year(StatDate)= #{year} and month(StatDate) = #{month} 
@@ -707,13 +707,13 @@
 	<!-- 培训得分 -->
 	<resultMap type="TrainScoreForChart" id="trainScoreMapForChart">
 		<result column="StatDate" property="StatDate"/>
-		<result column="GroupID" property="GroupID"/>
+		<result column="GroupName" property="GroupName"/>
 		<result column="RJ_TrainScore" property="RJ_TrainScore"/>
 	</resultMap>
 	
 	<resultMap type="TrainScoreForGrid" id="trainScoreMapForGrid">
 		<result column="StatDate" property="StatDate"/>
-		<result column="GroupID" property="GroupID"/>
+		<result column="GroupName" property="GroupName"/>
 		<result column="Score" property="Score"/>
 	</resultMap>
 	
@@ -721,7 +721,7 @@
 	<select id="listAllTrainScoreForChart" resultMap="trainScoreMapForChart"  statementType="CALLABLE" parameterType="pd">
 			SELECT 
 				 StatDate,
-				 GroupID,
+				 GroupName,
 				 RJ_TrainScore
 				FROM vw_ContestResult
 				where year(StatDate)= #{year} and month(StatDate) = #{month} 
@@ -730,7 +730,7 @@
 	<select id="listAllTrainScoreForGrid" resultMap="trainScoreMapForGrid"  statementType="CALLABLE" parameterType="pd">
 		SELECT 
 			 StatDate,
-			 GroupID,
+			 GroupName,
 			 Score
 			FROM vw_train
 			WHERE year(StatDate)= #{year} and month(StatDate) = #{month} 
