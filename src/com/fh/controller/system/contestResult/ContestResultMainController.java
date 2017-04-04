@@ -83,7 +83,7 @@ public class ContestResultMainController extends BaseController {
 				economyScoreArray.add(jsonObject);
 			}
 			
-			mv.setViewName("system/admin/index");
+			mv.setViewName("contestResult/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			JSONArray jsonArr = JSONArray.fromObject(contestResultList);
 			mv.addObject("contestResultList", jsonArr);
