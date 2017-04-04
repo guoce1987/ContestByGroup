@@ -56,14 +56,7 @@
 			
 				jQuery(grid_selector).jqGrid({
 
-					subGrid : true,
 
-					subGridOptions : {
-						plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-						minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-						openicon : "ace-icon fa fa-chevron-right center orange"
-					},	
-			
 					data: grid_data,
 					datatype: "local",
 					height: 250,
