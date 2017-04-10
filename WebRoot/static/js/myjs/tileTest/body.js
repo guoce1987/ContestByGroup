@@ -395,6 +395,7 @@
 		        }],
 		        "dataset": [{
 		            "seriesName": "安全得分",
+		            "renderAs": "bar",
 		            "showValues": "1",
 		            "data": safetyScoreArray
 		        }, {

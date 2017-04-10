@@ -124,5 +124,11 @@ public class UserService {
 		return (User) dao.findForObject("UserMapper.getUserAndRoleById", USER_ID);
 	}
 
+	/*
+	*用户列表(郭策)
+	*/
+	public List<PageData> listAllUserGuoCe(PageData pd)throws Exception{
+		return (List<PageData>) dao.findForList("UserXMapper.listAllUserGuoCe", pd);
+	}
 	
 }

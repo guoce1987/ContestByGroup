@@ -44,6 +44,8 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PathUtil;
 import com.fh.util.Tools;
 
+import net.sf.json.JSONArray;
+
 /** 
  * 类名称：UserController
  * 创建人：FH 
@@ -502,4 +504,35 @@ public class UserController extends BaseController {
 		return (Map<String, String>)session.getAttribute(Const.SESSION_QX);
 	}
 	/* ===============================权限================================== */
+	
+	
+	/**
+	 * 显示用户列表(用户组)
+	 */
+	@RequestMapping(value="/getGridData")
+	@ResponseBody
+	public JSONArray listUserAddRoles(Page page)throws Exception{
+		
+
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+			
+			String IdOrName = pd.getString("IdOrName");
+			
+			if(null != IdOrName && !"".equals(IdOrName)){
+				IdOrName = IdOrName.trim();
+				pd.put("IdOrName", IdOrName);
+			}
+
+			List<PageData> userList = userService.listAllUserGuoCe(pd);
+			jsonArr = JSONArray.fromObject(userList);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	
+	}
 }

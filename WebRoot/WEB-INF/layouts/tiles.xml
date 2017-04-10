@@ -187,5 +187,14 @@
             <add-attribute value="static/js/myjs/operation/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    
+    <definition name="system/role/role_list" extends="default">
+        <put-attribute name="title" value="权限管理"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/role/role_list.jsp"/>  
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/role/role.js?v=1.0.0"/>
+            <add-attribute value="static/assets/js/bootbox.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
    
 </tiles-definitions>

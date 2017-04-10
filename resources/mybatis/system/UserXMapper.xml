@@ -300,4 +300,18 @@
              </foreach>
 	</delete>
 	
+	<!-- 用户列表(全部) -->
+	<select id="listAllUserGuoCe" parameterType="pd" resultType="pd" useCache="false">
+		 select 
+			 u.USER_ID,
+			 u.USERNAME,
+			 r.ROLE_NAME,
+			 u.PASSWORD 
+		 from sys_user u,sys_role r 
+		 where u.ROLE_ID = r.ROLE_ID
+		 <if test="IdOrName != null and IdOrName != ''">
+		 	and (u.USER_ID like '%${IdOrName}%'  or u.USERNAME like '%${IdOrName}%')
+		 </if>
+		 order by u.USER_ID
+	</select>
 </mapper>
