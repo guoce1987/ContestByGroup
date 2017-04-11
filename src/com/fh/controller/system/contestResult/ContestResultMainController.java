@@ -73,6 +73,7 @@ public class ContestResultMainController extends BaseController {
 			JSONArray safetyScoreArray = new JSONArray();  //安全得分
 			JSONArray heatScoreArray = new JSONArray();		//供热量得分
 			JSONArray economyScoreArray = new JSONArray();	//经济指标得分
+			
 			JSONObject jsonObject = new JSONObject();
 			for (ContestResult contestResult : contestResultList) {
 				jsonObject.element("value", contestResult.getRJ_SafetyScore());

@@ -400,12 +400,12 @@
 		            "data": safetyScoreArray
 		        }, {
 		            "seriesName": "发电量得分",
-		            "renderAs": "line",
+		            "renderAs": "bar",
 		            "showValues": "1",
 		            "data": economyScoreArray
 		        }, {
 		            "seriesName": "供热得分",
-		            "renderAs": "area",
+		            "renderAs": "bar",
 		            "showValues": "1",
 		            "data": heatScoreArray
 		        }]
