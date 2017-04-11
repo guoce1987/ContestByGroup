@@ -32,6 +32,7 @@
 	</head>
 
 	<body class="no-skin">
+		<input type="hidden" id="date" value="">
 		<input type="hidden" id="contestResultList" value=${contestResultList}>
 		<input type="hidden" id="year" value=${year}>
 		<input type="hidden" id="month" value=${month}>

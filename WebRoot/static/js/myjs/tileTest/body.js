@@ -358,7 +358,7 @@
 				    document.body.removeChild(link);
 				}
 
-		var chartContainer = $('#chart-container').css({'width':'100%' , 'height':'500px'});
+		var chartContainer = $('#chart-container').css({'width':'80%' , 'height':'400px'});
 
 		FusionCharts.ready(function(){
 		    fusioncharts = new FusionCharts({
