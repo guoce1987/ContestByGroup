@@ -8,6 +8,15 @@
 				
 				$("#lm4").addClass("active");  //设置该页菜单为选中状态
 				
+				
+				
+				if (typeof ($.cookie('date')) == "undefined") {
+					$("#datepicker").datepicker("setDate", year+"-"+month);//设置
+				} else {
+					$("#datepicker").val($.cookie('date'));
+				}
+
+
 				$( "#datepicker" ).datepicker({
 					  language: 'zh-CN',	
 					  autoclose: true,
@@ -16,6 +25,12 @@
 					  todayBtn: true
 				});
 				$("#datepicker").datepicker("setDate", year+"-"+month);//设置
+				
+				$("#datepicker").datepicker()
+			    .on("changeMonth", function(e) {
+			    	$.cookie('date', $("#datepicker").val());
+			    	query();
+			    });
 
 				var grid_selector = "#grid-table";
 				var pager_selector = "#grid-pager";
@@ -25,6 +40,7 @@
 				//resize to fit page size
 				$(window).on('resize.jqGrid', function () {
 					$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() ).jqGrid('setGridHeight', 260);
+					$('#chart-container').css({'width':'100%' , 'height':'500px'});
 			    })
 				
 				//resize on sidebar collapse/expand
@@ -37,25 +53,6 @@
 					}
 			    })
 				
-				//if your grid is inside another element, for example a tab pane, you should use its parent's width:
-				/**
-				$(window).on('resize.jqGrid', function () {
-					var parent_width = $(grid_selector).closest('.tab-pane').width();
-					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-				})
-				//and also set width when tab pane becomes visible
-				$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-				  if($(e.target).attr('href') == '#mygrid') {
-					var parent_width = $(grid_selector).closest('.tab-pane').width();
-					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-				  }
-				})
-				*/
-				
-				
-			
-			
-			
 				jQuery(grid_selector).jqGrid({
 			
 					data: grid_data,
@@ -96,33 +93,9 @@
 					editurl: "./dummy.php",//nothing is saved
 					caption: "jqGrid with inline editing"
 			
-					//,autowidth: true,
-			
-			
-					/**
-					,
-					grouping:true, 
-					groupingView : { 
-						 groupField : ['name'],
-						 groupDataSorted : true,
-						 plusicon : 'fa fa-chevron-down bigger-110',
-						 minusicon : 'fa fa-chevron-up bigger-110'
-					},
-					caption: "Grouping"
-					*/
-			
 				});
 				$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-				
 
-				
-
-
-				//enable search/filter toolbar
-				//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-				//jQuery(grid_selector).filterToolbar({});
-			
-			
 				//switch element when editing inline
 				function aceSwitch( cellvalue, options, cell ) {
 					setTimeout(function(){
@@ -552,9 +525,11 @@
 	 	                  }
 	 	            });
 	 			var json = fusioncharts.getJSONData();
+	 			var model ={year:year,month:month,json:JSON.stringify(json)};
 	 			$.ajax({
-	 	               type: "GET",
-	 	               url: "heat/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
+	 	               type: "POST",
+	 	               data: model, 
+	 	               url: "heat/getChartData",
 	 	               success: function(data){
 	 	            	   		json=data;
 	 	                      fusioncharts.setJSONData(json);

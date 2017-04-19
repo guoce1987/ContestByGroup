@@ -44,20 +44,13 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li class="">
-						<a>
-							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text"> 首页 </span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
 
 			<c:forEach items="${menuList}" var="menu">
 				<c:if test="${menu.hasMenu}">
 				<li id="lm${menu.MENU_ID }">
 					<c:if test="${empty menu.subMenu}">
-					  <a style="cursor:pointer;" class="dropdown-toggle" onClick="location.href='<%=basePath%>${menu.MENU_URL}'">
+					  <a style="cursor:pointer;"
+					  	onClick=loadPage('<%=basePath%>${menu.MENU_URL}','lm${menu.MENU_ID }') >
 					</c:if>
 					<c:if test="${!empty menu.subMenu}">
 					  <a style="cursor:pointer;" class="dropdown-toggle">
@@ -74,7 +67,11 @@
 								<c:choose>
 									<c:when test="${not empty sub.MENU_URL}">
 									<li id="z${sub.MENU_ID }">
-									<a style="cursor:pointer;" target="page-content"  onClick="location.href='<%=basePath%>${sub.MENU_URL}'"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>
+										<a style="cursor:pointer;" target="page-content" 
+											onClick=loadPage('<%=basePath%>${sub.MENU_URL}','z${sub.MENU_ID }')>
+											<i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }
+										</a>
+									</li>
 									</c:when>
 									<c:otherwise>
 									<li><a href="javascript:void(0);"><i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }</a></li>
@@ -91,3 +88,13 @@
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
 					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
 				</div>
+			<script type="text/javascript">
+ 				function loadPage(url,id) {
+					$("#body").load(url + " #body", function(data){
+						$(data).find("script:last").appendTo($("#body"));
+					});
+					var id ="#"+id;
+					$("ul.nav.nav-list li.active").removeClass("active");
+					$(id).addClass("active");
+ 				} 
+			</script>

@@ -4,6 +4,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
         <property name="java-output-path" value="/ContestGroup/WebRoot/WEB-INF/classes"/>
-        <property name="context-root" value="/FHMYSQL"/>
+        <property name="context-root" value="/ContestByGroup"/>
     </wb-module>
 </project-modules>

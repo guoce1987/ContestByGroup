@@ -7,6 +7,8 @@ var heatScoreArray = $("#heatScoreArray").val();
 
 			jQuery(function($) {
 				
+				
+				
 				$( "#datepicker" ).datepicker({
 					  language: 'zh-CN',	
 					  autoclose: true,

@@ -112,7 +112,7 @@ public class HeatIndexController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -165,7 +165,7 @@ public class HeatIndexController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			ModelAndView mv = this.getModelAndView();
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();

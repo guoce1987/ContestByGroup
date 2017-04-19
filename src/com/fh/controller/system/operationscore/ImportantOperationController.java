@@ -13,6 +13,9 @@ import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
+import com.fh.entity.system.SecurityIndexForChart;
+import com.fh.entity.system.SpiritScoreForChart;
+import com.fh.entity.system.SpiritScoreForGrid;
 import com.fh.entity.system.TrainScoreForChart;
 import com.fh.entity.system.TrainScoreForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -68,14 +71,14 @@ public class ImportantOperationController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<TrainScoreForGrid> spiritScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
-			List<TrainScoreForChart> spiritScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
+			List<SpiritScoreForGrid> spiritScoreListForGrid = contestResultService.listAllSpiritScoreForGrid(pd);
+			List<SpiritScoreForChart> spiritScoreListForChart = contestResultService.listAllSpiritScoreForChart(pd);
 			
 			JSONArray spiritScoreArray = new JSONArray();  
 
 			JSONObject jsonObject = new JSONObject();
-			for (TrainScoreForChart TrainScoreForChart : spiritScoreListForChart) {
-				jsonObject.element("value", TrainScoreForChart.get);
+			for (SpiritScoreForChart SpiritScoreForChart : spiritScoreListForChart) {
+				jsonObject.element("value", SpiritScoreForChart.getRJ_SpiritScore());
 				spiritScoreArray.add(jsonObject);
 			}
 			
@@ -120,13 +123,13 @@ public class ImportantOperationController extends BaseController {
 				page.setPd(pd);
 
 				
-				List<TrainScoreForChart> spiritScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
+				List<SpiritScoreForChart> spiritScoreListForChart = contestResultService.listAllSpiritScoreForChart(pd);
 				
 				JSONArray spiritScoreArray = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
-				for (TrainScoreForChart TrainScoreForChart : spiritScoreListForChart) {
-					jsonObject.element("value", TrainScoreForChart.get);
+				for (SpiritScoreForChart SpiritScoreForChart : spiritScoreListForChart) {
+					jsonObject.element("value", SpiritScoreForChart.getRJ_SpiritScore());
 					spiritScoreArray.add(jsonObject);
 				}
 

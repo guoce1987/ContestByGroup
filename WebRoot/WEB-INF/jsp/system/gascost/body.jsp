@@ -1,34 +1,5 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
-						<div class="page-header">
-							<h1>
-								供电气耗
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									查询供电气耗
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
-						
-							<div class="row">
-									<div class="col-sm-6">
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="input-group input-group-sm">
-													<input type="text" id="datepicker" class="form-control" />
-													<span class="input-group-addon">
-														<i class="ace-icon fa fa-calendar"></i>
-													</span>
-												</div>
-											</div>
-											<div class="col-sm-2 nowrap">
-						                        <button id="searchBtn" type="button" class="btn btn-sm btn-info" onclick="query()">
-						                            <span class="glyphicon glyphicon-search"></span>&nbsp;查询
-						                        </button>                   
-				                    		</div>
-										</div>
-									</div><!-- ./span -->
-								 
-								</div><!-- ./row -->
+
 								
 								<div class="row">
 									 <div class="col-sm-12">

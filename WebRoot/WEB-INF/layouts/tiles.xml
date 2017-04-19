@@ -15,6 +15,7 @@
            <put-attribute name="footer" value="/WEB-INF/jsp/tilesTest/foot.jsp" /> 
 
         <put-list-attribute name="libJavascripts">
+        	<add-attribute value="static/js/myjs/globle.js"/>
             <add-attribute value="static/assets/js/bootstrap.min.js"/>
             <!-- page specific plugin scripts -->
             <add-attribute value="static/assets/js/bootstrap-datepicker.min.js"/>
@@ -61,19 +62,19 @@
         <put-list-attribute name="javascripts">
         </put-list-attribute>
     </definition>
-    <definition name="system/admin/index" extends="default">
+<!--     <definition name="system/admin/index" extends="default">
         <put-attribute name="title" value="首页"/>
         <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/index.jsp"/>
          <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="static/js/myjs/tileTest/index.js?v=1.0.0"/>
         </put-list-attribute>
-    </definition>
-     <definition name="contestResult/list" extends="default">
+    </definition> -->
+     <definition name="system/admin/index" extends="default">
         <put-attribute name="title" value="总成绩"/>
         <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/body.jsp"/>
-         <put-list-attribute name="javascripts" inherit="true">
+<!--          <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="static/js/myjs/tileTest/body.js?v=1.0.0"/>
-        </put-list-attribute>
+        </put-list-attribute> -->
     </definition>
     <definition name="securityIndex/list" extends="default">
         <put-attribute name="title" value="安全指标"/>

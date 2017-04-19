@@ -97,8 +97,8 @@
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>
 		</div>
 
-		<div class="main-container ace-save-state" id="main-container">
-			<script type="text/javascript">
+		<div class="main-container ${containerClass} " id="main-container">
+ 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
 
@@ -117,8 +117,9 @@
 							<tiles:insertAttribute name="ace-setting"></tiles:insertAttribute>
 						</div><!-- /.ace-settings-container -->
 						
+						<div id="body">
 						<tiles:insertAttribute name="body"></tiles:insertAttribute>
-						
+						</div>
 
 						
 					</div><!-- /.page-content -->

@@ -260,7 +260,7 @@ public class LoginController extends BaseController {
 				mv.setViewName("system/admin/index");
 //				mv.setViewName("CustomerForm");
 				
-//				mv.addObject("user", user);
+				mv.addObject("containerClass", "container");
 //				mv.addObject("menuList", menuList);
 			    mv.addObject("name", "郭策");
 				mv.addObject("description", "Tiles 测试");
