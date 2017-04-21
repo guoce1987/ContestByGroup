@@ -6,7 +6,7 @@
 										<div class="row">
 												<div class="input-group input-group-sm">
 													<input type="text" id="datepicker" class="form-control" />
-													<span class="input-group-addon">
+													<span class="input-group-addon" id="dpaddon">
 														<i class="ace-icon fa fa-calendar"></i>
 													</span>
 												</div>

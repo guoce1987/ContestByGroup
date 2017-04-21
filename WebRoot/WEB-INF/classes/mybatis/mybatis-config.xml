@@ -57,6 +57,9 @@
 
 		<typeAlias type="com.fh.entity.system.TrainScoreForChart" alias="TrainScoreForChart"/>
 		<typeAlias type="com.fh.entity.system.TrainScoreForGrid" alias="TrainScoreForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.ImportOperationForChart" alias="ImportOperationForChart"/>
+		<typeAlias type="com.fh.entity.system.ImportOperationForGrid" alias="ImportOperationForGrid"/>
 
 		<!-- 分页 -->
 		<typeAlias type="com.fh.util.PageData" alias="pd"/>

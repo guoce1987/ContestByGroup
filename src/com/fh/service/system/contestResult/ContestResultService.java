@@ -21,6 +21,8 @@ import com.fh.entity.system.GasTempForChart;
 import com.fh.entity.system.GasTempForGrid;
 import com.fh.entity.system.HeatIndexForChart;
 import com.fh.entity.system.HeatIndexForGrid;
+import com.fh.entity.system.ImportOperationForChart;
+import com.fh.entity.system.ImportOperationForGrid;
 import com.fh.entity.system.NoxIndexForChart;
 import com.fh.entity.system.NoxIndexForGrid;
 import com.fh.entity.system.OperationScoreForChart;
@@ -208,13 +210,13 @@ public class ContestResultService{
 	}
 	
 	//重大操作
-//	public List<OperationScoreForGrid> listAllOperationScoreForGrid(PageData pd) throws Exception {
-//		return (List<OperationScoreForGrid>) dao.findForList("ContestResultMapper.listAllOperationScoreForGrid", pd);
-//		
-//	}
-//	public List<OperationScoreForChart> listAllOperationScoreForChart(PageData pd) throws Exception {
-//		return (List<OperationScoreForChart>) dao.findForList("ContestResultMapper.listAllOperationScoreForChart", pd);
-//		
-//	}
+	public List<ImportOperationForGrid> listAllImportOperationScoreForGrid(PageData pd) throws Exception {
+		return (List<ImportOperationForGrid>) dao.findForList("ContestResultMapper.listAllImportOperationForGrid", pd);
+		
+	}
+	public List<ImportOperationForChart> listAllImportOperationScoreForChart(PageData pd) throws Exception {
+		return (List<ImportOperationForChart>) dao.findForList("ContestResultMapper.listAllImportOperationForChart", pd);
+		
+	}
 	
 }

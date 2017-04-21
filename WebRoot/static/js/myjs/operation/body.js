@@ -539,7 +539,7 @@
 
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "heat/getGridData.do?year="+year+"&&month="+month,
+	 	               url: "operationscore/getGridData.do?year="+year+"&&month="+month,
 	 	               success: function(data){
 	 	            	   		grid_data = data;
 	 	            	   		$("#grid-table").jqGrid("clearGridData");
@@ -553,7 +553,7 @@
 	 			var json = fusioncharts.getJSONData();
 	 			$.ajax({
 	 	               type: "GET",
-	 	               url: "heat/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
+	 	               url: "operationscore/getChartData.do?year="+year+"&&month="+month+"&&json="+encodeURIComponent(JSON.stringify(json)),
 	 	               success: function(data){
 	 	            	   		json=data;
 	 	                      fusioncharts.setJSONData(json);

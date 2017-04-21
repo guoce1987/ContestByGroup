@@ -21,7 +21,7 @@
             <add-attribute value="static/assets/js/bootstrap-datepicker.min.js"/>
             <add-attribute value="static/assets/js/bootstrap-datepicker.zh-CN.js"/>
             <add-attribute value="static/assets/js/jquery.jqGrid.min.js"/>
-            <add-attribute value="static/assets/js/grid.locale-en.js" />
+            <add-attribute value="static/assets/js/i18n/grid.locale-cn.js" />
             <!-- 以下js画图用 -->
             <add-attribute value="static/assets/js/jquery-ui.custom.min.js" />
             <add-attribute value="static/assets/js/jquery.ui.touch-punch.min.js" />
@@ -58,23 +58,21 @@
             
             <add-attribute value="static/assets/css/ace-skins.min.css"/>
             <add-attribute value="static/assets/css/ace-rtl.min.css"/>
+            <add-attribute value="static/assets/css/mycss/globle.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts">
         </put-list-attribute>
     </definition>
-<!--     <definition name="system/admin/index" extends="default">
+	<definition name="global/const_setting" extends="default">
         <put-attribute name="title" value="首页"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/index.jsp"/>
-         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="static/js/myjs/tileTest/index.js?v=1.0.0"/>
-        </put-list-attribute>
-    </definition> -->
+        <put-attribute name="body" value="/WEB-INF/jsp/system/global/const_setting.jsp"/>
+    </definition>
      <definition name="system/admin/index" extends="default">
         <put-attribute name="title" value="总成绩"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/tilesTest/body.jsp"/>
-<!--          <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="static/js/myjs/tileTest/body.js?v=1.0.0"/>
-        </put-list-attribute> -->
+    </definition>
+    <definition name="contestResult/list" extends="default">
+        <put-attribute name="title" value="总成绩"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/contestResult/body.jsp"/>
     </definition>
     <definition name="securityIndex/list" extends="default">
         <put-attribute name="title" value="安全指标"/>

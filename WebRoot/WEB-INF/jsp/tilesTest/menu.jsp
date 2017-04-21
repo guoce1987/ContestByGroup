@@ -96,5 +96,6 @@
 					var id ="#"+id;
 					$("ul.nav.nav-list li.active").removeClass("active");
 					$(id).addClass("active");
+					$(".breadcrumb").text($(id).text());
  				} 
 			</script>

@@ -736,4 +736,52 @@
 			WHERE year(StatDate)= #{year} and month(StatDate) = #{month} 
 
 	</select>
+	
+	<!-- 重大操作 -->
+	<resultMap type="ImportOperationForChart" id="importOperationMapForChart">
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupID" property="GroupID"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="RJ_OperationMoney" property="RJ_OperationMoney"/>
+	</resultMap>
+	
+	<resultMap type="ImportOperationForGrid" id="importOperationMapForGrid">
+		<result column="ID" property="ID"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="OperateDate" property="OperateDate"/>
+		<result column="Unit" property="Unit"/>
+		<result column="ItemName" property="ItemName"/>
+		<result column="StartStopType" property="StartStopType"/>
+		<result column="Money" property="Money"/>
+		<result column="Memo" property="Memo"/>
+	</resultMap>
+	
+	<!-- 列出所有的重大操作(图) -->
+	<select id="listAllImportOperationForChart" resultMap="importOperationMapForChart"  statementType="CALLABLE" parameterType="pd">
+			SELECT 
+				 StatDate,
+				 GroupID,
+				 GroupName,
+				 RJ_OperationMoney
+				FROM vw_ContestResult
+				where year(StatDate)= #{year} and month(StatDate) = #{month} 
+	</select>
+	<!-- 列出所有的重大操作(表) -->
+	<select id="listAllImportOperationForGrid" resultMap="importOperationMapForGrid"  statementType="CALLABLE" parameterType="pd">
+		SELECT
+			 id,
+			 CheckDate AS OperateDate,
+			 groupName,
+			 Unit,
+			 itemName,
+			 StartStopType,
+			 Money,
+			 Memo
+			FROM
+			 vw_RewardPunishLog
+			WHERE
+			 ContestItemID = 15
+			and year(CheckDate)= #{year} and month(CheckDate) = #{month} 
+
+	</select>
 </mapper>

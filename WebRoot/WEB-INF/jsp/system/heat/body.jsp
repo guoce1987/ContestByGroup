@@ -4,7 +4,7 @@
 		<div class="widget-box transparent">
 			<div class="widget-header widget-header-flat">
 				<h4 class="widget-title lighter">
-					<i class="ace-icon fa fa-signal"></i> 安全指标
+					<i class="ace-icon fa fa-signal"></i> 供热指标
 				</h4>
 
 				<div class="widget-toolbar">
@@ -45,109 +45,27 @@
 <script type="text/javascript">
 	var year = getYear();
 	var month = getMonth();
-	var fusioncharts;
-	var chartContainer = $('#chart-container').css({
-		'width' : '100%',
-		'height' : '500px'
-	});
-
-	var grid_selector = "#grid-table";
-	var pager_selector = "#grid-pager";
-
-	var parent_column = $(grid_selector).closest('[class*="col-"]');
-	//resize to fit page size
-	$(window).on(
-			'resize.jqGrid',
-			function() {
-				$(grid_selector).jqGrid('setGridWidth', parent_column.width())
-						.jqGrid('setGridHeight', 'auto');
-				if (fusioncharts != null)
-					fusioncharts.resizeTo($('.page-content').width(), 500);
-			});
-
-	//resize on sidebar collapse/expand
-	$(document).on(
-			'settings.ace.jqGrid',
-			function(ev, event_name, collapsed) {
-				if (event_name === 'sidebar_collapsed'
-						|| event_name === 'main_container_fixed') {
-					//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
-					setTimeout(function() {
-						$(grid_selector).jqGrid('setGridWidth', parent_column.width());
-						if (fusioncharts != null)
-							fusioncharts.resizeTo($('.page-content').width(), 500);
-					}, 20);
-				}
-			});
-
-	jQuery(grid_selector).jqGrid({
-
-		url : "heat/getGridData?year=" + year + "&month=" + month,
-		mtype : "GET",
-		datatype : "json",
-		width : chartContainer.width(),
-		height : 'auto',
-		colNames : [ '日期', '班次', '班名', '值别', '供热量' ],
-		colModel : [ {
-			name : 'statDate',
-			index : 'statDate',
-			width : 90,
-			sorttype : "text"
-		}, {
-			name : 'dutyID',
-			index : 'dutyID',
-			width : 90,
-			sorttype : "text"
-		}, {
-			name : 'dutyName',
-			index : 'dutyName',
-			width : 90,
-			sorttype : "text"
-		}, {
-			name : 'groupName',
-			index : 'groupName',
-			width : 90,
-			sorttype : "text"
-		}, {
-			name : 'RJ_SuplyHeat',
-			index : 'RJ_SuplyHeat',
-			width : 90,
-			sorttype : "double"
-		} ],
-
-		viewrecords : true,
-		rowNum : 30,
-		rowList : [ 10, 20, 30 ],
-		pager : pager_selector,
-
-		loadComplete : function() {
-			var table = this;
-			setTimeout(function() {
-				updatePagerIcons(table);
-			}, 0);
-		},
-
-		caption : "jqGrid with inline editing"
-	});
-	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-
-	FusionCharts.ready(function() {
+	
+	var fusioncharts = null;
+	function initCharts() {
 		fusioncharts = new FusionCharts({
 			type : 'mscombi2d',
 			renderAt : 'chart-container',
-			width : chartContainer.width(),
-			height : chartContainer.height(),
+			width : "100%",
+			height : 350,
 			dataFormat : 'json',
 			dataSource : {
 				"chart" : {
-					"caption" : "小指标竞赛总成绩",
+					"caption" : "供热指标分析",
 					"subCaption" : year + "年" + month + "月",
-					"xAxisname" : "值",
-					"yAxisName" : "得分",
+					/*"xAxisname" : "值",*/
+					"yAxisName" : "班均供热量（GJ）",
 					/* "numberPrefix": "分", */
 					"theme" : "zune",
 					//Making the chart export enabled in various formats
 					"exportEnabled" : "1",
+					"outCnvBaseFontSize":"13",
+	                "yAxisNameFontSize": "20",
 				},
 				"categories" : [ {
 					"category" : [ {
@@ -181,6 +99,11 @@
 				} ]
 			}
 		});
+
+	}
+
+	initCharts();
+	FusionCharts.ready(function() {
 		var json = fusioncharts.getJSONData();
 		var model = {
 			year : year,
@@ -192,10 +115,63 @@
 			data : model,
 			url : "heat/getChartData",
 			success : function(data) {
-				json = data;
-				fusioncharts.setJSONData(json);
+				fusioncharts.setJSONData(data);
 				fusioncharts.render();
+				initGrid();
 			}
 		});
 	});
+	function initGrid() {
+		var grid_selector = "#grid-table";
+		var pager_selector = "#grid-pager";
+	
+		jQuery(grid_selector).jqGrid({
+	
+			url : "heat/getGridData?year=" + year + "&month=" + month,
+			mtype : "GET",
+			datatype : "json",
+			autowidth : true,
+			height : 'auto',
+			colNames : [ '日期', '班次', '班名', '值别', '供热量' ],
+			colModel : [ {
+				name : 'statDate',
+				index : 'statDate',
+				width : 90,
+				sorttype : "text"
+			}, {
+				name : 'dutyID',
+				index : 'dutyID',
+				width : 90,
+				sorttype : "text"
+			}, {
+				name : 'dutyName',
+				index : 'dutyName',
+				width : 90,
+				sorttype : "text"
+			}, {
+				name : 'groupName',
+				index : 'groupName',
+				width : 90,
+				sorttype : "text"
+			}, {
+				name : 'RJ_SuplyHeat',
+				index : 'RJ_SuplyHeat',
+				width : 90,
+				sorttype : "double"
+			} ],
+	
+			viewrecords : true,
+			rowNum : 30,
+			//rowList : [ 10, 20, 30 ],
+			pager : pager_selector,
+	
+			loadComplete : function() {
+				var table = this;
+				setTimeout(function() {
+					updatePagerIcons(table);resizeGridWidth();
+				}, 0);
+			},
+			caption : "供热指标明细"
+		});
+	}
 </script>

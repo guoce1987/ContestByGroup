@@ -11,8 +11,33 @@ $(function() {
 	$("#datepicker").datepicker().on("changeMonth", function(e) {
 		$("ul.nav.nav-list li.active a").click();
     });
-	
+	$("#dpaddon").on("click", function(){
+		$("#datepicker").datepicker("show");
+	});
 	$("ul.nav.nav-list>li:nth-child(1) a").click();
+	
+
+	$(window).on('resize.jqGrid',function() {
+		var $gridParent = $("#body");
+		var $grid = $("#grid-table");
+		$grid.jqGrid('setGridWidth',$gridParent.width());
+		resizeGridWidth();
+	});
+
+	// resize on sidebar collapse/expand
+	$(document).on('settings.ace.jqGrid', function(ev, event_name, collapsed) {
+		if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+			// setTimeout is for webkit only to give time for DOM
+			// changes and then redraw!!!
+			var $gridParent = $("#body");
+			var $grid = $("#grid-table");
+			setTimeout(function() {
+				$grid.jqGrid('setGridWidth',$gridParent.width());
+				resizeGridWidth();
+			}, 15);
+		}
+	});
+	
 });
 
 function getYear(){
@@ -23,6 +48,14 @@ function getYear(){
 function getMonth(){
 	var month = $("#datepicker").val().split("-")[1];
 	return month;
+}
+
+function resizeGridWidth(){
+	var w2 = parseInt($('.ui-jqgrid-labels>th:eq(2)').css('width'))-3;
+	$('.ui-jqgrid-lables>th:eq(2)').css('width',w2);
+	$('#grid-table tr').find("td:eq(2)").each(function(){
+	    $(this).css('width',w2);
+	})
 }
 
 // js导出表的两种方法

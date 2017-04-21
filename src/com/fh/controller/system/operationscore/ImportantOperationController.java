@@ -13,6 +13,9 @@ import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
+import com.fh.entity.system.ImportOperationForChart;
+import com.fh.entity.system.ImportOperationForGrid;
+import com.fh.entity.system.OperationScoreForGrid;
 import com.fh.entity.system.SecurityIndexForChart;
 import com.fh.entity.system.SpiritScoreForChart;
 import com.fh.entity.system.SpiritScoreForGrid;
@@ -31,7 +34,7 @@ import net.sf.json.JSONSerializer;
 
 /**
  * @ClassName: ImportOperationController.java
- * @Description: 精神文明
+ * @Description: 重大操作
  * @author Guoce
  * @date 2017年3月29日下午3:55:22
  * 
@@ -71,21 +74,21 @@ public class ImportantOperationController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<SpiritScoreForGrid> spiritScoreListForGrid = contestResultService.listAllSpiritScoreForGrid(pd);
-			List<SpiritScoreForChart> spiritScoreListForChart = contestResultService.listAllSpiritScoreForChart(pd);
+			List<ImportOperationForGrid> listForGrid = contestResultService.listAllImportOperationScoreForGrid(pd);
+			List<ImportOperationForChart> listForChart = contestResultService.listAllImportOperationScoreForChart(pd);
 			
 			JSONArray spiritScoreArray = new JSONArray();  
 
 			JSONObject jsonObject = new JSONObject();
-			for (SpiritScoreForChart SpiritScoreForChart : spiritScoreListForChart) {
-				jsonObject.element("value", SpiritScoreForChart.getRJ_SpiritScore());
+			for (ImportOperationForChart importOperationForChart : listForChart) {
+				jsonObject.element("value", importOperationForChart.getRJ_OperationMoney());
 				spiritScoreArray.add(jsonObject);
 			}
 			
-			mv.setViewName("economy/list");
+			mv.setViewName("operation/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray spiritScoreForGridList = JSONArray.fromObject(spiritScoreListForGrid);
-			mv.addObject("suplyPowerGasCostListForGridList", spiritScoreForGridList);
+			JSONArray gridList = JSONArray.fromObject(listForGrid);
+			mv.addObject("suplyPowerGasCostListForGridList", gridList);
 			mv.addObject("spiritScoreArray", spiritScoreArray);
 			
 			mv.addObject("year", year);
@@ -123,23 +126,22 @@ public class ImportantOperationController extends BaseController {
 				page.setPd(pd);
 
 				
-				List<SpiritScoreForChart> spiritScoreListForChart = contestResultService.listAllSpiritScoreForChart(pd);
+				List<ImportOperationForChart> listForChart = contestResultService.listAllImportOperationScoreForChart(pd);
 				
-				JSONArray spiritScoreArray = new JSONArray();  
+				JSONArray importOperlist = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
-				for (SpiritScoreForChart SpiritScoreForChart : spiritScoreListForChart) {
-					jsonObject.element("value", SpiritScoreForChart.getRJ_SpiritScore());
-					spiritScoreArray.add(jsonObject);
+				for (ImportOperationForChart importOperationForChart : listForChart) {
+					jsonObject.element("value", importOperationForChart.getRJ_OperationMoney());
+					importOperlist.add(jsonObject);
 				}
-
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
 
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
-						data.element("data", spiritScoreArray);
+					if(null != data && data.get("seriesname").equals("重大操作")){
+						data.element("data", importOperlist);
 					}
 				}
 				
@@ -174,8 +176,8 @@ public class ImportantOperationController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
-				List<TrainScoreForGrid> spiritScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
-				jsonArr = JSONArray.fromObject(spiritScoreListForGrid);
+				List<ImportOperationForGrid> listForGrid = contestResultService.listAllImportOperationScoreForGrid(pd);
+				jsonArr = JSONArray.fromObject(listForGrid);
 			} catch(Exception e){
 				logger.error(e.toString(), e);
 			}

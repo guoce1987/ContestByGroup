@@ -224,10 +224,10 @@ public class GlobalConstController extends BaseController {
 			}
 			
 			page.setPd(pd);
-			List<PageData>	userList = appuserService.listPdPageUser(page);			//列出用户列表
-			List<Role> roleList = roleService.listAllappERRoles();					//列出所有会员二级角色
+			//List<PageData>	userList = appuserService.listPdPageUser(page);			//列出用户列表
+			//List<Role> roleList = roleService.listAllappERRoles();					//列出所有会员二级角色
 			
-			mv.setViewName("system/global/const_setting");
+			mv.setViewName("global/const_setting");
 //			mv.setViewName("system/fusionChart");
 //			mv.addObject("userList", userList);
 //			mv.addObject("roleList", roleList);

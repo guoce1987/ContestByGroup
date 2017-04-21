@@ -32,7 +32,7 @@ import net.sf.json.JSONSerializer;
 
 /**
  * @ClassName: ContestResultMainController.java
- * @Description: 安全指标获取
+ * @Description: 电量指标获取
  * @author Guoce
  * @date 2017年3月24日下午2:17:00
  * 

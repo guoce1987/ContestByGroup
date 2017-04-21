@@ -367,7 +367,7 @@
 							styleCheckbox(table);
 							
 							updateActionIcons(table);
-							updatePagerIcons(table);
+							updatePagerIcons(table);resizeGridWidth();
 							enableTooltips(table);
 						}, 0);
 					},

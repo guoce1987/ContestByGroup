@@ -1,9 +1,9 @@
 	var year = $("#year").val();
 	var month = $("#month").val();
-	var safetyScoreArray = JSON.parse($("#safetyScoreArray").val());
-	var economyScoreArray = JSON.parse($("#economyScoreArray").val());
-	var heatScoreArray = JSON.parse($("#heatScoreArray").val());
-	var  grid_data = JSON.parse($("#contestResultList").val());
+	var safetyScoreArray = {};
+	var economyScoreArray = {};
+	var heatScoreArray = {};
+	var  grid_data = {};
 			jQuery(function($) {
 				
 				
@@ -24,7 +24,7 @@
 			
 					data: grid_data,
 					datatype: "local",
-					height: 250,
+					height: "auto",
 					
 					colNames:['日期','安全得分','班均电量得分', '供热量得分', '经济指标得分','设备消缺得分' ,'巡检得分','培训得分','文明生产得分','月度总分'],
 					colModel:[
@@ -193,7 +193,7 @@
 		    type: 'mscombi3d',
 		    renderAt: 'chart-container',
  		    width: chartContainer.width(),
-		    height: chartContainer.height(), 
+		    height: 350, 
 		    dataFormat: 'json',
 		    dataSource: {
 		        "chart": {

@@ -339,10 +339,7 @@
 			});
 		}
 		
-		</script>
-		
-		<script type="text/javascript">
-		
+	
 		$(function() {
 			
 			//下拉框
@@ -445,9 +442,7 @@
 		}
 		
 		
-		</script>
-		
-		<script type="text/javascript">
+	
 			var grid_data = 
 			[ 
 				{id:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
@@ -521,7 +516,7 @@
 							styleCheckbox(table);
 							
 							updateActionIcons(table);
-							updatePagerIcons(table);
+							updatePagerIcons(table);resizeGridWidth();
 							enableTooltips(table);
 						}, 0);
 					},

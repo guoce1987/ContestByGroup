@@ -17,7 +17,7 @@
 		
 <div class="container-fluid" id="main-container">
 
-<div id="chart-container">FusionCharts will render here</div>
+<div id="chart-container">正在加载......</div>
 <div id="chart-container2">FusionCharts2 will render here</div>
  
 <div id="page-content" class="clearfix">
