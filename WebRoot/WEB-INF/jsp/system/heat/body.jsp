@@ -132,6 +132,7 @@
 			datatype : "json",
 			autowidth : true,
 			height : 'auto',
+			loadonce: true,
 			colNames : [ '日期', '班次', '班名', '值别', '供热量' ],
 			colModel : [ {
 				name : 'statDate',

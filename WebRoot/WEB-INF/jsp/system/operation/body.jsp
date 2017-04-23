@@ -123,6 +123,7 @@
 			datatype : "json",
 			autowidth : true,
 			height : 'auto',
+			loadonce: true,
 			colNames:['id','操作日期','值别','机组', '操作类型', '操作项目','重大操作奖','备注'],
 			colModel:[
 				{name:'ID',index:'ID', width:90, sorttype:"text"},

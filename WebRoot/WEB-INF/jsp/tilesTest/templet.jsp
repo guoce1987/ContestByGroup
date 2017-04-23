@@ -32,7 +32,7 @@
 	</head>
 
 	<body class="no-skin">
-		<input type="hidden" id="date" value="">
+<!-- 		<input type="hidden" id="date" value="">
 		<input type="hidden" id="contestResultList" value=${contestResultList}>
 		<input type="hidden" id="year" value=${year}>
 		<input type="hidden" id="month" value=${month}>
@@ -44,7 +44,7 @@
 		<input type="hidden" id="powerIndexListForGrid" value=${powerIndexListForGrid}>
 		<input type="hidden" id="heatIndexListForGrid" value=${heatIndexListForGrid}>
 		
-		<!-- 综合经济指标：供电气耗  排烟温度 真空 脱硝 厂用电率 操作加分 综合水耗 违规扣分-->
+		综合经济指标：供电气耗  排烟温度 真空 脱硝 厂用电率 操作加分 综合水耗 违规扣分
 		<input type="hidden" id="economyIndexListForGrid" value=${economyIndexListForGrid}>
 		
 		<input type="hidden" id="suplyPowerGasCostArray" value=${suplyPowerGasCostArray}>  
@@ -56,42 +56,42 @@
 		<input type="hidden" id="waterCostArray" value=${waterCostArray}>
 		<input type="hidden" id="breakPointArray" value=${breakPointArray}>
 		
-		<!-- 供电气耗 -->
+		供电气耗
 		<input type="hidden" id="suplyPowerGasCostListForGridList" value=${suplyPowerGasCostListForGridList}>
 		
-		<!-- 排烟温度 -->
+		排烟温度
 		<input type="hidden" id="gasTempListForGridList" value=${gasTempListForGridList}>
 		
-		<!-- 真空 -->
+		真空
 		<input type="hidden" id="vacmIndexForGridList" value=${vacmIndexForGridList}>
 		
-		<!-- 脱硝 -->
+		脱硝
 		<input type="hidden" id="noxIndexForGridList" value=${noxIndexForGridList}>
 		
-		<!-- 违规扣分 -->
+		违规扣分
 		<input type="hidden" id="breakPointForGridList" value=${breakPointForGridList}>
 		
-		<!-- 厂用电率 -->
+		厂用电率
 		<input type="hidden" id="powerRatioForGridList" value=${powerRatioForGridList}>
 		
-		<!-- 操作加分 -->
+		操作加分
 		<input type="hidden" id="rewardForGridList" value=${rewardForGridList}>
 		<input type="hidden" id="rewardArray" value=${rewardArray}>
 		
-		<!-- 燃机综合水耗 -->
+		燃机综合水耗
 		<input type="hidden" id="watercostForGridList" value=${watercostForGridList}>
 		
-		<!-- 设备消缺 -->
+		设备消缺
 		<input type="hidden" id="bugStatForGridList" value=${bugStatForGridList}>
 		<input type="hidden" id="bugStatArray" value=${bugStatArray}>
 
-		<!-- 精神文明 -->
+		精神文明
 		<input type="hidden" id="spiritScoreForGridList" value=${spiritScoreForGridList}>
 		<input type="hidden" id="spiritScoreArray" value=${spiritScoreArray}>
 		
-		<!-- 培训得分 -->
+		培训得分
 		<input type="hidden" id="trainScoreForGridList" value=${trainScoreForGridList}>
-		<input type="hidden" id="trainScoreArray" value=${trainScoreArray}>
+		<input type="hidden" id="trainScoreArray" value=${trainScoreArray}> -->
 		
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<tiles:insertAttribute name="header"></tiles:insertAttribute>

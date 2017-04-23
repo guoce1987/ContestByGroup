@@ -122,6 +122,7 @@
 			datatype : "json",
 			autowidth : true,
 			height : 'auto',
+			loadonce: true,
 			colNames:['日期','值别','班次', '污水用量', '生水用量','除盐水用量','锅炉蒸发量','发电量'],
 			colModel:[
 				{name:'statDate',index:'statDate', width:90, sorttype:"text"},

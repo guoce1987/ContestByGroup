@@ -125,6 +125,7 @@
 					datatype : "json",
 					autowidth : true,
 					height : 'auto',
+					loadonce: true,
 					colNames : [ '日期', '值别', '机组', '测点', '描述', '下限', '上限',
 							'违规点数量', '统计小时数', '违规点数(每小时)', '扣分方式', '扣分标准',
 							'扣分点' ],

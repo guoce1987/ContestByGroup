@@ -125,6 +125,7 @@
 					datatype : "json",
 					autowidth : true,
 					height : 'auto',
+					loadonce: true,
 					colNames:['ID','日期','值别','班名','厂用电率', '燃机发电量', '燃机供电量','#3启备变电量'],
 					colModel:[
 					    {name:'ID',index:'ID', width:90, sorttype:"text"},

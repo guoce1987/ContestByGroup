@@ -125,6 +125,7 @@
 					datatype : "json",
 					autowidth : true,
 					height : 'auto',
+					loadonce: true,
 					colNames:['日期','姓名', '值别', '登陆总数','注销总数','重复缺陷','总缺陷'],
 					colModel:[
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},

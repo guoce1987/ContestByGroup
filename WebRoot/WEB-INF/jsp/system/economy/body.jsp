@@ -157,6 +157,7 @@
 			datatype : "json",
 			autowidth : false,
 			height : 'auto',
+			loadonce: true,
 			shrinkToFit : false,
 			autoScroll : true,
 			colNames:['日期','值别','供电气耗', '得分','综合厂用电率', '操作加分','NOX偏差累计','得分','排烟温度偏差累计','得分','真空偏差累计','得分','二级污水补水率', '除盐水补水率','违规点罚分','总分'],

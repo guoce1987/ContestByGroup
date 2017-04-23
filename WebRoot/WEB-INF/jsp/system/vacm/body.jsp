@@ -60,7 +60,7 @@
 					"caption" : "真空指标分析",
 					"subCaption" : year + "年" + month + "月",
 					/*"xAxisname" : "值",*/
-					/*"yAxisName" : "得分",*/
+					"yAxisName" : "真空",
 					/* "numberPrefix": "分", */
 					"theme" : "zune",
 					//Making the chart export enabled in various formats
@@ -125,6 +125,7 @@
 					datatype : "json",
 					autowidth : true,
 					height : 'auto',
+					loadonce: true,
 					colNames:['日期','值别','偏差', '名次', '得分'],
 					colModel:[
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},

@@ -129,6 +129,7 @@ function initGrid() {
 		datatype : "json",
 		autowidth : true,
 		height : 'auto',
+		loadonce: true,
 		colNames:[ 'ID','考核日期','责任值', '考核项目', '考核分数','考核奖金' ,'备注','考核指标'],
 		colModel:[
 

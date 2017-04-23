@@ -784,4 +784,9 @@
 			and year(CheckDate)= #{year} and month(CheckDate) = #{month} 
 
 	</select>
+	
+	<!-- 考核管理指标列表(全部) -->
+	<select id="listAllContestItemForGrid" parameterType="pd" resultType="pd" useCache="false">
+		select ID,ContestItemID,IsTag,IsDelete,ItemName,StartStopType,Cent,money,ratio,memo,StartStop,listorder from contest_item
+	</select>
 </mapper>

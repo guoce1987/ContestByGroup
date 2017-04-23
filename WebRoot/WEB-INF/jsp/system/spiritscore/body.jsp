@@ -123,6 +123,7 @@
 			datatype : "json",
 			autowidth : true,
 			height : 'auto',
+			loadonce: true,
 			colNames:['日期', '值别', '得分','奖金','备注'],
 			colModel:[
 				{name:'checkDate',index:'statDate', width:90, sorttype:"text"},

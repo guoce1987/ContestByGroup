@@ -219,4 +219,9 @@ public class ContestResultService{
 		
 	}
 	
+	//考核指标管理
+	public List<PageData> listAllContestItemForGrid(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("ContestResultMapper.listAllContestItemForGrid", pd);
+		
+	}
 }

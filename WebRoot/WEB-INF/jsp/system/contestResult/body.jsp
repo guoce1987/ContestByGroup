@@ -136,6 +136,7 @@ function initGrid() {
 				datatype : "json",
 				autowidth : true,
 				height : 'auto',
+				loadonce: true,
 				colNames : [ '日期', '安全得分', '班均电量得分', '供热量得分', '经济指标得分',
 						'设备消缺得分', '巡检得分', '培训得分', '文明生产得分', '月度总分' ],
 				colModel : [

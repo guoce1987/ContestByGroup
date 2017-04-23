@@ -124,6 +124,7 @@ function initGrid() {
 				datatype : "json",
 				autowidth : true,
 				height : 'auto',
+				loadonce: true,
 				shrinkToFit : false,
 				autoScroll : true,
 				colNames : [ '日期', '班次', '班名', '值别', '发电量', '上网电量', '1号管用气量',

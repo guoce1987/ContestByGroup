@@ -124,6 +124,7 @@
 					datatype : "json",
 					autowidth : true,
 					height : 'auto',
+					loadonce: true,
 					colNames:['日期','值别','偏差', '名次', '得分'],
 					colModel:[
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
