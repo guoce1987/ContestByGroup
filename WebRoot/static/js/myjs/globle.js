@@ -6,7 +6,8 @@ $(function() {
 		minViewMode : 1,
 		todayBtn : true
 	});
-	$("#datepicker").datepicker("setDate", year + "-" + month);// 设置
+	var d = new Date();
+	$("#datepicker").datepicker("setDate", d.getFullYear() + "-" + (d.getMonth()+1));// 设置
 	
 	$("#datepicker").datepicker().on("changeMonth", function(e) {
 		$("ul.nav.nav-list li.active a").click();
