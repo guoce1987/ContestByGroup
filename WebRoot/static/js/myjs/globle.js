@@ -39,6 +39,12 @@ $(function() {
 		}
 	});
 	
+	$("#ace-settings-add-container").on("click",function(){
+		$.cookie("continer",$("#ace-settings-add-container").is(':checked'),{
+			expires : 7, path: '/' 
+		});
+	});
+	
 });
 
 function getYear(){

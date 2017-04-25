@@ -120,7 +120,10 @@
 					success: function(data){
 						if("success" == data.result){
 							saveCookie();
-							window.location.href="main/index";
+							var isContinerSelected = $.cookie('continer');
+							
+							window.location.href="main/index?isContinerSelected="+isContinerSelected;
+							
 						}else if("usererror" == data.result){
 							$("#loginname").tips({
 								side : 1,
