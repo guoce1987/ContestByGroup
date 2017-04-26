@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=utf-8" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 
-<div class="navbar-container ace-save-state ${containerClass}" id="navbar-container">
+<div class="navbar-container ace-save-state" id="navbar-container">
 		  
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>

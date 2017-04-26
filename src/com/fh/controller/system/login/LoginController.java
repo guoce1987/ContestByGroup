@@ -260,12 +260,6 @@ public class LoginController extends BaseController {
 				mv.setViewName("system/admin/index");
 //				mv.setViewName("CustomerForm");
 				
-				if(pd.getString("isContinerSelected")!= null &&pd.getString("isContinerSelected").equals("true")){
-					mv.addObject("containerClass", "container");
-				}else{
-					mv.addObject("containerClass", " ");
-				}
-				
 //				mv.addObject("menuList", menuList);
 			    mv.addObject("name", "郭策");
 				mv.addObject("description", "Tiles 测试");
