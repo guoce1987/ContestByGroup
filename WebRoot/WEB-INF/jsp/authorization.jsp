@@ -37,7 +37,7 @@ footer{height:50px;position:fixed;bottom:0px;left:0px;width:100%;text-align: cen
 	<script type="text/javascript" src="plugins/zTree/2.6/jquery.ztree-2.6.min.js"></script>
 	
 	<script type="text/javascript">
-	$(top.hangge());
+	// $(top.hangge());
 	var zTree;
 	$(document).ready(function(){
 			

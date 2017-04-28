@@ -119,6 +119,10 @@
 						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
 					})
 				}
+				
+				function add(){
+	 				$('#dialog-confirm').modal('show');
+	 			}
 
 			});
 			
@@ -140,3 +144,5 @@
 	 	                  }
 	 	            });
 			} 
+ 			
+ 			

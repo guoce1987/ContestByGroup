@@ -35,7 +35,7 @@
 						                        </button>                   
 				                    		</div>
 				                    		<div class="col-sm-2 nowrap">
-						                        <button id="searchBtn" type="button" class="btn btn-sm btn-success" onclick="query()">
+						                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="editRights('2')">
 						                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增
 						                        </button>                   
 				                    		</div>
@@ -136,7 +136,7 @@
 		
 		//新增组
 		function addRole(){
-			 top.jzts();
+			// top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增组";
@@ -155,7 +155,7 @@
 		
 		//新增角色
 		function addRole2(pid){
-			 top.jzts();
+			// top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增角色";
@@ -382,7 +382,7 @@
 		
 		//菜单权限
 		function editRights(ROLE_ID){
-			 top.jzts();
+			// top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag = true;
 			 diag.Title = "菜单权限";
@@ -562,6 +562,9 @@
  	                  }
  	            });
 		} 
+			function add(){
+ 				$('#dialog-confirm').modal('show');
+ 			}
 		</script>
 
 
