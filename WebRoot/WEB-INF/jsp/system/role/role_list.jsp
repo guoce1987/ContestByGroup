@@ -35,7 +35,7 @@
 						                        </button>                   
 				                    		</div>
 				                    		<div class="col-sm-2 nowrap">
-						                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="editRights('2')">
+						                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="add()">
 						                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增
 						                        </button>                   
 				                    		</div>
@@ -456,7 +456,7 @@
 					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
 					
                         formatter: function (cellvalue, options, rowObject) {
-                        	var key = rowObject.id + "^" + rowObject.userName + "^" + rowObject.role;
+                        	var key = rowObject.USER_ID + "^" + rowObject.USERNAME + "^" + rowObject.ROLE_NAME;
                             var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-pencil" tag="' + key + '"></span></a>';
                             var remove = '<a title="删除"><span class="glyphicon glyphicon-trash" tag="' + key + '"></span></a>';
   
@@ -507,8 +507,8 @@
                         }else if("1" == model.role){
                         	$("#role").val(1);
                         }
-                        
-                        $('#dialog-confirm').modal('show');
+                       // $('#dialog-confirm').modal('show');
+                       editRights(model.id);
                     });
                     $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
                         var id = $(e.target).attr("tag");
