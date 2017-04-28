@@ -210,6 +210,16 @@
             <add-attribute value="static/assets/js/bootbox.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    
+        
+    <definition name="itemInput/list" extends="default">
+        <put-attribute name="title" value="考核录入"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/itemInput/body.jsp"/>  
+         <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="static/js/myjs/contestItem/body.js?v=1.0.0"/>
+            <add-attribute value="static/assets/js/bootbox.js?v=1.0.0"/>
+        </put-list-attribute>
+    </definition>
         
     <definition name="authorization" template="/WEB-INF/jsp/authorization.jsp">
     </definition>

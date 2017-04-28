@@ -187,9 +187,12 @@ public class ContestItemController extends BaseController {
 			
 			String IdOrName = pd.getString("IdOrName");
 			
+			String contestType = pd.getString("contestType");
+			
 			if(null != IdOrName && !"".equals(IdOrName)){
 				IdOrName = IdOrName.trim();
 				pd.put("IdOrName", IdOrName);
+				pd.put("contestType",contestType);
 			}
 
 			List<PageData> contestItemList = contestResultService.listAllContestItemForGrid(pd);
