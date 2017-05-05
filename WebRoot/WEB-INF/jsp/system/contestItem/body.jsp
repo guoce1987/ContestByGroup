@@ -18,28 +18,20 @@
 												
 												<label for="accountId" class="col-sm-4 control-label">考核指标:</label>
 												<div class="col-sm-8">
-													<select name="contestType" id="contestType" class="form-control" placeholder="请选择考核指标类型">
-						                            	<option value=""></option>
+													<select name="contestType" id="contestType" class="form-control">
+						                            	<option value="0">全部</option>
 														<option value="1">安全指标</option>
-														<option value="2">精神文明</option>
-														<option value="3">操作加分</option>
-														<option value="4">操作启停奖</option>
-														<option value="5">设备消缺</option>
-														<option value="6">巡回检查</option>
+														<option value="10">精神文明</option>
+														<option value="14">操作加分</option>
+														<option value="15">操作启停奖</option>
+														<option value="8">设备消缺</option>
+														<option value="9">巡回检查</option>
 													</select>
 												</div>
 												
 											</div>
 											<div class="col-sm-4 nowrap">
-						                        <button id="searchBtn" type="button" class="btn btn-sm btn-info" onclick="query()">
-						                            <span class="glyphicon glyphicon-search"></span>&nbsp;查询
-						                        </button>                   
-
-						                        <button id="resetBtn" type="button" class="btn btn-sm btn-info">
-							                        <span class="glyphicon glyphicon-repeat"></span>&nbsp;重置
-							                    </button>                   
-
-						                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="query()">
+						                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="addContestItem()">
 						                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增
 						                        </button>                   
 				                    		</div>
@@ -79,14 +71,13 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核类型</label>
                         <div class="col-sm-4">
-                            <select name="contestType" id="contestType" class="form-control" placeholder="请选择考核指标类型">
-                            	<option value=""></option>
+                            <select name="contestType" class="form-control" placeholder="请选择考核指标类型">
 								<option value="1">安全指标</option>
-								<option value="2">精神文明</option>
-								<option value="3">操作加分</option>
-								<option value="4">操作启停奖</option>
-								<option value="5">设备消缺</option>
-								<option value="6">巡回检查</option>
+								<option value="10">精神文明</option>
+								<option value="14">操作加分</option>
+								<option value="15">操作启停奖</option>
+								<option value="8">设备消缺</option>
+								<option value="9">巡回检查</option>
 							</select>
                         </div>
 					</div>
@@ -157,7 +148,7 @@
             </div>
             <div class="row">&nbsp;</div>
             <div class="modal-footer">
-                <button id="submitTransfer" type="button" class="btn btn-default forApprove btn-submit">
+                <button id="submitTransfer" type="button" class="btn btn-default forApprove btn-submit" onclick="submit()">
                     <span class="glyphicon glyphicon-ok">&nbsp;提交</span></button>
                  <button id="backButton" type="button" class="btn btn-default btn-submit">
                     <span class="glyphicon glyphicon-ban-circle">&nbsp;返回</span></button> 
@@ -175,8 +166,7 @@
 		var year = getYear();
 		var month = getMonth();
 		jQuery(grid_selector).jqGrid({
-			url : "contestItem/getGridData",
-			data: {},
+			url : "contestItem/getGridData?contestType=0",
 			mtype : "GET",
 			datatype : "json",
 			autowidth : true,
@@ -231,6 +221,7 @@
 
 			},
 			
+			
 			gridComplete: function () {
                 $("span.glyphicon.glyphicon-pencil", this).on("click", function (e) {
    /*                  var key = $(e.target).attr("tag");
@@ -263,6 +254,33 @@
 			caption: "考核管理"
 
 		});
+
+		function addContestItem(){
+			$('#dialog-confirm').modal('show');
+		}
+		
+		function resetModal(){
+			
+		}
+		
+		function submit(){
+		
+		}
+		
+		$("#contestType").change(function(){
+		    $.ajax({
+	               type: "GET",
+	               url: "contestItem/getGridData.do?contestType="+$(this).val(),
+	               success: function(data){
+	            	   		$(grid_selector).jqGrid("clearGridData");
+	                        $(grid_selector).jqGrid('setGridParam',
+	                               { 
+	                           datatype: 'local',
+	                           data:data
+	                       }).trigger("reloadGrid");
+	                  }
+	            });
+		 });
 
 		</script>
 

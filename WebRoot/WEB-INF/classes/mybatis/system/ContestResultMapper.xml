@@ -5,6 +5,8 @@
 	
 	<resultMap type="ContestResult" id="contestResultMap">
 		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="GroupID" property="GroupID"/>
 		<result column="RJ_SafetyScore" property="RJ_SafetyScore"/>
 		<result column="RJ_PowerScore" property="RJ_PowerScore"/>
 		<result column="RJ_HeatScore" property="RJ_HeatScore"/>
@@ -32,6 +34,8 @@
 	<select id="listAllContestResult" resultMap="contestResultMap" parameterType="pd">
 		select 
 		 CONVERT(varchar(100), StatDate, 23) as StatDate,
+		  GroupName,
+		  GroupID,
 		  RJ_SafetyScore,
 		  RJ_PowerScore,
 		  RJ_HeatScore,
@@ -43,6 +47,7 @@
 		  RJ_TotalScore
 		 from vw_ContestResult
 		 where year(StatDate)= #{year} and month(StatDate) = #{month}
+		 order by GroupID
 	</select>
 	
 
@@ -789,7 +794,9 @@
 	<select id="listAllContestItemForGrid" parameterType="pd" resultType="pd" useCache="false">
 		select ID,ContestItemID,IsTag,IsDelete,ItemName,StartStopType,Cent,money,ratio,memo,StartStop,listorder 
 		from RewardPunishDic 
-		where ContestItemID = #{contestType}
+		<if test="contestType!=0">
+			where ContestItemID = #{contestType}
+		</if>
 	</select>
 	
 	<!-- 考核录入指标列表(全部) -->

@@ -13,6 +13,8 @@ package com.fh.entity.system;
 public class ContestResult {
 	  
 	private String StatDate;     //日期
+	private String GroupName;
+	private String GroupID;
 	private double RJ_SafetyScore;	//安全得分
 	private double RJ_PowerScore;	//班均电量得分
 	private double RJ_HeatScore;	//供热量得分
@@ -24,6 +26,18 @@ public class ContestResult {
 	private double RJ_TotalScore; // 月度总分
 	public String getStatDate() {
 		return StatDate;
+	}
+	public String getGroupName() {
+		return GroupName;
+	}
+	public void setGroupName(String groupName) {
+		GroupName = groupName;
+	}
+	public String getGroupID() {
+		return GroupID;
+	}
+	public void setGroupID(String groupID) {
+		GroupID = groupID;
 	}
 	public double getRJ_EconomyScore() {
 		return RJ_EconomyScore;

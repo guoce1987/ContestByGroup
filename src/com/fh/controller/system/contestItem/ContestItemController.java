@@ -185,13 +185,10 @@ public class ContestItemController extends BaseController {
 		JSONArray jsonArr = new JSONArray();
 		try{
 			
-			String IdOrName = pd.getString("IdOrName");
 			
 			String contestType = pd.getString("contestType");
 			
-			if(null != IdOrName && !"".equals(IdOrName)){
-				IdOrName = IdOrName.trim();
-				pd.put("IdOrName", IdOrName);
+			if("0".equals(contestType)){
 				pd.put("contestType",contestType);
 			}
 

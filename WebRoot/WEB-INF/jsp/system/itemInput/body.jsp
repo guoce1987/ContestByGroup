@@ -79,14 +79,14 @@
 <div class="col-sm-4  form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核日期</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                         	<input type="text" id="datepickerForItem" class="form-control" />
                         </div>
 					</div>
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核值别</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <select name="groupId" id="groupId" class="form-control" placeholder="请选择值别">
                             	<option value=""></option>
 								<option value="1">一值</option>
@@ -101,7 +101,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核机组</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             
                             <select name="unit" id="unit" class="form-control" placeholder="请选择机组">
                             	<option value="0">全值</option>
@@ -117,9 +117,9 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核类型</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                            <select name="contestType" id="contestType" class="form-control" placeholder="请选择考核指标类型">
-                            	<option value=""></option>
+                            	<option value="0">全部</option>
 								<option value="1">安全指标</option>
 								<option value="10">精神文明</option>
 								<option value="14">操作加分</option>
@@ -132,26 +132,26 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核分数</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input id="score" name="score" class="form-control" />  
                         </div>
                     </div>
                      <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核奖金</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input id="money" name="money" class="form-control"/>  
                         </div>
                     </div>
                     <div class="form-group">
  						<label class="control-label col-sm-4 nowrap">原因</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                         	<textarea rows="5" id="memo" name="memo" class="form-control" ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                     	<label class="control-label col-sm-4 nowrap">参考</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                         	<textarea rows="5" id="cent" name="cent" class="form-control" ></textarea>
                         </div>
                     </div>
@@ -270,8 +270,7 @@
 		});
 		
 		jQuery("#item-table").jqGrid({
-			url : "contestItem/getGridData",
-			data: {},
+			url : "contestItem/getGridData&contestType=0",
 			mtype : "GET",
 			datatype : "json",
 			autowidth : true,
@@ -295,6 +294,22 @@
 			
 			multiselect: true,
 	        multiboxonly: true,
+	        beforeSelectRow: function() {
+	        	$("#item-table").jqGrid('resetSelection');
+	    	    return(true);
+	        },
+	        onSelectRow: function() {
+	        	var selRowId = $("#item-table").jqGrid ('getGridParam', 'selrow');
+	        	var itemName = $("#item-table").jqGrid ('getCell', selRowId, 'ItemName');
+	        	var score = $("#item-table").jqGrid ('getCell', selRowId, 'Cent');
+	        	var money = $("#item-table").jqGrid ('getCell', selRowId, 'money');
+	        	var memo = $("#item-table").jqGrid ('getCell', selRowId, 'memo');
+	        	$("#score").val(score);
+	        	$("#money").val(money);
+	        	$("#memo").val(memo);
+	       // 	alert("当前选中的是："+ selRowId);
+	       //	alert("ItemName："+celValue);
+	        },
 	
 			loadComplete : function() {
 				var table = this;

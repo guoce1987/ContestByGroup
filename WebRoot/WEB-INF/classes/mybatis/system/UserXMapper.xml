@@ -303,6 +303,7 @@
 	<!-- 用户列表(全部) -->
 	<select id="listAllUserGuoCe" parameterType="pd" resultType="pd" useCache="false">
 		 select 
+		 	 u.ROLE_ID,
 			 u.USER_ID,
 			 u.USERNAME,
 			 r.ROLE_NAME,

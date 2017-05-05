@@ -451,12 +451,12 @@
 	            
 				height: 250,
 
-				colNames:[ '','ID','用户名','角色','密码'],
+				colNames:[ '','ID','roleID','用户名','角色','密码'],
 				colModel:[
 					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
 					
                         formatter: function (cellvalue, options, rowObject) {
-                        	var key = rowObject.USER_ID + "^" + rowObject.USERNAME + "^" + rowObject.ROLE_NAME;
+                        	var key = rowObject.USER_ID + "^" + rowObject.USERNAME + "^" + rowObject.ROLE_NAME+ "^" + rowObject.ROLE_ID;
                             var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-pencil" tag="' + key + '"></span></a>';
                             var remove = '<a title="删除"><span class="glyphicon glyphicon-trash" tag="' + key + '"></span></a>';
   
@@ -466,6 +466,7 @@
 					
 					},
 					{name:'USER_ID',index:'USER_ID', width:90, sorttype:"text"},
+					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text"/* ,hidden:true */},
 					{name:'USERNAME',index:'USERNAME',width:90, sorttype:"text"},
 					{name:'ROLE_NAME',index:'ROLE_NAME',width:90, sorttype:"text"},
                     {name:'PASSWORD',index:'PASSWORD',width:90, sorttype:"text"}
@@ -500,6 +501,7 @@
                         model.id = arr[0];
                         model.userName = arr[1];
                         model.role = arr[2];
+                        model.roleId = arr[3];
                         $("#ID").val(model.id);
                         $("#userName").val(model.userName);
                         if("0" == model.role){
@@ -508,7 +510,7 @@
                         	$("#role").val(1);
                         }
                        // $('#dialog-confirm').modal('show');
-                       editRights(model.id);
+                       editRights(model.roleId);
                     });
                     $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
                         var id = $(e.target).attr("tag");
