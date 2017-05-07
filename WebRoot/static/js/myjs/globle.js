@@ -10,7 +10,9 @@ $(function() {
 	$("#datepicker").datepicker("setDate", d.getFullYear() + "-" + (d.getMonth()+1));// 设置
 	
 	$("#datepicker").datepicker().on("changeMonth", function(e) {
-		$("ul.nav.nav-list li.active a").click();
+		//$("ul.nav.nav-list li.active a").click(); 容易造成冒泡事件
+		var fnStr = $("ul.nav.nav-list li.active a").attr('onclick')
+		eval(fnStr);
     });
 	$("#dpaddon").on("click", function(){
 		$("#datepicker").datepicker("show");
@@ -45,6 +47,15 @@ $(function() {
 		});
 	});
 	
+	$('.nav.nav-list > li:has(li)').on('click', function(e){
+		//$(this).find('li:first a').click(); //这种写法会造成死循环
+		var fnStr = $(this).find('li:first a').attr('onclick');
+		$liClicked = $(this);
+		//console.log($liClicked.attr('class'));
+		setTimeout(function() {
+			if("open" == $liClicked.attr('class')) eval(fnStr);
+		}, 300);
+	});
 });
 
 function getYear(){

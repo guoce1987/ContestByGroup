@@ -97,5 +97,8 @@
 					$("ul.nav.nav-list li.active").removeClass("active");
 					$(id).addClass("active");
 					$(".breadcrumb").text($(id).text());
+					//防止点击子菜单的时候，父菜单相应click
+					var evt = (evt) ? evt : ((window.event) ? window.event : null);
+					if(evt) evt.cancelBubble = true; 
  				} 
 			</script>

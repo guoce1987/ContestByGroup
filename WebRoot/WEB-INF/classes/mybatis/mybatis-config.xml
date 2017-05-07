@@ -14,7 +14,7 @@
 		<typeAlias type="com.fh.entity.system.Role" alias="Role"/>
 		<typeAlias type="com.fh.entity.system.Menu" alias="Menu"/>
 		<typeAlias type="com.fh.entity.system.ContestResult" alias="ContestResult"/>
-		<typeAlias type="com.fh.entity.system.ContestResultForChart" alias="ContestResultForChart"/>
+		<typeAlias type="com.fh.entity.system.ContestResultForGrid" alias="ContestResultForGrid"/>
 		<typeAlias type="com.fh.entity.system.SecurityIndexForGrid" alias="SecurityIndexForGrid"/>
 		<typeAlias type="com.fh.entity.system.SecurityIndexForChart" alias="SecurityIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.PowerIndexForChart" alias="PowerIndexForChart"/>
@@ -48,6 +48,7 @@
 
 		<typeAlias type="com.fh.entity.system.BreakPointForChart" alias="BreakPointForChart"/>
 		<typeAlias type="com.fh.entity.system.BreakPointForGrid" alias="BreakPointForGrid"/>
+		<typeAlias type="com.fh.entity.system.BreakPointDetailForGrid" alias="BreakPointDetailForGrid"/>
 
 		<typeAlias type="com.fh.entity.system.BugStatForChart" alias="BugStatForChart"/>
 		<typeAlias type="com.fh.entity.system.BugStatForGrid" alias="BugStatForGrid"/>

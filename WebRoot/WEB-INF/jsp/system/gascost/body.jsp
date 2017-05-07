@@ -127,7 +127,7 @@ function initGrid() {
 				loadonce: true,
 				shrinkToFit : false,
 				autoScroll : true,
-				colNames : [ '日期', '班次', '班名', '值别', '发电量', '上网电量', '1号管用气量',
+				colNames : [ '日期', '班次', '值别', '发电量', '上网电量', '1号管用气量',
 						'2号管用气量', '3号管用气量', '用气总量', '燃气热值', '供电气耗', '厂用电量',
 						'生产厂用电量', '纯供热厂用电量' ],
 				colModel : [ {
@@ -136,15 +136,10 @@ function initGrid() {
 					width : 90,
 					sorttype : "text"
 				}, {
-					name : 'dutyid',
-					index : 'dutyID',
-					width : 90,
-					sorttype : "text"
-				}, {
 					name : 'dutyname',
 					index : 'dutyName',
 					width : 90,
-					sorttype : "text"
+					sortable: false
 				}, {
 					name : 'groupName',
 					index : 'groupName',
@@ -188,12 +183,12 @@ function initGrid() {
 				}, {
 					name : 'RJ_gascost',
 					index : 'RJ_gascost',
-					width : 140,
+					width : 180,
 					sorttype : "double"
 				}, {
 					name : 'RJ_totalplantusepowerflow',
 					index : 'RJ_totalplantusepowerflow',
-					width : 140,
+					width : 180,
 					sorttype : "double"
 				}, {
 					name : 'RJ_produceusepowerflow',

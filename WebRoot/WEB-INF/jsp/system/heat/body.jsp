@@ -83,20 +83,10 @@
 					} ]
 				} ],
 				"dataset" : [ {
-					"seriesName" : "安全得分",
+					"seriesName" : "班均供热量",
 					"showValues" : "1",
 					"data" : {}
-				}, {
-					"seriesName" : "发电量得分",
-					"renderAs" : "line",
-					"showValues" : "1",
-					"data" : {}
-				}, {
-					"seriesName" : "供热得分",
-					"renderAs" : "area",
-					"showValues" : "1",
-					"data" : {}
-				} ]
+				}]
 			}
 		});
 
@@ -133,7 +123,7 @@
 			autowidth : true,
 			height : 'auto',
 			loadonce: true,
-			colNames : [ '日期', '班次', '班名', '值别', '供热量' ],
+			colNames : [ '日期', '班次ID', '班次', '值别', '供热量' ],
 			colModel : [ {
 				name : 'statDate',
 				index : 'statDate',
@@ -143,7 +133,8 @@
 				name : 'dutyID',
 				index : 'dutyID',
 				width : 90,
-				sorttype : "text"
+				sorttype : "text",
+				hidden:true
 			}, {
 				name : 'dutyName',
 				index : 'dutyName',

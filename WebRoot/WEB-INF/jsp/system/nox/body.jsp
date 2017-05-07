@@ -59,7 +59,7 @@
 					"caption" : "脱销指标分析",
 					"subCaption" : year + "年" + month + "月",
 					/*"xAxisname" : "值",*/
-					"yAxisName" : "脱硝偏差",
+					"yAxisName" : "脱硝（偏差）",
 					/* "numberPrefix": "分", */
 					"theme" : "zune",
 					//Making the chart export enabled in various formats
@@ -127,8 +127,8 @@
 					loadonce: true,
 					colNames:['日期','值别','偏差', '名次', '得分'],
 					colModel:[
-						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
+						{name:'statDate',index:'statDate', width:90, sortable: false},
+						{name:'groupName',index:'groupName',width:90, sortable: false},
 						{name:'RJ_Nox',index:'RJ_Nox',width:90, sorttype:"double"},
 						{name:'RJ_NoxRank',index:'RJ_NoxRank',width:90, sorttype:"double"},
 						{name:'RJ_NoxScore',index:'RJ_NoxScore',width:90, sorttype:"double"}

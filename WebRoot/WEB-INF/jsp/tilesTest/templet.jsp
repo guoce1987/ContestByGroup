@@ -148,7 +148,7 @@
 		<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			//if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 		
 		<script type="text/javascript">

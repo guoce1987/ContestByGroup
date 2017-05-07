@@ -60,7 +60,7 @@
 					"caption" : "排烟温度分析",
 					"subCaption" : year + "年" + month + "月",
 					/*"xAxisname" : "值",*/
-					"yAxisName" : "排烟温度",
+					"yAxisName" : "排烟温度（偏差）",
 					/* "numberPrefix": "分", */
 					"theme" : "zune",
 					//Making the chart export enabled in various formats
@@ -83,22 +83,11 @@
 						"label" : "运行六值"
 					} ]
 				} ],
-				"dataset" : [ {
-					"seriesName" : "安全得分",
-					"renderAs" : "bar",
-					"showValues" : "1",
-					"data" : {}
-				}, {
-					"seriesName" : "发电量得分",
-					"renderAs" : "bar",
-					"showValues" : "1",
-					"data" : {}
-				}, {
-					"seriesName" : "供热得分",
-					"renderAs" : "bar",
-					"showValues" : "1",
-					"data" : {}
-				} ]
+				"dataset": [{
+		            "seriesName": "排烟温度偏差",
+		            "showValues": "1",
+		            "data": {}
+		        }]
 			}
 		});
 	}
@@ -114,7 +103,7 @@
 		$.ajax({
 			type : "POST",
 			data : model,
-			url : "contestResult/getChartData.do",
+			url : "gastemp/getChartData.do",
 			success : function(data) {
 				fusioncharts.setJSONData(data);
 				fusioncharts.render();
@@ -130,67 +119,21 @@
 		jQuery(grid_selector).jqGrid(
 				{
 
-					url : "contestResult/getGridData?year=" + year + "&month="
+					url : "gastemp/getGridData?year=" + year + "&month="
 							+ month,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
 					height : 'auto',
 					loadonce: true,
-					colNames : [ '日期', '安全得分', '班均电量得分', '供热量得分', '经济指标得分',
-							'设备消缺得分', '巡检得分', '培训得分', '文明生产得分', '月度总分' ],
-					colModel : [
-
-					{
-						name : 'statDate',
-						index : 'statDate',
-						width : 90
-					}, {
-						name : 'RJ_SafetyScore',
-						index : 'RJ_SafetyScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_PowerScore',
-						index : 'RJ_PowerScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_HeatScore',
-						index : 'RJ_HeatScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_EconomyScore',
-						index : 'RJ_EconomyScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_BugScore',
-						index : 'RJ_BugScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_PotralScore',
-						index : 'RJ_PotralScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_TrainScore',
-						index : 'RJ_TrainScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_SpiritScore',
-						index : 'RJ_SpiritScore',
-						width : 90,
-						sorttype : "double"
-					}, {
-						name : 'RJ_TotalScore',
-						index : 'RJ_TotalScore',
-						width : 90,
-						sorttype : "double"
-					}, ],
+					colNames:['日期','值别','偏差', '名次', '得分'],
+					colModel:[
+						{name:'statDate',index:'statDate', width:90, sortable: false},
+						{name:'groupName',index:'dutyID',width:90, sortable: false},
+						{name:'RJ_GasTempDiff',index:'RJ_GasTempDiff',width:90, sorttype:"double"},
+						{name:'RJ_GasTempScore',index:'RJ_GasTempScore',width:90, sorttype:"double"},
+						{name:'RJ_GasTempRank',index:'RJ_GasTempRank',width:90, sorttype:"double"}
+					], 
 					viewrecords : true,
 					rowNum : 30,
 					//rowList : [ 10, 20, 30 ],

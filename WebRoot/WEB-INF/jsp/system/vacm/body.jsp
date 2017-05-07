@@ -60,7 +60,7 @@
 					"caption" : "真空指标分析",
 					"subCaption" : year + "年" + month + "月",
 					/*"xAxisname" : "值",*/
-					"yAxisName" : "真空",
+					"yAxisName" : "真空（偏差）",
 					/* "numberPrefix": "分", */
 					"theme" : "zune",
 					//Making the chart export enabled in various formats
@@ -128,8 +128,8 @@
 					loadonce: true,
 					colNames:['日期','值别','偏差', '名次', '得分'],
 					colModel:[
-						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'groupName',index:'dutyID',width:90, sorttype:"text"},
+						{name:'statDate',index:'statDate', width:90, sortable: false},
+						{name:'groupName',index:'dutyID',width:90, sortable: false},
 						{name:'RJ_VacmDiff',index:'RJ_VacmDiff',width:90, sorttype:"double"},
 						{name:'RJ_VacmRank',index:'RJ_VacmRank',width:90, sorttype:"double"},
 						{name:'RJ_VacmScore',index:'RJ_VacmScore',width:90, sorttype:"double"}

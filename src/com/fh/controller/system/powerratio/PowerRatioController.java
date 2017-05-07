@@ -66,22 +66,9 @@ public class PowerRatioController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<AuxPowerRatioForGrid> powerRatioListForGrid = contestResultService.listAllAuxPowerRatioForGrid(pd);
-			List<AuxPowerRatioForChart> powerRatioListForChart = contestResultService.listAllAuxPowerRatioForChart(pd);
-			
-			JSONArray powerRatioArray = new JSONArray();  
-
-			JSONObject jsonObject = new JSONObject();
-			for (AuxPowerRatioForChart AuxPowerRatioForChart : powerRatioListForChart) {
-				jsonObject.element("value", AuxPowerRatioForChart.getRJ_AuxPowerRatio());
-				powerRatioArray.add(jsonObject);
-			}
 			
 			mv.setViewName("powerratio/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray powerRatioForGridList = JSONArray.fromObject(powerRatioListForGrid);
-			mv.addObject("powerRatioForGridList", powerRatioForGridList);
-			mv.addObject("auxPowerRatioArray", powerRatioArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -98,7 +85,7 @@ public class PowerRatioController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -121,11 +108,15 @@ public class PowerRatioController extends BaseController {
 				List<AuxPowerRatioForChart> powerRatioListForChart = contestResultService.listAllAuxPowerRatioForChart(pd);
 				
 				JSONArray powerRatioArray = new JSONArray();  
+				JSONArray powerRatioScoreArray = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
 				for (AuxPowerRatioForChart AuxPowerRatioForChart : powerRatioListForChart) {
-					jsonObject.element("value", AuxPowerRatioForChart.getRJ_AuxPowerRatio());
+					jsonObject.element("value", AuxPowerRatioForChart.getRJ_PlantUsePowerRatio());
 					powerRatioArray.add(jsonObject);
+					
+					jsonObject.element("value", AuxPowerRatioForChart.getRJ_PlantUsePowerScore());
+					powerRatioScoreArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -135,6 +126,9 @@ public class PowerRatioController extends BaseController {
 					JSONObject data = dataset.getJSONObject(i); 
 					if(null != data && data.get("seriesname").equals("厂用电率")){
 						data.element("data", powerRatioArray);
+					}
+					if(null != data && data.get("seriesname").equals("厂用电率得分")){
+						data.element("data", powerRatioScoreArray);
 					}
 				}
 				
@@ -152,7 +146,7 @@ public class PowerRatioController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();
 			try{

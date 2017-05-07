@@ -83,7 +83,21 @@
 					} ]
 				} ],
 				 "dataset": [{
-			            "seriesName": "综合水耗",
+			            "seriesName": "除盐水补水率",
+			            "showValues": "1",
+			            "data": {}
+			      },{
+			            "seriesName": "除盐水补水率得分",
+			            "showValues": "1",
+			            "renderAs":"line",
+			            "data": {}
+			      },{
+			            "seriesName": "污水补水率",
+			            "showValues": "1",
+			            "data": {}
+			      },{
+			            "seriesName": "污水补水率得分",
+			            "renderAs":"line",
 			            "showValues": "1",
 			            "data": {}
 			      }]
@@ -127,7 +141,7 @@
 			colModel:[
 				{name:'statDate',index:'statDate', width:90, sorttype:"text"},
 				{name:'groupName',index:'groupName',width:90, sorttype:"text"},
-				{name:'dutyName',index:'dutyName',width:90, sorttype:"text"},
+				{name:'dutyName',index:'dutyName',width:90, sortable: false},
 				{name:'RJ_DirtyWater',index:'RJ_DirtyWater',width:90, sorttype:"double"},
 				{name:'RJ_RawWater',index:'RJ_RawWater',width:90, sorttype:"double"},
 				{name:'RJ_DeSaltWater',index:'RJ_DeSaltWater',width:90, sorttype:"double"},

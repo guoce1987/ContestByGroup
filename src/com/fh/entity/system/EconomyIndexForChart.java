@@ -20,6 +20,8 @@ public class EconomyIndexForChart {
 	private double RJ_VacmScore;	//真空偏差累计得分
 	private double RJ_NoxScore;	//NOX偏差累计得分
 	private double RJ_BreakPunishScore; //违规点罚分
+	private double RJ_TotalScore; //违规点罚分
+	
 	public String getGroupName() {
 		return GroupName; 
 	}
@@ -73,6 +75,12 @@ public class EconomyIndexForChart {
 	}
 	public void setRJ_BreakPunishScore(double rJ_BreakPunishScore) {
 		RJ_BreakPunishScore = rJ_BreakPunishScore;
+	}
+	public double getRJ_TotalScore() {
+		return RJ_TotalScore;
+	}
+	public void setRJ_TotalScore(double rJ_TotalScore) {
+		RJ_TotalScore = rJ_TotalScore;
 	}
 
 

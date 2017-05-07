@@ -87,38 +87,37 @@
 		            "showValues": "1",
 		            "data": {}
 		        }, {
+		            "seriesName": "厂用电率",
+		            "showValues": "1",
+		            "data": {}
+		        },{
+		            "seriesName": "综合水耗",
+		            "showValues": "1",
+		            "data": {}
+		        },{
 		            "seriesName": "排烟温度",
-		            "renderAs": "line",
 		            "showValues": "1",
 		            "data": {}
 		        }, {
 		            "seriesName": "真空",
-		            "renderAs": "area",
 		            "showValues": "1",
 		            "data": {}
 		        }, {
 		            "seriesName": "脱硝",
 		            "showValues": "1",
 		            "data": {}
-		        }, {
-		            "seriesName": "厂用电率",
-		            "renderAs": "line",
-		            "showValues": "1",
-		            "data": {}
-		        }, {
-		            "seriesName": "操作加分",
-		            "renderAs": "area",
-		            "showValues": "1",
-		            "data": {}
-		        }, {
-		            "seriesName": "综合水耗",
-		            "renderAs": "line",
-		            "showValues": "1",
-		            "data": {}
-		        }, {
+		        },{
 		            "seriesName": "违规扣分",
-		            "renderAs": "area",
 		            "showValues": "1",
+		            "data": {}
+		        },{
+		            "seriesName": "操作加分",
+		            "showValues": "1",
+		            "data": {}
+		        },{
+		            "seriesName": "总分",
+		            "showValues": "1",
+		            "renderAs":"line",
 		            "data": {}
 		        }]
 			}
@@ -160,23 +159,45 @@
 			loadonce: true,
 			shrinkToFit : false,
 			autoScroll : true,
-			colNames:['日期','值别','供电气耗', '得分','综合厂用电率', '操作加分','NOX偏差累计','得分','排烟温度偏差累计','得分','真空偏差累计','得分','二级污水补水率', '除盐水补水率','违规点罚分','总分'],
+			colNames:['日期','值别','供电气耗', '得分','综合厂用电率', '得分', '除盐水补水率','二级污水补水率', "综合水耗得分",'排烟温度偏差累计','得分','真空偏差累计','得分','NOX偏差累计','得分','违规点罚分','操作加分','总分'],
 			colModel:[
-				{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-				{name:'groupName',index:'groupName',width:90, sorttype:"text"},
+				{name:'statDate',index:'statDate', width:90,sortable: false},
+				{name:'groupName',index:'groupName',width:90,sortable: false},
+				
 				{name:'RJ_SuplyPowerGasCost',index:'RJ_SuplyPowerGasCost',width:90, sorttype:"double"},
-				{name:'RJ_SuplyPowerGasCostScore',index:'RJ_SuplyPowerGasCostScore',width:90, sorttype:"double"},
-				{name:'RJ_PlantUsePowerRatio',index:'RJ_PlantUsePowerScore', sorttype:"double"},
-				{name:'RJ_OperationScore',index:'RJ_OperationScore',width:90, sorttype:"double"},
-				{name:'RJ_Nox',index:'RJ_Nox',width:110, sorttype:"double"},
-				{name:'RJ_NoxScore',index:'RJ_NoxScore',width:90, sorttype:"double"},
+				{name:'RJ_SuplyPowerGasCostScore',index:'RJ_SuplyPowerGasCostScore',width:90, sorttype:"double"},   
+				
+				{name:'RJ_PlantUsePowerRatio',index:'RJ_PlantUsePowerRatio', sorttype:"double",
+					formatter: function(cellvalue, options, rowObject ){
+						return cellvalue.toFixed(2)+'%';
+				}},
+				{name:'RJ_PlantUsePowerScore',index:'RJ_PlantUsePowerScore',width:90, sorttype:"double"},
+				
+				{name:'RJ_DesaltWaterRatio',index:'RJ_DesaltWaterRatio',width:130, sorttype:"double",
+					formatter: function(cellvalue, options, rowObject ){
+						return cellvalue.toFixed(2)+'%';
+				}},
+				{name:'RJ_DirtyWaterRatio',index:'RJ_DirtyWaterRatio',width:130, sorttype:"double",
+					formatter: function(cellvalue, options, rowObject ){
+						return cellvalue.toFixed(2)+'%';
+				}},
+				{name:'RJ_WaterAdditionScore',index:'RJ_WaterAdditionScore',width:90, sorttype:"double"},
+				
 				{name:'RJ_GasTempDiff',index:'RJ_GasTempDiff',width:120, sorttype:"double"},
 				{name:'RJ_GasTempScore',index:'RJ_GasTempScore',width:90, sorttype:"double"},
+				
 				{name:'RJ_VacmDiff',index:'RJ_VacmDiff',width:150, sorttype:"double"},
 				{name:'RJ_VacmScore',index:'RJ_VacmScore',width:90, sorttype:"double"},
-				{name:'RJ_DirtyWaterRatio',index:'RJ_DirtyWaterRatio',width:130, sorttype:"double"},
-				{name:'RJ_DesaltWaterRatio',index:'RJ_DesaltWaterRatio',width:130, sorttype:"double"},
+				
+				
+				{name:'RJ_Nox',index:'RJ_Nox',width:110, sorttype:"double"},
+				{name:'RJ_NoxScore',index:'RJ_NoxScore',width:90, sorttype:"double"},
+				
+				
 				{name:'RJ_BreakPunishScore',index:'RJ_BreakPunishScore',width:90, sorttype:"double"},
+				
+				{name:'RJ_OperationScore',index:'RJ_OperationScore',width:90, sorttype:"double"},
+				
 				{name:'RJ_TotalScore',index:'RJ_TotalScore',width:90, sorttype:"double"}
 			],
 			viewrecords : true,

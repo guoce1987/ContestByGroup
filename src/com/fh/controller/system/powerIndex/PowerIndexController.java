@@ -11,20 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.PowerIndexForChart;
 import com.fh.entity.system.PowerIndexForGrid;
-import com.fh.entity.system.Role;
-import com.fh.entity.system.SecurityIndexForChart;
-import com.fh.entity.system.SecurityIndexForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
-import com.guoce.schedule.MyFirstSchedule;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -126,11 +120,11 @@ public class PowerIndexController extends BaseController {
 				
 				List<PowerIndexForChart> powerIndexListForChart = contestResultService.listAllPowerIndexForChart(pd);
 				
-				JSONArray safetyScoreArray = new JSONArray();  //安全得分
+				JSONArray powerAvgArray = new JSONArray();  //班均发电量
 				JSONObject jsonObject = new JSONObject();
 				for (PowerIndexForChart PowerIndexForChart : powerIndexListForChart) {
 					jsonObject.element("value", PowerIndexForChart.getRJ_GeneratePowerAvg());
-					safetyScoreArray.add(jsonObject);
+					powerAvgArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -138,8 +132,8 @@ public class PowerIndexController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("安全得分")){
-						data.element("data", safetyScoreArray);
+					if(null != data && data.get("seriesname").equals("班均发电量")){
+						data.element("data", powerAvgArray);
 					}
 				}
 				

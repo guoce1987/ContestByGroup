@@ -130,7 +130,7 @@
 						{name:'ID',index:'ID', width:90, sorttype:"text"},
 						{name:'checkDate',index:'CheckDate',width:90, sorttype:"text"},
 						{name:'groupName',index:'GroupName',width:90, sorttype:"text"},
-						{name:'itemName',index:'ItemName',width:90, sorttype:"text"},
+						{name:'itemName',index:'ItemName',width:90, sortable:false},
 						{name:'operateAddScore',index:'OperateAddScore',width:90, sorttype:"double"}
 					], 
 					viewrecords : true,

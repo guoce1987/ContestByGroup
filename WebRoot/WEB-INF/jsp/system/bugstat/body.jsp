@@ -128,8 +128,8 @@
 					loadonce: true,
 					colNames:['日期','姓名', '值别', '登陆总数','注销总数','重复缺陷','总缺陷'],
 					colModel:[
-						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
-						{name:'yxbUser',index:'YxbUser',width:90, sorttype:"text"},
+						{name:'statDate',index:'statDate', width:90, sortable:false},
+						{name:'yxbUser',index:'YxbUser',width:90, sortable:false},
 						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
 						{name:'logAmount',index:'LogAmount',width:90, sorttype:"double"},
 						{name:'removeAmount',index:'RemoveAmount',width:90, sorttype:"double"},

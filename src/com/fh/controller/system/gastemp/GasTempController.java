@@ -11,22 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
 import com.fh.entity.system.GasTempForChart;
 import com.fh.entity.system.GasTempForGrid;
-import com.fh.entity.system.Role;
-import com.fh.entity.system.SecurityIndexForChart;
-import com.fh.entity.system.SecurityIndexForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
-import com.guoce.schedule.MyFirstSchedule;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -141,7 +133,7 @@ public class GasTempController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("排烟温度")){
+					if(null != data && data.get("seriesname").equals("排烟温度偏差")){
 						data.element("data", gasTempArray);
 					}
 				}

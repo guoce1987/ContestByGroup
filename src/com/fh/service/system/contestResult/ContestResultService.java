@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 import com.fh.dao.DaoSupport;
 import com.fh.entity.system.AuxPowerRatioForChart;
 import com.fh.entity.system.AuxPowerRatioForGrid;
+import com.fh.entity.system.BreakPointDetailForGrid;
 import com.fh.entity.system.BreakPointForChart;
 import com.fh.entity.system.BreakPointForGrid;
 import com.fh.entity.system.BugStatForChart;
 import com.fh.entity.system.BugStatForGrid;
 import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
+import com.fh.entity.system.ContestResultForGrid;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
 import com.fh.entity.system.GasTempForChart;
@@ -29,7 +30,6 @@ import com.fh.entity.system.OperationScoreForChart;
 import com.fh.entity.system.OperationScoreForGrid;
 import com.fh.entity.system.PowerIndexForChart;
 import com.fh.entity.system.PowerIndexForGrid;
-import com.fh.entity.system.Role;
 import com.fh.entity.system.SecurityIndexForChart;
 import com.fh.entity.system.SecurityIndexForGrid;
 import com.fh.entity.system.SpiritScoreForChart;
@@ -51,12 +51,12 @@ public class ContestResultService{
 	private DaoSupport dao;
 	
 	//总成绩
-	public List<ContestResult> listAllContestResultForGrid(PageData pd) throws Exception {
-		return (List<ContestResult>) dao.findForList("ContestResultMapper.listAllContestResult", pd);
+	public List<ContestResultForGrid> listAllContestResultForGrid(PageData pd) throws Exception {
+		return (List<ContestResultForGrid>) dao.findForList("ContestResultMapper.listAllContestResultByProcedure", pd);
 		
 	}
-	public List<ContestResultForChart> listAllContestResultForChart(PageData pd) throws Exception {
-		return (List<ContestResultForChart>) dao.findForList("ContestResultMapper.listAllContestResultByProcedure", pd);
+	public List<ContestResult> listAllContestResultForChart(PageData pd) throws Exception {
+		return (List<ContestResult>) dao.findForList("ContestResultMapper.listAllContestResult", pd);
 		
 	}
 	//安全指标
@@ -178,6 +178,10 @@ public class ContestResultService{
 		return (List<BreakPointForChart>) dao.findForList("ContestResultMapper.listAllBreakPointForChart", pd);
 		
 	}
+	//违规点详情列表查询
+	public List<BreakPointDetailForGrid> listAllBreakPointDetailForGrid(PageData pd) throws Exception {
+		return (List<BreakPointDetailForGrid>) dao.findForList("ContestResultMapper.listAllBreakPointDetailForGrid", pd);
+	}
 	
 	//设备消缺
 	public List<BugStatForGrid> listAllBugStatForGrid(PageData pd) throws Exception {
@@ -230,4 +234,11 @@ public class ContestResultService{
 		return (List<PageData>) dao.findForList("ContestResultMapper.listAllItemInputForGrid", pd);
 		
 	}
+	
+	//KKS查询
+	public List<String> listAllKKS(PageData pd) throws Exception {
+		return (List<String>) dao.findForList("ContestResultMapper.listAllKKS", pd);
+		
+	}
+
 }

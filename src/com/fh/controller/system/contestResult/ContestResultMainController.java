@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
+import com.fh.entity.system.ContestResultForGrid;
 import com.fh.entity.system.Role;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
@@ -66,32 +66,11 @@ public class ContestResultMainController extends BaseController {
 			pd.put("year", year);
 			pd.put("month", month);
 			page.setPd(pd);
-//			List<PageData>	userList = appuserService.listPdPageUser(page);			//列出用户列表
-//			List<Role> roleList = roleService.listAllappERRoles();					//列出所有会员二级角色
-			List<ContestResult> contestResultList = contestResultService.listAllContestResultForGrid(pd);
-			
-			JSONArray safetyScoreArray = new JSONArray();  //安全得分
-			JSONArray heatScoreArray = new JSONArray();		//供热量得分
-			JSONArray economyScoreArray = new JSONArray();	//经济指标得分
-			
-			JSONObject jsonObject = new JSONObject();
-			for (ContestResult contestResult : contestResultList) {
-				jsonObject.element("value", contestResult.getRJ_SafetyScore());
-				safetyScoreArray.add(jsonObject);
-				jsonObject.element("value", contestResult.getRJ_HeatScore());
-				heatScoreArray.add(jsonObject);
-				jsonObject.element("value", contestResult.getRJ_EconomyScore());
-				economyScoreArray.add(jsonObject);
-			}
+
 			
 			mv.setViewName("contestResult/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray jsonArr = JSONArray.fromObject(contestResultList);
-			mv.addObject("contestResultList", jsonArr);
-			
-			mv.addObject("safetyScoreArray", safetyScoreArray);
-			mv.addObject("heatScoreArray", heatScoreArray);
-			mv.addObject("economyScoreArray", economyScoreArray);
+
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -103,87 +82,21 @@ public class ContestResultMainController extends BaseController {
 		
 		return mv;
 	}
-	
-	/**
-	 * 变量列表
-	 */  
-	@RequestMapping(value="/getDataForGrid")
-	@ResponseBody
-	public ModelAndView listContestResults(Page page){
-			ModelAndView mv = this.getModelAndView();
-			PageData pd = new PageData();
-			try{
-				pd = this.getPageData();
-				
-				String USERNAME = pd.getString("USERNAME");
-				String year = pd.getString("year");
-				String month = pd.getString("month");
-				if(null != USERNAME && !"".equals(USERNAME)){
-					USERNAME = USERNAME.trim();
-					pd.put("USERNAME", USERNAME);
-				}
-				pd.put("year", Integer.parseInt(year));
-				pd.put("month", Integer.parseInt(month));
-				page.setPd(pd);
 
-				List<ContestResult> contestResultList = contestResultService.listAllContestResultForGrid(pd);
-				List<ContestResultForChart> contestResultListForChart =contestResultService.listAllContestResultForChart(pd);
-				JSONArray safetyScoreArray = new JSONArray();  //安全得分
-				JSONArray heatScoreArray = new JSONArray();		//供热量得分
-				JSONArray economyScoreArray = new JSONArray();	//经济指标得分
-				JSONObject jsonObject = new JSONObject();
-				for (ContestResultForChart contestResultForChart : contestResultListForChart) {
-					if(contestResultForChart.getID().equals("1") && contestResultForChart.getID1().equals("2")) //安全得分
-					{
-						buildChartJson(jsonObject, contestResultForChart,safetyScoreArray);
-					}
-
-					if(contestResultForChart.getID().equals("7") && contestResultForChart.getID1().equals("2")) //经济指标得分
-					{
-						buildChartJson(jsonObject, contestResultForChart,heatScoreArray);
-					}
-
-					if(contestResultForChart.getID().equals("9") && contestResultForChart.getID1().equals("2")) //供热量得分
-					{
-						buildChartJson(jsonObject, contestResultForChart,economyScoreArray);
-					}
-				}
-				
-				mv.setViewName("contestResult/list");
-				pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-				JSONArray jsonArr = JSONArray.fromObject(contestResultList);
-				mv.addObject("contestResultList", jsonArr);
-				
-				mv.addObject("safetyScoreArray", safetyScoreArray);
-				mv.addObject("heatScoreArray", heatScoreArray);
-				mv.addObject("economyScoreArray", economyScoreArray);
-				
-
-				mv.addObject("year", year);
-				mv.addObject("month", month);
-				mv.addObject("pd", pd);
-//				mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
-			} catch(Exception e){
-				logger.error(e.toString(), e);
-			}
-			
-			return mv;
-		}
-
-	private void buildChartJson(JSONObject jsonObject, ContestResultForChart contestResultForChart,JSONArray safetyScoreArray) {
-		jsonObject.element("value", contestResultForChart.getG1());
-		safetyScoreArray.add(jsonObject);
-		jsonObject.element("value", contestResultForChart.getG2());
-		safetyScoreArray.add(jsonObject);
-		jsonObject.element("value", contestResultForChart.getG3());
-		safetyScoreArray.add(jsonObject);
-		jsonObject.element("value", contestResultForChart.getG4());
-		safetyScoreArray.add(jsonObject);
-		jsonObject.element("value", contestResultForChart.getG5());
-		safetyScoreArray.add(jsonObject);
-		jsonObject.element("value", contestResultForChart.getG6());
-		safetyScoreArray.add(jsonObject);
-	}
+//	private void buildChartJson(JSONObject jsonObject, ContestResultForChart contestResultForChart,JSONArray safetyScoreArray) {
+//		jsonObject.element("value", contestResultForChart.getG1());
+//		safetyScoreArray.add(jsonObject);
+//		jsonObject.element("value", contestResultForChart.getG2());
+//		safetyScoreArray.add(jsonObject);
+//		jsonObject.element("value", contestResultForChart.getG3());
+//		safetyScoreArray.add(jsonObject);
+//		jsonObject.element("value", contestResultForChart.getG4());
+//		safetyScoreArray.add(jsonObject);
+//		jsonObject.element("value", contestResultForChart.getG5());
+//		safetyScoreArray.add(jsonObject);
+//		jsonObject.element("value", contestResultForChart.getG6());
+//		safetyScoreArray.add(jsonObject);
+//	}
 
 	
 	/**
@@ -191,7 +104,7 @@ public class ContestResultMainController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -211,26 +124,39 @@ public class ContestResultMainController extends BaseController {
 				page.setPd(pd);
 
 				
-				List<ContestResultForChart> contestResultListForChart =contestResultService.listAllContestResultForChart(pd);
+				List<ContestResult> contestResultListForChart =contestResultService.listAllContestResultForChart(pd);
 				JSONArray safetyScoreArray = new JSONArray();  //安全得分
 				JSONArray heatScoreArray = new JSONArray();		//供热量得分
-				JSONArray energyScoreArray = new JSONArray();	//发电量得分
+				JSONArray energyScoreArray = new JSONArray();	//班均电量得分
+				JSONArray economyScoreArray = new JSONArray();  //经济指标得分
+				JSONArray bugScoreArray = new JSONArray();		//设备消缺得分
+				JSONArray portalScoreArray = new JSONArray();	//巡检得分
+				JSONArray trainScoreArray = new JSONArray();  //培训得分
+				JSONArray spiritScoreArray = new JSONArray();		//文明生产得分
+				JSONArray totalScoreArray = new JSONArray();	//月度总分
 				JSONObject jsonObject = new JSONObject();
-				for (ContestResultForChart contestResultForChart : contestResultListForChart) {
-					if(contestResultForChart.getID().equals("1") && contestResultForChart.getID1().equals("2")) //安全得分
-					{
-						buildChartJson(jsonObject, contestResultForChart,safetyScoreArray);
-					}
-
-					if(contestResultForChart.getID().equals("2") && contestResultForChart.getID1().equals("2")) //发电量得分
-					{
-						buildChartJson(jsonObject, contestResultForChart,energyScoreArray);
-					}
-
-					if(contestResultForChart.getID().equals("7") && contestResultForChart.getID1().equals("2")) //供热量得分
-					{
-						buildChartJson(jsonObject, contestResultForChart,heatScoreArray);
-					}
+				
+				for (ContestResult contestResultForChart : contestResultListForChart) {
+					jsonObject.element("value", contestResultForChart.getRJ_SafetyScore());
+					safetyScoreArray.add(jsonObject);
+					jsonObject.element("value", contestResultForChart.getRJ_HeatScore());
+					heatScoreArray.add(jsonObject);
+					jsonObject.element("value", contestResultForChart.getRJ_PowerScore());
+					energyScoreArray.add(jsonObject);
+					
+					jsonObject.element("value", contestResultForChart.getRJ_EconomyScore());
+					economyScoreArray.add(jsonObject);
+					jsonObject.element("value", contestResultForChart.getRJ_BugScore());
+					bugScoreArray.add(jsonObject);
+					jsonObject.element("value", contestResultForChart.getRJ_PotralScore());
+					portalScoreArray.add(jsonObject);
+					
+					jsonObject.element("value", contestResultForChart.getRJ_TrainScore());
+					trainScoreArray.add(jsonObject);
+					jsonObject.element("value", contestResultForChart.getRJ_SpiritScore());
+					spiritScoreArray.add(jsonObject);
+					jsonObject.element("value", contestResultForChart.getRJ_TotalScore());
+					totalScoreArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -241,11 +167,31 @@ public class ContestResultMainController extends BaseController {
 					if(null != data && data.get("seriesname").equals("安全得分")){
 						data.element("data", safetyScoreArray);
 					}
-					if(null != data && data.get("seriesname").equals("发电量得分")){
+					if(null != data && data.get("seriesname").equals("班均电量得分")){
 						data.element("data", energyScoreArray);
 					}
-					if(null != data && data.get("seriesname").equals("供热得分")){
+					if(null != data && data.get("seriesname").equals("供热量得分")){
 						data.element("data", heatScoreArray);
+					}
+					
+					if(null != data && data.get("seriesname").equals("经济指标得分")){
+						data.element("data", economyScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("设备消缺得分")){
+						data.element("data", bugScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("巡检得分")){
+						data.element("data", portalScoreArray);
+					}
+					
+					if(null != data && data.get("seriesname").equals("培训得分")){
+						data.element("data", trainScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("文明生产得分")){
+						data.element("data", spiritScoreArray);
+					}
+					if(null != data && data.get("seriesname").equals("月度总分")){
+						data.element("data", totalScoreArray);
 					}
 				}
 				
@@ -263,7 +209,7 @@ public class ContestResultMainController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			ModelAndView mv = this.getModelAndView();
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();
@@ -281,7 +227,7 @@ public class ContestResultMainController extends BaseController {
 				pd.put("month", Integer.parseInt(month));
 				page.setPd(pd);
 
-				List<ContestResult> contestResultList = contestResultService.listAllContestResultForGrid(pd);
+				List<ContestResultForGrid> contestResultList = contestResultService.listAllContestResultForGrid(pd);
 				jsonArr = JSONArray.fromObject(contestResultList);
 			} catch(Exception e){
 				logger.error(e.toString(), e);

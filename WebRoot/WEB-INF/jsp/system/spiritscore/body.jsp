@@ -130,7 +130,7 @@
 				{name:'groupName',index:'groupName',width:90, sorttype:"text"},
 				{name:'score',index:'score',width:90, sorttype:"text"},
 				{name:'money',index:'Money',width:90, sorttype:"text"},
-				{name:'memo',index:'Memo',width:90, sorttype:"text"}
+				{name:'memo',index:'Memo',width:90, sortable:false}
 			], 
 			viewrecords : true,
 			rowNum : 30,

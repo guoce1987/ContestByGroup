@@ -1,7 +1,7 @@
 				<%@ page language="java" pageEncoding="UTF-8"%>
 
 						<div class="nav-search" id="nav-search">
-								<div class="col-sm-2"><span class="breadcrumb" style="font-size:18px;color: #2679B5">首页</span></div>
+								<div class="col-sm-2"><span class="breadcrumb" style="font-size:17px;color: #2679B5">首页</span></div>
 								<div class="col-sm-2 pull-right" style="padding-right: 0px">
 										<div class="row">
 												<div class="input-group input-group-sm">

@@ -10,69 +10,41 @@ package com.fh.entity.system;
  */
 public class WaterCostForChart {
 	
-	private String StatDate;	//日期
 	private String GroupName;	//值别
-	private String DutyName;	//班次
-	private String GroupID;
-	private double RJ_DirtyWater;	//污水用量
-	private double RJ_RawWater;	//生水用量
-	private double RJ_DeSaltWater;	//除盐水用量
-	private double RJ_BoilerSteam; //锅炉蒸发量
-	private double RJ_GeneratePower; //发电量
-	public String getStatDate() {
-		return StatDate;
-	}
-	public void setStatDate(String statDate) {
-		StatDate = statDate;
-	}
+	private double RJ_DesaltWaterRatio;
+	private double RJ_DesaltWaterScore;
+	private double RJ_DirtyWaterRatio;
+	private double RJ_DirtyWaterScore;
+	
 	public String getGroupName() {
 		return GroupName;
 	}
 	public void setGroupName(String groupName) {
 		GroupName = groupName;
 	}
-	public String getDutyName() {
-		return DutyName;
+	
+	public double getRJ_DirtyWaterRatio() {
+		return RJ_DirtyWaterRatio;
 	}
-	public void setDutyName(String dutyName) {
-		DutyName = dutyName;
+	public void setRJ_DirtyWaterRatio(double rJ_DirtyWaterRatio) {
+		RJ_DirtyWaterRatio = rJ_DirtyWaterRatio;
 	}
-	public String getGroupID() {
-		return GroupID;
+	public double getRJ_DirtyWaterScore() {
+		return RJ_DirtyWaterScore;
 	}
-	public void setGroupID(String groupID) {
-		GroupID = groupID;
+	public void setRJ_DirtyWaterScore(double rJ_DirtyWaterScore) {
+		RJ_DirtyWaterScore = rJ_DirtyWaterScore;
 	}
-	public double getRJ_DirtyWater() {
-		return RJ_DirtyWater;
+	public double getRJ_DesaltWaterRatio() {
+		return RJ_DesaltWaterRatio;
 	}
-	public void setRJ_DirtyWater(double rJ_DirtyWater) {
-		RJ_DirtyWater = rJ_DirtyWater;
+	public void setRJ_DesaltWaterRatio(double rJ_DesaltWaterRatio) {
+		RJ_DesaltWaterRatio = rJ_DesaltWaterRatio;
 	}
-	public double getRJ_RawWater() {
-		return RJ_RawWater;
+	public double getRJ_DesaltWaterScore() {
+		return RJ_DesaltWaterScore;
 	}
-	public void setRJ_RawWater(double rJ_RawWater) {
-		RJ_RawWater = rJ_RawWater;
+	public void setRJ_DesaltWaterScore(double rJ_DesaltWaterScore) {
+		RJ_DesaltWaterScore = rJ_DesaltWaterScore;
 	}
-	public double getRJ_DeSaltWater() {
-		return RJ_DeSaltWater;
-	}
-	public void setRJ_DeSaltWater(double rJ_DeSaltWater) {
-		RJ_DeSaltWater = rJ_DeSaltWater;
-	}
-	public double getRJ_BoilerSteam() {
-		return RJ_BoilerSteam;
-	}
-	public void setRJ_BoilerSteam(double rJ_BoilerSteam) {
-		RJ_BoilerSteam = rJ_BoilerSteam;
-	}
-	public double getRJ_GeneratePower() {
-		return RJ_GeneratePower;
-	}
-	public void setRJ_GeneratePower(double rJ_GeneratePower) {
-		RJ_GeneratePower = rJ_GeneratePower;
-	}
-
-
 }

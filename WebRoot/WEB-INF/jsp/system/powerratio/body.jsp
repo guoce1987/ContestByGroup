@@ -87,6 +87,10 @@
 		            "seriesName": "厂用电率",
 		            "showValues": "1",
 		            "data": {}
+		        },{
+		            "seriesName": "厂用电率得分",
+		            "showValues": "1",
+		            "data": {}
 		        }]
 			}
 		});
@@ -131,15 +135,18 @@
 					    {name:'ID',index:'ID', width:90, sorttype:"text"},
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
 						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
-						{name:'dutyName',index:'DutyName',width:90, sorttype:"text"},
-						{name:'RJ_AuxPowerRatio',index:'RJ_AuxPowerRatio',width:90, sorttype:"double"},
+						{name:'dutyName',index:'DutyName',width:90, sortable: false},
+						{name:'RJ_TotalPlantUsePowerRatio',index:'RJ_TotalPlantUsePowerRatio',width:90, sorttype:"double",
+							formatter: function(cellvalue, options, rowObject ){
+								return cellvalue.toFixed(2)+'%';
+							}
+						},
 						{name:'RJ_GeneratePower',index:'RJ_GeneratePower',width:90, sorttype:"double"},
 						{name:'RJ_SuplyPower',index:'RJ_SuplyPower',width:90, sorttype:"double"},
 						{name:'XL2213PowerFLow',index:'XL2213PowerFLow',width:90, sorttype:"double"}
 					],
 					viewrecords : true,
 					rowNum : 30,
-					//rowList : [ 10, 20, 30 ],
 					pager : pager_selector,
 
 					loadComplete : function() {

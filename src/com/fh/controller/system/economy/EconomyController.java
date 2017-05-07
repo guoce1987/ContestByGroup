@@ -11,22 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.ContestResult;
-import com.fh.entity.system.ContestResultForChart;
 import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
-import com.fh.entity.system.Role;
-import com.fh.entity.system.SecurityIndexForChart;
-import com.fh.entity.system.SecurityIndexForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
-import com.guoce.schedule.MyFirstSchedule;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -81,7 +73,7 @@ public class EconomyController extends BaseController {
 			JSONArray gasTempArray = new JSONArray();  //排烟温度
 			JSONArray vacmIndexArray = new JSONArray();  //真空
 			JSONArray noxIndexArray = new JSONArray();  //脱硝
-			JSONArray auxPowerRatioArray = new JSONArray();  //厂用电率    ? 这个没有取值
+			JSONArray powerRatioArray = new JSONArray();  //厂用电率    ? 这个没有取值
 			JSONArray operationScoreArray = new JSONArray();  //操作加分
 			JSONArray waterCostArray = new JSONArray();  //综合水耗
 			JSONArray breakPointArray = new JSONArray();  //违规扣分
@@ -91,6 +83,10 @@ public class EconomyController extends BaseController {
 			for (EconomyIndexForChart EconomyIndexForChart : economyIndexListForChart) {
 				jsonObject.element("value", EconomyIndexForChart.getRJ_SuplyPowerGasCostScore());
 				suplyPowerGasCostArray.add(jsonObject);
+				
+				jsonObject.element("value", EconomyIndexForChart.getRJ_PlantUsePowerScore());
+				powerRatioArray.add(jsonObject);
+				
 				jsonObject.element("value", EconomyIndexForChart.getRJ_GasTempScore());
 				gasTempArray.add(jsonObject);
 				jsonObject.element("value", EconomyIndexForChart.getRJ_VacmScore());
@@ -113,7 +109,7 @@ public class EconomyController extends BaseController {
 			mv.addObject("gasTempArray", gasTempArray);
 			mv.addObject("vacmIndexArray", vacmIndexArray);
 			mv.addObject("noxIndexArray", noxIndexArray);
-			mv.addObject("auxPowerRatioArray", auxPowerRatioArray);
+			mv.addObject("auxPowerRatioArray", powerRatioArray);
 			mv.addObject("operationScoreArray", operationScoreArray);
 			mv.addObject("waterCostArray", waterCostArray);
 			mv.addObject("breakPointArray", breakPointArray);
@@ -134,7 +130,7 @@ public class EconomyController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -160,15 +156,20 @@ public class EconomyController extends BaseController {
 				JSONArray gasTempArray = new JSONArray();  //排烟温度
 				JSONArray vacmIndexArray = new JSONArray();  //真空
 				JSONArray noxIndexArray = new JSONArray();  //脱硝
-				JSONArray auxPowerRatioArray = new JSONArray();  //厂用电率    ? 这个没有取值
+				JSONArray powerRatioArray = new JSONArray();  //厂用电率    ? 这个没有取值
 				JSONArray operationScoreArray = new JSONArray();  //操作加分
 				JSONArray waterCostArray = new JSONArray();  //综合水耗
 				JSONArray breakPointArray = new JSONArray();  //违规扣分
+				JSONArray sumPointArray = new JSONArray();  //总分
 				
 				JSONObject jsonObject = new JSONObject();
 				for (EconomyIndexForChart EconomyIndexForChart : economyIndexListForChart) {
 					jsonObject.element("value", EconomyIndexForChart.getRJ_SuplyPowerGasCostScore());
 					suplyPowerGasCostArray.add(jsonObject);
+					
+					jsonObject.element("value", EconomyIndexForChart.getRJ_PlantUsePowerScore());
+					powerRatioArray.add(jsonObject);
+					
 					jsonObject.element("value", EconomyIndexForChart.getRJ_GasTempScore());
 					gasTempArray.add(jsonObject);
 					jsonObject.element("value", EconomyIndexForChart.getRJ_VacmScore());
@@ -181,6 +182,9 @@ public class EconomyController extends BaseController {
 					waterCostArray.add(jsonObject);
 					jsonObject.element("value", EconomyIndexForChart.getRJ_BreakPunishScore());
 					breakPointArray.add(jsonObject);
+					
+					jsonObject.element("value", EconomyIndexForChart.getRJ_TotalScore());
+					sumPointArray.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -201,7 +205,7 @@ public class EconomyController extends BaseController {
 						data.element("data", noxIndexArray);
 					}
 					if(null != data && data.get("seriesname").equals("厂用电率")){
-						data.element("data", auxPowerRatioArray);
+						data.element("data", powerRatioArray);
 					}
 					if(null != data && data.get("seriesname").equals("操作加分")){
 						data.element("data", operationScoreArray);
@@ -211,6 +215,9 @@ public class EconomyController extends BaseController {
 					}
 					if(null != data && data.get("seriesname").equals("违规扣分")){
 						data.element("data", breakPointArray);
+					}
+					if(null != data && data.get("seriesname").equals("总分")){
+						data.element("data", sumPointArray);
 					}
 				}
 				
@@ -228,7 +235,7 @@ public class EconomyController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();
 			try{

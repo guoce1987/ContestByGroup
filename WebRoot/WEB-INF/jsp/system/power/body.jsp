@@ -85,17 +85,7 @@
 					} ]
 				} ],
 				"dataset": [{
-		            "seriesName": "安全得分",
-		            "showValues": "1",
-		            "data": {}
-		        }, {
-		            "seriesName": "发电量得分",
-		            "renderAs": "line",
-		            "showValues": "1",
-		            "data": {}
-		        }, {
-		            "seriesName": "供热得分",
-		            "renderAs": "area",
+		            "seriesName": "班均发电量",
 		            "showValues": "1",
 		            "data": {}
 		        }]
@@ -138,10 +128,10 @@
 					autowidth : true,
 					height : 'auto',
 					loadonce: true,
-					colNames:['日期','班次','班名', '值别', '发电量'],
+					colNames:['日期','班次ID','班次', '值别', '发电量'],
 					colModel:[
 						{name:'statDate',index:'statDate',  sorttype:"text"},
-						{name:'dutyID',index:'dutyID', sorttype:"text"},
+						{name:'dutyID',index:'dutyID', sorttype:"text", hidden:true},
 						{name:'dutyName',index:'dutyName', sorttype:"text"},
 						{name:'groupName',index:'groupName', sorttype:"text"},
 						{name:'RJ_GeneratePower',index:'RJ_GeneratePower', sorttype:"double"}

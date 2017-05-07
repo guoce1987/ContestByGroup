@@ -68,22 +68,8 @@ public class WaterCostController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<WaterCostForGrid> watercostListForGrid = contestResultService.listAllWaterCostForGrid(pd);
-			List<WaterCostForChart> watercostListForChart = contestResultService.listAllWaterCostForChart(pd);
-			
-			JSONArray watercostArray = new JSONArray();  
-
-			JSONObject jsonObject = new JSONObject();
-			for (WaterCostForChart WaterCostForChart : watercostListForChart) {
-				jsonObject.element("value", WaterCostForChart.getRJ_DeSaltWater());
-				watercostArray.add(jsonObject);
-			}
-			
 			mv.setViewName("watercost/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray watercostForGridList = JSONArray.fromObject(watercostListForGrid);
-			mv.addObject("watercostForGridList", watercostForGridList);
-			mv.addObject("waterCostArray", watercostArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -122,12 +108,24 @@ public class WaterCostController extends BaseController {
 				
 				List<WaterCostForChart> watercostListForChart = contestResultService.listAllWaterCostForChart(pd);
 				
-				JSONArray watercostArray = new JSONArray();  
+				JSONArray dsaltWaterRatio = new JSONArray();  
+				JSONArray desaltWaterScore = new JSONArray();  
+				JSONArray dirtyWaterRatio = new JSONArray();  
+				JSONArray dirtyWaterScore = new JSONArray();  
 
 				JSONObject jsonObject = new JSONObject();
 				for (WaterCostForChart WaterCostForChart : watercostListForChart) {
-					jsonObject.element("value", WaterCostForChart.getRJ_DeSaltWater());
-					watercostArray.add(jsonObject);
+					jsonObject.element("value", WaterCostForChart.getRJ_DesaltWaterRatio());
+					dsaltWaterRatio.add(jsonObject);
+					
+					jsonObject.element("value", WaterCostForChart.getRJ_DesaltWaterScore());
+					desaltWaterScore.add(jsonObject);
+					
+					jsonObject.element("value", WaterCostForChart.getRJ_DirtyWaterRatio());
+					dirtyWaterRatio.add(jsonObject);
+					
+					jsonObject.element("value", WaterCostForChart.getRJ_DirtyWaterScore());
+					dirtyWaterScore.add(jsonObject);
 				}
 
 				fusionChartJsonObject = (JSONObject) JSONSerializer.toJSON(json);
@@ -135,8 +133,17 @@ public class WaterCostController extends BaseController {
 				JSONArray dataset = fusionChartJsonObject.getJSONArray("dataset");
 				for (int i = 0; i < dataset.size(); i++) {
 					JSONObject data = dataset.getJSONObject(i); 
-					if(null != data && data.get("seriesname").equals("综合水耗")){
-						data.element("data", watercostArray);
+					if(null != data && data.get("seriesname").equals("除盐水补水率")){
+						data.element("data", dsaltWaterRatio);
+					}
+					if(null != data && data.get("seriesname").equals("除盐水补水率得分")){
+						data.element("data", desaltWaterScore);
+					}
+					if(null != data && data.get("seriesname").equals("污水补水率")){
+						data.element("data", dirtyWaterRatio);
+					}
+					if(null != data && data.get("seriesname").equals("污水补水率得分")){
+						data.element("data", dirtyWaterScore);
 					}
 				}
 				

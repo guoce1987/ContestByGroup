@@ -11,8 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
+import com.fh.entity.system.BreakPointDetailForGrid;
 import com.fh.entity.system.BreakPointForChart;
 import com.fh.entity.system.BreakPointForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -68,23 +67,8 @@ public class BreakPointController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<BreakPointForGrid> breakPointListForGrid = contestResultService.listAllBreakPointForGrid(pd);
-			List<BreakPointForChart> breakPointListForChart = contestResultService.listAllBreakPointForChart(pd);
-			
-			JSONArray breakPointArray = new JSONArray();  
-
-			JSONObject jsonObject = new JSONObject();
-			for (BreakPointForChart BreakPointForChart : breakPointListForChart) {
-				jsonObject.element("value", BreakPointForChart.getBreakCount());
-				breakPointArray.add(jsonObject);
-			}
-			
 			mv.setViewName("breakpoint/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray breakPointForGridList = JSONArray.fromObject(breakPointListForGrid);
-			mv.addObject("breakPointForGridList", breakPointForGridList);
-			mv.addObject("breakPointArray", breakPointArray);
-			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
 			mv.addObject("pd", pd);
@@ -94,13 +78,14 @@ public class BreakPointController extends BaseController {
 		
 		return mv;
 	}
+
 	
 	/**
 	 * 图表获取数据
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -126,7 +111,7 @@ public class BreakPointController extends BaseController {
 
 				JSONObject jsonObject = new JSONObject();
 				for (BreakPointForChart BreakPointForChart : breakPointListForChart) {
-					jsonObject.element("value", BreakPointForChart.getBreakCount());
+					jsonObject.element("value", BreakPointForChart.getRJ_BreakPunishScore());
 					breakPointArray.add(jsonObject);
 				}
 
@@ -154,7 +139,7 @@ public class BreakPointController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();
 			try{
@@ -181,4 +166,81 @@ public class BreakPointController extends BaseController {
 		}
 
 	
+	/**
+	 * 违规点详情列表-页面
+	 */
+	@RequestMapping(value="/breakpointlist")
+	@ResponseBody
+	public ModelAndView listBreakpointDetail(Page page){
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = pd.getString("USERNAME");
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			page.setPd(pd);
+
+			mv.setViewName("breakpoint/detaillist");
+			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
+			mv.addObject("pd", pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * 违规点详情-Grid数据获取
+	 */  
+	@RequestMapping(value="/getDetailGridData")
+	@ResponseBody
+	public JSONArray listGridBreakPointDetail(Page page){
+		PageData pd = new PageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = pd.getString("USERNAME");
+			String year = pd.getString("year");
+			String month = pd.getString("month");
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			pd.put("year", Integer.parseInt(year));
+			pd.put("month", Integer.parseInt(month));
+			page.setPd(pd);
+
+			List<BreakPointDetailForGrid> listForGrid = contestResultService.listAllBreakPointDetailForGrid(pd);
+			jsonArr = JSONArray.fromObject(listForGrid);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	}
+	
+	/**
+	 * 查询kks
+	 */  
+	@RequestMapping(value="/kksSelect")
+	@ResponseBody
+	public JSONArray listAllKKS(Page page){
+		PageData pd = new PageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+			pd = this.getPageData();
+			List<String> kksList = contestResultService.listAllKKS(pd);
+			jsonArr = JSONArray.fromObject(kksList);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	}
 }

@@ -143,6 +143,8 @@
             <add-attribute value="static/js/myjs/breakpoint/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    <definition name="breakpoint/detaillist" template="/WEB-INF/jsp/system/breakpoint/breakPointDetail.jsp">
+    </definition>
     <definition name="reward/list" extends="default">
         <put-attribute name="title" value="操作加分"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/reward/body.jsp"/>

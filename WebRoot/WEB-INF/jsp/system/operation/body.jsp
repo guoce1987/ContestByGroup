@@ -129,11 +129,11 @@
 				{name:'ID',index:'ID', width:90, sorttype:"text"},
 				{name:'groupName',index:'groupName',width:90, sorttype:"text"},
 				{name:'operateDate',index:'operateDate',width:90, sorttype:"text"},
-				{name:'unit',index:'unit',width:90, sorttype:"text"},
-				{name:'itemName',index:'itemName',width:230, sorttype:"text"},
-				{name:'startStopType',index:'startStopType',width:90, sorttype:"text"},
+				{name:'unit',index:'unit',width:90, sortable:false},
+				{name:'itemName',index:'itemName',width:230, sortable:false},
+				{name:'startStopType',index:'startStopType',width:90, sortable:false},
 				{name:'money',index:'money',width:90, sorttype:"double"},
-				{name:'memo',index:'memo',width:90, sorttype:"text"}
+				{name:'memo',index:'memo',width:90, sortable:false}
 			], 
 			viewrecords : true,
 			rowNum : 30,

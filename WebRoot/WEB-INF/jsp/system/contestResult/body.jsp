@@ -89,12 +89,42 @@
 					"showValues" : "1",
 					"data" : {}
 				}, {
-					"seriesName" : "发电量得分",
+					"seriesName" : "班均电量得分",
 					"renderAs" : "bar",
 					"showValues" : "1",
 					"data" : {}
 				}, {
-					"seriesName" : "供热得分",
+					"seriesName" : "供热量得分",
+					"renderAs" : "bar",
+					"showValues" : "1",
+					"data" : {}
+				},{
+					"seriesName" : "经济指标得分",
+					"renderAs" : "bar",
+					"showValues" : "1",
+					"data" : {}
+				}, {
+					"seriesName" : "设备消缺得分",
+					"renderAs" : "bar",
+					"showValues" : "1",
+					"data" : {}
+				}, {
+					"seriesName" : "巡检得分",
+					"renderAs" : "bar",
+					"showValues" : "1",
+					"data" : {}
+				},{
+					"seriesName" : "培训得分",
+					"renderAs" : "bar",
+					"showValues" : "1",
+					"data" : {}
+				}, {
+					"seriesName" : "文明生产得分",
+					"renderAs" : "bar",
+					"showValues" : "1",
+					"data" : {}
+				}, {
+					"seriesName" : "月度总分",
 					"renderAs" : "bar",
 					"showValues" : "1",
 					"data" : {}
@@ -137,60 +167,44 @@ function initGrid() {
 				autowidth : true,
 				height : 'auto',
 				loadonce: true,
-				colNames : [ '值别', '安全得分', '班均电量得分', '供热量得分', '经济指标得分',
-						'设备消缺得分', '巡检得分', '培训得分', '文明生产得分', '月度总分' ],
+				colNames : [ '竞赛项目', '运行一值', '运行二值', '运行三值', '运行四值', '运行五值', '运行六值'],
 				colModel : [
 
 				{
-					name : 'groupName',
-					index : 'groupName',
+					name : 'item',
+					index : 'item',
 					width : 90
 				}, {
-					name : 'RJ_SafetyScore',
-					index : 'RJ_SafetyScore',
+					name : 'g1',
+					index : 'g1',
 					width : 90,
 					sorttype : "double"
 				}, {
-					name : 'RJ_PowerScore',
-					index : 'RJ_PowerScore',
+					name : 'g2',
+					index : 'g2',
 					width : 90,
 					sorttype : "double"
 				}, {
-					name : 'RJ_HeatScore',
-					index : 'RJ_HeatScore',
+					name : 'g3',
+					index : 'g3',
 					width : 90,
 					sorttype : "double"
 				}, {
-					name : 'RJ_EconomyScore',
-					index : 'RJ_EconomyScore',
+					name : 'g4',
+					index : 'g4',
 					width : 90,
 					sorttype : "double"
 				}, {
-					name : 'RJ_BugScore',
-					index : 'RJ_BugScore',
+					name : 'g5',
+					index : 'g5',
 					width : 90,
 					sorttype : "double"
 				}, {
-					name : 'RJ_PotralScore',
-					index : 'RJ_PotralScore',
+					name : 'g6',
+					index : 'g6',
 					width : 90,
 					sorttype : "double"
-				}, {
-					name : 'RJ_TrainScore',
-					index : 'RJ_TrainScore',
-					width : 90,
-					sorttype : "double"
-				}, {
-					name : 'RJ_SpiritScore',
-					index : 'RJ_SpiritScore',
-					width : 90,
-					sorttype : "double"
-				}, {
-					name : 'RJ_TotalScore',
-					index : 'RJ_TotalScore',
-					width : 90,
-					sorttype : "double"
-				}, ],
+				}],
 				viewrecords : true,
 				rowNum : 30,
 				//rowList : [ 10, 20, 30 ],
@@ -203,7 +217,7 @@ function initGrid() {
 					}, 0);
 				},
 
-				caption : "经济指标明细"
+				caption : "竞赛总成绩"
 			});
 	}
 </script>

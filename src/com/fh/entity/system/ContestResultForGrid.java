@@ -8,7 +8,7 @@ package com.fh.entity.system;
  * @date 2017年3月22日下午1:34:29
  * 
  */
-public class ContestResultForChart {
+public class ContestResultForGrid {
 	
 	private String ID;     //ID
 	private String ID1;	//ID1

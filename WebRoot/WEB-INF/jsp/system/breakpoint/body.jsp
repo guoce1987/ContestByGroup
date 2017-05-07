@@ -42,8 +42,84 @@
 	<!-- /.col -->
 </div>
 <!-- /.row -->
+<div class="modal fade" id="dialog-confirm-breakdetail" tabindex="-1" role="dialog"
+     aria-labelledby="shareLabel" aria-hidden="true" data-backfrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog" style="width: 1190px;">
+        <div class="modal-content row">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="shareLabel">违规扣分详情</h4>
+            </div>
+             
+            <div class="modal-body">
+            	<form id="transferFormH" class="row col-sm-12">
 
+<div class="col-sm-12 form-horizontal">
+
+                        <label class="control-label col-sm-1 nowrap">日期</label>
+                        <div class="col-sm-2">
+                        	<input type="text" id="datepickerForDetail" class="form-control" />
+                        </div>
+                        <label class="control-label col-sm-1 nowrap">值别</label>
+
+                        <div class="col-sm-1">
+                            <select name="groupId" id="groupId" class="form-control" placeholder="请选择值别">
+                            	<option value="0">全部</option>
+								<option value="1">一值</option>
+								<option value="2">二值</option>
+								<option value="3">三值</option>
+								<option value="4">四值</option>
+								<option value="5">五值</option>
+								<option value="6">六值</option>
+							</select>  
+                        </div>
+                        <label class="control-label col-sm-1 nowrap">机组</label>
+
+                        <div class="col-sm-2">
+                            
+                            <select name="unit" id="unit" class="form-control" placeholder="请选择机组">
+                            	<option value="0">全部</option>
+								<option value="6">6号机</option>
+								<option value="7">7号机</option>
+								<option value="8">8号机</option>
+								<option value="9">9号机</option>
+								<option value="10">10号机</option>
+								<option value="11">11号机</option>
+							</select>  
+                        </div>
+                        <label class="control-label col-sm-1 nowrap">测点</label>
+
+                        <div class="col-sm-2">
+                           <select name="kks" id="kks" class="form-control" placeholder="请选择测点">
+								<option value="0">全部</option>
+							</select>  
+                        </div>
+                         <div class="col-sm-1">
+                        <button id="queryBtn" type="button" class="btn btn-sm btn-success" onclick="queryDetail()">
+						     <span class="glyphicon glyphicon-plus"></span>&nbsp;查询
+						</button>
+						</div>
+                    
+</div>                   
+				
+				<div id="detailGrid"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>						 
+ 
 <script type="text/javascript">
+
+	function viewInfo(kks) {
+		$("#detailGrid").load("breakpoint/breakpointlist.do", function(data){
+			$(data).find("script:last").appendTo($("#dialog-confirm-breakdetail .modal-body"));
+			$('#dialog-confirm-breakdetail').modal('show');
+		});
+	}
+
 	var year = getYear();
 	var month = getMonth();
 
@@ -126,75 +202,64 @@
 					autowidth : true,
 					height : 'auto',
 					loadonce: true,
-					colNames : [ '日期', '值别', '机组', '测点', '描述', '下限', '上限',
-							'违规点数量', '统计小时数', '违规点数(每小时)', '扣分方式', '扣分标准',
-							'扣分点' ],
+					autoScroll : true,
+					colNames : ['值别', '机组', '测点', '描述', '下限', '上限',
+							'违规点数量', '统计小时数', '违规点数(每小时)', '扣分方式'],
 					colModel : [ {
-						name : 'statDate',
-						index : 'statDate',
-						width : 90,
-						sorttype : "text"
+						name : 'groupID',
+						index : 'groupID',
+						width : 40,
+						sortable: false
 					}, {
-						name : 'GroupID',
-						index : 'GroupID',
-						width : 90,
-						sorttype : "text"
-					}, {
-						name : 'Unit',
-						index : 'Unit',
-						width : 90,
+						name : 'unit',
+						index : 'unit',
+						width : 40,
 						sorttype : "text"
 					}, {
 						name : 'KKS',
 						index : 'KKS',
-						width : 90,
-						sorttype : "text"
+						width : 220,
+						sortable: false,
+						formatter:function(cellvalue, options, rowObject){
+						    return "<a onclick=viewInfo('" + cellvalue +　"') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+						}
 					}, {
-						name : 'Description',
-						index : 'Description',
-						width : 90,
-						sorttype : "text"
+						name : 'description',
+						index : 'description',
+						width : 120,
+						sortable: false
 					}, {
-						name : 'Lower',
-						index : 'Lower',
+						name : 'lower',
+						index : 'lower',
 						width : 90,
 						sorttype : "double"
 					}, {
-						name : 'Upper',
-						index : 'Upper',
+						name : 'upper',
+						index : 'upper',
 						width : 90,
 						sorttype : "double"
 					}, {
-						name : 'BreakCount',
-						index : 'BreakCount',
+						name : 'breakCount',
+						index : 'breakCount',
 						width : 90,
 						sorttype : "double"
 					}, {
-						name : 'DutyHours',
-						index : 'DutyHours',
+						name : 'dutyHours',
+						index : 'dutyHours',
 						width : 90,
 						sorttype : "double"
 					}, {
-						name : 'BreakCountPerHour',
-						index : 'BreakCountPerHour',
-						width : 90,
+						name : 'breakCountPerHour',
+						index : 'breakCountPerHour',
+						width : 120,
 						sorttype : "double"
 					}, {
-						name : 'PunishWay',
-						index : 'PunishWay',
-						width : 90,
+						name : 'punishWay',
+						index : 'punishWay',
+						sortable:false,
+						width : 140,
 						sorttype : "text"
-					}, {
-						name : 'PunishStandard',
-						index : 'PunishStandard',
-						width : 90,
-						sorttype : "text"
-					}, {
-						name : 'PunishPoint',
-						index : 'PunishPoint',
-						width : 90,
-						sorttype : "text"
-					} ],
+					}],
 					viewrecords : true,
 					rowNum : 30,
 					//rowList : [ 10, 20, 30 ],
@@ -210,4 +275,50 @@
 					caption : "违规扣分明细"
 				});
 	}
+	
+	$("#datepickerForDetail").datepicker({
+		language : 'zh-CN',
+		autoclose : true,
+		format : "yyyy-mm",
+		minViewMode : 1,
+		todayBtn : true
+	});
+	var d = new Date();
+	$("#datepickerForDetail").datepicker("setDate", getYear() + "-" + getMonth());// 设置
+	
+	$.ajax({
+        type: "POST",
+        url: "breakpoint/kksSelect.do",
+        dataType: "json",
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#kks").append("<option value="+data[i].kks+">" + data[i].value + "</option>");
+            }
+        }
+    });
+	
+	
+	
+	function queryDetail(){
+		var year = $("#datepickerForDetail").val().split("-")[0];
+		var month = $("#datepickerForDetail").val().split("-")[1];
+		var grouId = $("#groupId").val();
+		var unit = $("#unit").val();
+		var kks = $("#kks").val();
+		
+		$.ajax({
+	        type: "GET",
+	        url : "breakpoint/getDetailGridData?year=" + year + "&month=" + month + "&grouId=" + grouId + "&unit=" + unit + "&kks=" + kks,
+	        success: function(data){
+	     	   		grid_data = data;
+	     	   		$("#grid-table-breakpointdetail").jqGrid("clearGridData");
+	                 $("#grid-table-breakpointdetail").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:grid_data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
+	
 </script>

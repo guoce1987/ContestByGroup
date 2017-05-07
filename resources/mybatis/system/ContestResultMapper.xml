@@ -18,7 +18,7 @@
 		<result column="RJ_TotalScore" property="RJ_TotalScore"/>
 	</resultMap>
 	
-	<resultMap type="ContestResultForChart" id="contestResultMapForChart">
+	<resultMap type="ContestResultForGrid" id="contestResultMapForGrid">
 		<result column="ID" property="ID"/>
 		<result column="ID1" property="ID1"/>
 		<result column="Item" property="Item"/>
@@ -52,7 +52,7 @@
 	
 
 		<!-- 调用竞赛结果存储过程 -->
-	<select id="listAllContestResultByProcedure" resultMap="contestResultMapForChart" statementType="CALLABLE" parameterType="pd">
+	<select id="listAllContestResultByProcedure" resultMap="contestResultMapForGrid" statementType="CALLABLE" parameterType="pd">
 	
 	     { call dbo.query_ContestResult_ReportPivot_RJ(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
 
@@ -178,6 +178,7 @@
 		<result column="RJ_GasTempScore" property="RJ_GasTempScore"/>
 		<result column="RJ_VacmScore" property="RJ_VacmScore"/>
 		<result column="RJ_NoxScore" property="RJ_NoxScore"/>
+		<result column="RJ_TotalScore" property="RJ_TotalScore"/>
 		<result column="RJ_BreakPunishScore" property="RJ_BreakPunishScore"/>
 	</resultMap>
 	
@@ -214,9 +215,11 @@
 			 RJ_GasTempScore,
 			 RJ_VacmScore,
 			 RJ_NoxScore,
+			 RJ_TotalScore,
 			 RJ_BreakPunishScore
 			from vw_Economy_Month
 					 where year(StatDate)= #{year} and month(StatDate) = #{month}
+			 order by GroupId asc
 	</select>
 	<!-- 列出所有的燃机总指标(表) -->
 	<select id="listAllEconomyIndexForGrid" resultMap="economyIndexMapForGrid"  parameterType="pd">
@@ -241,6 +244,7 @@
 			      ,r.RJ_TotalScore
 			      FROM  vw_Economy_Month r    
 			 WHERE (YEAR(R.StatDate) = #{year}) AND (MONTH(R.StatDate) = #{month})
+			 order by r.GroupId asc
 	</select>
 	
 	<!-- 供电气耗 -->
@@ -279,12 +283,13 @@
 			 RJ_SuplyPowerGasCost
 			from vw_Economy_Month
 					 where year(StatDate)= #{year} and month(StatDate) = #{month}
+			order by groupId asc
 	</select>
 	<!-- 列出所有的供电气耗指标(表) -->
 	<select id="listAllSuplyPowerGasCostForGrid" resultMap="suplyPowerGasCostMapForGrid"  parameterType="pd">
 	
 			 select c.Dutyid,
-			        c.Statdate                  ,
+			        CONVERT(varchar(100), c.Statdate, 23) AS Statdate,
 			        d.Dutyname                  ,
 			        g.Groupname                 ,
 			        c.RJ_generatepower          ,
@@ -309,7 +314,7 @@
 			    and c.dutyid = t.dutyid
 			  where (year(c.statdate) = #{year})
 			    and (month(c.statdate) = #{month})
-			  order by c.statdate desc, c.dutyid desc
+			  order by c.statdate desc, c.dutyid asc
 	</select>
 	
 	<!-- 排烟温度 -->
@@ -463,18 +468,15 @@
 	
 	<!-- 列出所有的综合厂用电率指标(图) -->
 	<select id="listAllAuxPowerRatioForChart" resultMap="auxPowerRatioMapForChart"  parameterType="pd">
-			  SELECT 
-				    ID, 
-				    StatDate, 
-				    DutyName, 
-				    GroupName,
-				    RJ_AuxPowerRatio,  
-				    RJ_GeneratePower, 
-				    RJ_SuplyPower,
-				    XL2213PowerFLow
-				FROM vw_CoalCost
-				where year(StatDate)= #{year} and month(StatDate) = #{month}
-				ORDER BY statDate DESC, DutyID DESC
+			 SELECT 
+				StatDate,
+				GroupId,
+				GroupName,
+				RJ_PlantUsePowerRatio,
+				RJ_PlantUsePowerScore
+			FROM vw_Economy_Month
+			where year(StatDate)= #{year} and month(StatDate) = #{month}
+			order by GroupId asc
 	</select>
 	<!-- 列出所有的综合厂用电率指标(表) -->
 	<select id="listAllAuxPowerRatioForGrid" resultMap="auxPowerRatioMapForGrid"  parameterType="pd">
@@ -483,13 +485,13 @@
 				    StatDate, 
 				    DutyName, 
 				    GroupName,
-				    RJ_AuxPowerRatio,  
+				    RJ_TotalPlantUsePowerRatio*100 AS RJ_TotalPlantUsePowerRatio,  
 				    RJ_GeneratePower, 
 				    RJ_SuplyPower,
 				    XL2213PowerFLow
-				FROM vw_CoalCost
+				FROM vw_CoalCost 
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
-				ORDER BY statDate DESC, DutyID DESC
+				ORDER BY statDate DESC, DutyID asc
 	</select>
 	
 	<!-- 操作加分 -->
@@ -514,6 +516,7 @@
 				    RJ_OperationScore 
 				FROM vw_Economy_Month
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
+				order by GroupId asc
 	</select>
 	<!-- 列出所有的操作加分指标(表) -->
 	<select id="listAllOperationScoreForGrid" resultMap="operationScoreMapForGrid"  parameterType="pd">
@@ -555,19 +558,15 @@
 	
 	<!-- 列出所有的燃机综合水耗(图) -->
 	<select id="listAllWaterCostForChart" resultMap="waterCostMapForChart"  parameterType="pd">
-			  SELECT 
-				 StatDate
-				 ,GroupName
-				 ,DutyName
-				 ,GroupID
-				 ,RJ_DirtyWater
-				 ,RJ_RawWater
-				 ,RJ_DeSaltWater
-				 ,RJ_BoilerSteam
-				 ,RJ_GeneratePower
-				FROM vw_CoalCost
-				  where year(StatDate)= #{year} and month(StatDate) = #{month} 
-				  ORDER BY StatDate,DutyId
+			SELECT
+			    GroupName,
+			    RJ_DesaltWaterRatio,
+				RJ_DesaltWaterScore,
+				RJ_DirtyWaterRatio, 
+				RJ_DirtyWaterScore
+			FROM vw_Economy_Month
+			where year(StatDate)= #{year} and month(StatDate) = #{month}
+			order by GroupId asc
 	</select>
 	<!-- 列出所有的燃机综合水耗(表) -->
 	<select id="listAllWaterCostForGrid" resultMap="waterCostMapForGrid"  parameterType="pd">
@@ -618,11 +617,36 @@
 		<result column="PunishStandard" property="PunishStandard"/>
 		<result column="PunishPoint" property="PunishPoint"/>
 	</resultMap>
-	
+	<resultMap type="breakPointDetailForGrid" id="breakPointDetailMapForGrid">
+		<result column="Id" property="id"/>
+		<result column="statDate" property="statDate"/>
+		<result column="dutyName" property="dutyName"/>
+		<result column="groupId" property="groupId"/>
+		<result column="groupName" property="groupName"/>
+		<result column="Unit" property="unit"/>
+		<result column="KKS" property="kks"/>
+		<result column="Description" property="description"/>
+		<result column="Upper" property="upper"/>
+		<result column="Lower" property="lower"/>
+		<result column="RealValue" property="realValue"/>
+		<result column="IsDelete" property="isDelete"/>
+		<result column="DeleteReason" property="deleteReason"/>
+	</resultMap>
+		<!-- 违规点详情列表查询(表) -->
+	<select id="listAllBreakPointDetailForGrid" resultMap="breakPointDetailMapForGrid"  statementType="CALLABLE" parameterType="pd">
+			{ call query_breakPointDetail_RJ(#{year},#{month},#{grouId},#{unit},#{kks}) }
+	</select>
 	<!-- 列出所有的违规扣分(图) -->
 	<select id="listAllBreakPointForChart" resultMap="breakPointMapForChart"  statementType="CALLABLE" parameterType="pd">
-			{ call query_breakPoint_RJ(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
+			select 
+				StatDate,
+				GroupName, 
+				RJ_BreakPunishScore 
+			from vw_Economy_Month
+			where year(StatDate)= #{year} and month(StatDate) = #{month} 
+			order by GroupId asc
 	</select>
+
 	<!-- 列出所有的违规扣分(表) -->
 	<select id="listAllBreakPointForGrid" resultMap="breakPointMapForGrid"  statementType="CALLABLE" parameterType="pd">
 			{ call query_breakPoint_RJ(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
@@ -802,5 +826,10 @@
 	<!-- 考核录入指标列表(全部) -->
 	<select id="listAllItemInputForGrid" parameterType="pd" resultType="pd" useCache="false">
 		select CONVERT(varchar(100), r.CheckDate, 23) as CheckDate,r.CreateUser,r.GroupID,r.ItemID,r.Money,r.Score,r.Unit,r.memo from RewardPunishlog r order by r.CheckDate desc
+	</select>
+	
+	<!-- 查询所有的KKS -->
+	<select id="listAllKKS" parameterType="pd" resultType="pd" useCache="false">
+		SELECT distinct '【'+KKS+'】 '+ Description as value, KKS as kks FROM BreakPointDic	
 	</select>
 </mapper>
