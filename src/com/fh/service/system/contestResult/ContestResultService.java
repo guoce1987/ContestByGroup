@@ -183,6 +183,21 @@ public class ContestResultService{
 		return (List<BreakPointDetailForGrid>) dao.findForList("ContestResultMapper.listAllBreakPointDetailForGrid", pd);
 	}
 	
+	//提交违规原因
+	public void updateDeleteReason(PageData pd) throws Exception {
+		dao.update("ContestResultMapper.updateDeleteReason", pd);
+	}
+	
+	//提交违规详情是否delete标识
+	public void updateIsDeleteStatus(PageData pd) throws Exception {
+		dao.update("ContestResultMapper.updateIsDeleteStatus", pd);
+	}
+	
+	//批量提交违规原因
+	public void submitIsDeleteBatch(PageData pd) throws Exception {
+		dao.update("ContestResultMapper.submitIsDeleteBatch", pd);
+	}
+	
 	//设备消缺
 	public List<BugStatForGrid> listAllBugStatForGrid(PageData pd) throws Exception {
 		return (List<BugStatForGrid>) dao.findForList("ContestResultMapper.listAllBugStatForGrid", pd);
@@ -240,5 +255,34 @@ public class ContestResultService{
 		return (List<String>) dao.findForList("ContestResultMapper.listAllKKS", pd);
 		
 	}
+	
+	//新增一条考核管理项
+	public Integer saveOneContestItem(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.saveOneContestItem", pd);
+	}
+	
+	//新增一条考核管理记录
+	public Integer saveItemInput(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.saveItemInput", pd);
+	}
+	
+	//查询最近一条考核录入记录
+	public List<PageData> listThisItemInput(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("ContestResultMapper.listThisItemInput", pd);
+	}
 
+	//根据ID查询一条考核管理记录
+	public List<PageData> listThisItemInputByID(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("ContestResultMapper.listThisItemInputByID", pd);
+	}
+	
+	//根据ID更新一条考核管理记录
+	public Integer updateItemInput(PageData pd) throws Exception {
+		return (Integer) dao.update("ContestResultMapper.updateItemInput", pd);
+	}
+	
+	//根据ID删除一条考核管理记录
+	public Integer deleteItemInput(PageData pd) throws Exception {
+		return (Integer) dao.update("ContestResultMapper.deleteItemInput", pd);
+	}
 }

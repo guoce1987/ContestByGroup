@@ -43,7 +43,7 @@
 
 								
 						<div class="row">
-							<div class="col-sm-12">
+							<div id="div_list" class="col-sm-12">
 								<!-- PAGE CONTENT BEGINS -->
 
 								<table id="grid-table"></table>
@@ -150,7 +150,7 @@
             <div class="modal-footer">
                 <button id="submitTransfer" type="button" class="btn btn-default forApprove btn-submit" onclick="submit()">
                     <span class="glyphicon glyphicon-ok">&nbsp;提交</span></button>
-                 <button id="backButton" type="button" class="btn btn-default btn-submit">
+                 <button id="backButton" type="button" class="btn btn-default btn-submit" data-dismiss="modal">
                     <span class="glyphicon glyphicon-ban-circle">&nbsp;返回</span></button> 
             </div>
         </div>
@@ -172,12 +172,12 @@
 			autowidth : true,
 			height : 'auto',
 			loadonce: true,
-			colNames:[ '', /* 'ID','ContestItemID','IsTag','IsDelete' */'名称','得分','奖金','备注','起停'],
+			colNames:[ '',  'ID',/*'ContestItemID','IsTag','IsDelete' */'名称','得分','奖金','备注','起停'],
 			colModel:[
  				{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
 				
                     formatter: function (cellvalue, options, rowObject) {
-                    	var key = rowObject.id + "^" + rowObject.userName + "^" + rowObject.role;
+                    	var key = rowObject.id + "^" + rowObject.ItemName + "^" + rowObject.cent + "^" + rowObject.money + "^" + rowObject.memo;
                         var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-pencil" tag="' + key + '"></span></a>';
                         var remove = '<a title="删除"><span class="glyphicon glyphicon-trash" tag="' + key + '"></span></a>';
 
@@ -186,8 +186,8 @@
                         }
 				
 				}, 
-				/* {name:'id',index:'ID', width:90, sorttype:"text"},
-				{name:'ContestItemID',index:'ContestItemID',width:90, sorttype:"text"}, 
+				{name:'id',index:'ID', width:90, sorttype:"text",hidden:true},
+				 /*{name:'ContestItemID',index:'ContestItemID',width:90, sorttype:"text"}, 
 				{name:'IsTag',index:'IsTag',width:90, sorttype:"text"},
                 {name:'IsDelete',index:'IsDelete',width:90, sorttype:"text"},*/
 				{name:'ItemName',index:'ItemName', width:300, sorttype:"text"},
@@ -237,6 +237,7 @@
                     }else if("1" == model.role){
                     	$("#role").val(1);
                     } */
+                    
                     $('#dialog-confirm').modal('show');
 
                 });
@@ -254,17 +255,67 @@
 			caption: "考核管理"
 
 		});
-
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+/* 			   var promise = $.ajax({
+				   url:
+				   type: "POST",
+			   });
+			   
+			   promise.done(function(data){
+				   
+				   //此处data要转化成array
+				   var title = [ 'ID','名称','得分','奖金','备注','起停'];
+				   
+				   exportToFile(data,title, true , "导出列表");
+			   }); */
+			   
+			   var data = getJQAllData(grid_selector);
+			   
+			   var title = [ '',  'ID','名称','得分','奖金','备注','起停'];
+			   
+			   var tableName = "考核管理列表_"+new Date().format("yyyyMMddhhmmss");
+			   
+			   exportToFile(data,title, true , tableName);
+		   }, 
+		   position:"last"
+		});
+		
 		function addContestItem(){
+			resetModal();
 			$('#dialog-confirm').modal('show');
 		}
 		
 		function resetModal(){
-			
+			$('#transferFormH')[0].reset();
 		}
 		
 		function submit(){
-		
+			$.ajax({
+	               type: "GET",
+	               url: "contestItem/saveContestItem.do?"+$('#transferFormH').serialize(),
+	               success: function(data){
+	            	   		if(data){
+	            	   			bootbox.alert("新增成功！");  //插入成功刷新前页面
+	            	   			$(grid_selector).jqGrid('setGridParam',
+	 	                               { 
+	            	   				url: "contestItem/getGridData.do?contestType="+$("#contestType").val(),
+	 	                       }).trigger("reloadGrid");
+	            	   		}else{
+	            	   			bootbox.alert("新增失败！");
+	            	   		}
+	                  }
+	            });
+			
 		}
 		
 		$("#contestType").change(function(){
@@ -281,6 +332,31 @@
 	                  }
 	            });
 		 });
+		
+/* 		$('#transferFormH').formValidation({
+	        framework: 'bootstrap',
+	        icon: {
+	            valid: 'glyphicon glyphicon-ok',
+	            invalid: 'glyphicon glyphicon-remove',
+	            validating: 'glyphicon glyphicon-refresh'
+	        },
+	        fields: {
+	        	itemName: {
+	                validators: {
+	                    notEmpty: {
+	                        message: '请输入考核管理项名称'
+	                    }
+	                }
+	            },
+	            StartStopType: {
+	                validators: {
+	                    notEmpty: {
+	                        message: '请输入启停类型'
+	                    }
+	                }
+	            }
+	        }
+	    }); */
 
-		</script>
+</script>
 

@@ -28,7 +28,7 @@
 	    <c:forEach var="css" items="${libStylesheets}">
 	        <link rel="stylesheet" type="text/css" href="<c:url value="${css}"/>">
 	    </c:forEach>
-
+		<link rel="stylesheet" type="text/css" href="static/assets/css/formValidation.min.css"/>
 	</head>
 
 	<body class="no-skin">
@@ -146,6 +146,7 @@
 		<!--[if !IE]> -->
 		<script src="static/assets/js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="static/assets/js/formValidation.min.js"></script>
 
 		<script type="text/javascript">
 			//if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");

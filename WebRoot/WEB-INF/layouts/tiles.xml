@@ -17,6 +17,8 @@
         <put-list-attribute name="libJavascripts">
         	<add-attribute value="static/js/myjs/globle.js"/>
             <add-attribute value="static/assets/js/bootstrap.min.js"/>
+            <add-attribute value="static/assets/js/formValidation.min.js"/>
+            <add-attribute value="static/assets/js/jqgrid.excel.js"/>
             <!-- page specific plugin scripts -->
             <add-attribute value="static/assets/js/bootstrap-datepicker.min.js"/>
             <add-attribute value="static/assets/js/bootstrap-datepicker.zh-CN.js"/>
@@ -52,6 +54,7 @@
         <put-list-attribute name="libStylesheets">
          	<!-- bootstrap & fontawesome -->
             <add-attribute value="static/assets/css/bootstrap.min.css"/>
+            <add-attribute value="static/assets/css/formValidation.min.css"/>
             <add-attribute value="static/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
             <!-- page specific plugin styles -->
             <add-attribute value="static/assets/css/jquery-ui.min.css" />
@@ -144,6 +147,44 @@
         </put-list-attribute>
     </definition>
     <definition name="breakpoint/detaillist" template="/WEB-INF/jsp/system/breakpoint/breakPointDetail.jsp">
+    	<put-attribute name="title" value="违规扣分详情"/>
+    	<put-list-attribute name="libJavascripts">
+        	<add-attribute value="static/js/myjs/globle.js"/>
+            <add-attribute value="static/assets/js/bootstrap.min.js"/>
+            <!-- page specific plugin scripts -->
+            
+            <add-attribute value="static/assets/js/moment.min.js"/>
+            <add-attribute value="static/assets/js/moment.zh-cn.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datepicker.min.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datetimepicker.js"/>
+            <add-attribute value="static/assets/js/daterangepicker.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datepicker.zh-CN.js"/>
+            <add-attribute value="static/assets/js/jquery.jqGrid.min.js"/>
+            <add-attribute value="static/assets/js/i18n/grid.locale-cn.js" />
+        </put-list-attribute>
+        
+        <put-list-attribute name="libStylesheets">
+         	<!-- bootstrap & fontawesome -->
+            <add-attribute value="static/assets/css/bootstrap.min.css"/>
+            <add-attribute value="static/assets/css/formValidation.min.css"/>
+            <add-attribute value="static/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+            <!-- page specific plugin styles -->
+            <add-attribute value="static/assets/css/jquery-ui.min.css" />
+            <add-attribute value="static/assets/css/bootstrap-datepicker3.min.css"/>
+            <add-attribute value="static/assets/css/daterangepicker.css"/>
+            <add-attribute value="static/assets/css/bootstrap-datetimepicker.min.css"/>
+            <add-attribute value="static/assets/css/ui.jqgrid.min.css"/>
+            <!-- text fonts -->
+            <add-attribute value="static/assets/css/fonts.googleapis.com.css" />
+            <!-- ace styles -->
+            <add-attribute value="static/assets/css/ace.min.css"/>
+            
+            <add-attribute value="static/assets/css/ace-skins.min.css"/>
+            <add-attribute value="static/assets/css/ace-rtl.min.css"/>
+            <add-attribute value="static/assets/css/mycss/globle.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts">
+        </put-list-attribute>
     </definition>
     <definition name="reward/list" extends="default">
         <put-attribute name="title" value="操作加分"/>

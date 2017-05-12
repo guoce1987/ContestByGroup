@@ -149,6 +149,9 @@
 						</ul>
 					</li>
 			  </ul><!--/.ace-nav-->
+			  
+			  <!-- 创建隐藏域，保存用户信息 -->
+				<input type="hidden" id="username" value="">
 			  </div>
 
 		  

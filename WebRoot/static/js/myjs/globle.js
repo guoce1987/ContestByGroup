@@ -56,6 +56,26 @@ $(function() {
 			if("open" == $liClicked.attr('class')) eval(fnStr);
 		}, 300);
 	});
+	
+	var locat = (window.location+'').split('/'); 
+	
+	$.ajax({
+		type: "POST",
+		url: '/ContestByGroup/head/getUname.do?tm='+new Date().getTime(),
+    	data: encodeURI(""),
+		dataType:'json',
+		//beforeSend: validateData,
+		cache: false,
+		success: function(data){
+			//alert(data.list.length);
+			 $.each(data.list, function(i, list){
+				 //登陆者资料
+				 $("#user_info").html('<small>Welcome</small> '+list.NAME+'');
+				 $("#username").val(list.USERNAME);
+			 });
+		}
+	});
+
 });
 
 function getYear(){
@@ -76,147 +96,65 @@ function resizeGridWidth(){
 	})
 }
 
-// js导出表的两种方法
-function ExportToExcel(dataSource, ReportTitle, label) {
-	var arrData;
-	arrData = typeof dataSource != 'object' ? JSON.parse(dataSource)
-			: dataSource;
-	var Excel = '';
-	// Set Report title in first row or line
-	Excel += ReportTitle + '\r\n\n';
-
-	// This condition will generate the Label/Header
-	if (label) {
-		var row = "";
-
-		// This loop will extract the label from 1st index of on array
-		for ( var index in arrData[0]) {
-
-			// Now convert each value to string and comma-seprated
-			row += index + ',';
-		}
-
-		row = row.slice(0, -1);
-
-		// append Label row with line break
-		Excel += row + '\r\n';
-	}
-
-	// 1st loop is to extract each row
-	for (var i = 0; i < arrData.length; i++) {
-		var row = "";
-
-		// 2nd loop will extract each column and convert it in string
-		// comma-seprated
-		for ( var index in arrData[i]) {
-			row += '"' + arrData[i][index] + '",';
-		}
-
-		row.slice(0, row.length - 1);
-
-		Excel += row + '\r\n';
-	}
-
-	if (Excel == '') {
-		return;
-	}
-
-	// Generate a file name
-	var fileName = "MyCSVReport_";
-	// this will remove the blank-spaces from the title and replace it with an
-	// underscore
-	fileName += ReportTitle.replace(/ /g, "_");
-
-	// Initialize file format you want csv or xls
-	var uri = 'data:text/csv;charset=utf-8,' + escape(Excel);
-	var link = document.createElement("a");
-	link.href = uri;
-
-	link.style = "visibility:hidden";
-	link.download = fileName + ".csv";
-
-	// this part will append the anchor tag and remove it after automatic click
-	document.body.appendChild(link);
-	link.click();
-	document.body.removeChild(link);
+//获取当前表格的所有数据
+function getJQAllData(grid) {
+       var o = jQuery(grid);
+       //获取当前显示的数据
+       var rows = o.jqGrid('getRowData');
+       var rowNum = o.jqGrid('getGridParam', 'rowNum'); //获取显示配置记录数量
+       var total = o.jqGrid('getGridParam', 'records'); //获取查询得到的总记录数量
+       //设置rowNum为总记录数量并且刷新jqGrid，使所有记录现出来调用getRowData方法才能获取到所有数据
+       o.jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid'); 
+       var rows = o.jqGrid('getRowData');  //此时获取表格所有匹配的
+       o.jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid'); //还原原来显示的记录数量
+       return rows;
 }
 
-function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
-	// If JSONData is not an object then JSON.parse will parse the JSON string
-	// in an Object
-	var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+// js导出表的方法
+var exportToFile = function(JSONData, Title, ShowLabel, fileName) {
+    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+    var CSV = '';
+    if (ShowLabel) {
+        var row = "";
+        for (var index in Title) {
+            row += Title[index] + ',';
+        }
+        row = row.slice(0, -1);
+        CSV += row + '\r\n';
+    }
+    for (var i = 0; i < arrData.length; i++) {
+        var row = "";
+        for (var index in arrData[i]) {
+            row += '"' + arrData[i][index] + '",';
+        }
+        row.slice(0, row.length - 1);
+        CSV += row + '\r\n';
+    }
+    if (CSV == '') {
+        alert("Invalid data");
+        return;
+    }
+    var fileName = fileName;
+    var uri = getDownloadUrl(CSV);
+    var link = document.createElement("a");
+    link.href = uri;
+    link.style = "visibility:hidden";
+    link.download = fileName + ".csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
-	var CSV = '';
-	// Set Report title in first row or line
-
-	CSV += ReportTitle + '\r\n\n';
-
-	// This condition will generate the Label/Header
-	if (ShowLabel) {
-		var row = "";
-
-		// This loop will extract the label from 1st index of on array
-		for ( var index in arrData[0]) {
-
-			// Now convert each value to string and comma-seprated
-			row += index + ',';
-		}
-
-		row = row.slice(0, -1);
-
-		// append Label row with line break
-		CSV += row + '\r\n';
-	}
-
-	// 1st loop is to extract each row
-	for (var i = 0; i < arrData.length; i++) {
-		var row = "";
-
-		// 2nd loop will extract each column and convert it in string
-		// comma-seprated
-		for ( var index in arrData[i]) {
-			row += '"' + arrData[i][index] + '",';
-		}
-
-		row.slice(0, row.length - 1);
-
-		// add a line break after each row
-		CSV += row + '\r\n';
-	}
-
-	if (CSV == '') {
-		alert("Invalid data");
-		return;
-	}
-
-	// Generate a file name
-	var fileName = "MyReport_";
-	// this will remove the blank-spaces from the title and replace it with an
-	// underscore
-	fileName += ReportTitle.replace(/ /g, "_");
-
-	// Initialize file format you want csv or xls
-	var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-
-	// Now the little tricky part.
-	// you can use either>> window.open(uri);
-	// but this will not work in some browsers
-	// or you will not get the correct file extension
-
-	// this trick will generate a temp <a /> tag
-	var link = document.createElement("a");
-	link.href = uri;
-
-	// set the visibility hidden so it will not effect on your web-layout
-	link.style = "visibility:hidden";
-	link.download = fileName + ".csv";
-
-	// this part will append the anchor tag and remove it after automatic click
-	console.log(document.body);
-	document.body.appendChild(link);
-	link.click();
-	document.body.removeChild(link);
-}
+var getDownloadUrl = function(text) {
+    var BOM = "\uFEFF";
+    // Add BOM to text for open in excel correctly
+    if (window.Blob && window.URL && window.URL.createObjectURL) {
+      var csvData = new Blob([BOM + text], { type: 'text/csv' });
+      return URL.createObjectURL(csvData);
+    } else {
+      return 'data:attachment/csv;charset=utf-8,' + BOM + encodeURIComponent(text);
+    }
+ };
 
 function style_edit_form(form) {
 	// enable datepicker on "sdate" field and switches for "stock" field
@@ -333,4 +271,26 @@ function enableTooltips(table) {
 	$(table).find('.ui-pg-div').tooltip({
 		container : 'body'
 	});
+}
+
+//js日期格式化
+Date.prototype.format = function(fmt) { 
+    var o = { 
+       "M+" : this.getMonth()+1,                 //月份 
+       "d+" : this.getDate(),                    //日 
+       "h+" : this.getHours(),                   //小时 
+       "m+" : this.getMinutes(),                 //分 
+       "s+" : this.getSeconds(),                 //秒 
+       "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+       "S"  : this.getMilliseconds()             //毫秒 
+   }; 
+   if(/(y+)/.test(fmt)) {
+           fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+   }
+    for(var k in o) {
+       if(new RegExp("("+ k +")").test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+    }
+   return fmt; 
 }

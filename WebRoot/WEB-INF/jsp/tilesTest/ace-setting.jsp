@@ -1,10 +1,11 @@
+					<%@ page contentType="text/html;charset=utf-8" language="java"%>
 							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 								<i class="ace-icon fa fa-cog bigger-130"></i>
 							</div>
 
 							<div class="ace-settings-box clearfix" id="ace-settings-box">
 								<div class="pull-left width-50">
-									<div class="ace-settings-item">
+									<div class="ace-settings-item" style="display:none">
 										<div class="pull-left">
 											<select id="skin-colorpicker" class="hide">
 												<option data-skin="no-skin" value="#438EB9">#438EB9</option>
@@ -18,20 +19,20 @@
 
 									<div class="ace-settings-item">
 										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+										<label class="lbl" for="ace-settings-navbar"> 固定 导航栏</label>
 									</div>
 
 									<div class="ace-settings-item">
 										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+										<label class="lbl" for="ace-settings-sidebar"> 固定 左菜单</label>
 									</div>
 
 									<div class="ace-settings-item">
 										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
-										<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+										<label class="lbl" for="ace-settings-breadcrumbs"> 固定 标题栏</label>
 									</div>
 
-									<div class="ace-settings-item">
+									<div class="ace-settings-item" style="display:none">
 										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
 										<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
 									</div>
@@ -39,13 +40,12 @@
 									<div class="ace-settings-item">
 										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
 										<label class="lbl" for="ace-settings-add-container">
-											Inside
-											<b>.container</b>
+											窄屏
 										</label>
 									</div>
 								</div><!-- /.pull-left -->
 
-								<div class="pull-left width-50">
+								<div class="pull-left width-50" style="display:none">
 									<div class="ace-settings-item">
 										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
 										<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>

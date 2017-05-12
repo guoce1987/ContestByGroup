@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,9 +17,11 @@ import com.fh.entity.Page;
 import com.fh.entity.system.BreakPointDetailForGrid;
 import com.fh.entity.system.BreakPointForChart;
 import com.fh.entity.system.BreakPointForGrid;
+import com.fh.entity.system.User;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
+import com.fh.service.system.user.UserService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
@@ -39,6 +44,8 @@ public class BreakPointController extends BaseController {
 	String menuUrl = "breakpoint/list.do"; //菜单地址(权限用)
 	@Resource(name="appuserService")
 	private AppuserService appuserService;
+	@Resource(name="userService")
+	private UserService userService;
 	@Resource(name="roleService")
 	private RoleService roleService;
 	@Resource(name="contestResultService")
@@ -174,24 +181,94 @@ public class BreakPointController extends BaseController {
 	public ModelAndView listBreakpointDetail(Page page){
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
 		try{
 			pd = this.getPageData();
 			
-			String USERNAME = pd.getString("USERNAME");
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
 			if(null != USERNAME && !"".equals(USERNAME)){
 				USERNAME = USERNAME.trim();
 				pd.put("USERNAME", USERNAME);
 			}
+			
+			PageData pb_role = userService.findByUId(pd);
+			PageData pb_edit_right = roleService.findObjectById(pb_role);
+			Boolean edit_right = pb_edit_right.getString("EDIT_QX").equals("1")? true : false;
+			//比如我现在已经查出来了权限值
+			pd.put("editable", edit_right);//加入没有编辑权限
 			page.setPd(pd);
 
 			mv.setViewName("breakpoint/detaillist");
-			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 			mv.addObject("pd", pd);
+			
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
 		
 		return mv;
+	}
+	
+	//提交取消违规原因
+	@RequestMapping(value="/submitDeleteReason")
+	@ResponseBody
+	public String submitDeleteReason(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String reason = pd.getString("deleteReason");
+			String id = pd.getString("sid");
+			
+			pd.put("reason", reason);
+			pd.put("id", id);
+			contestResultService.updateDeleteReason(pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "1";
+	}
+	
+	//提交取消违规的状态
+	@RequestMapping(value="/submitIsDeleteStatus")
+	@ResponseBody
+	public String submitIsDeleteStatus(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String status = pd.getString("status");
+			String id = pd.getString("itemID");
+			
+			pd.put("status", status);
+			pd.put("id", id);
+			contestResultService.updateIsDeleteStatus(pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "1";
+	}
+	
+	//批量取消违规的状态
+	@RequestMapping(value="/submitIsDeleteBatch")
+	@ResponseBody
+	public String submitIsDeleteBatch(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String startTime = pd.getString("startTime");
+			String endTime = pd.getString("endTime");
+			String isDelete = pd.getString("isDelete");
+			String deleteReason = pd.getString("deleteReason");
+			
+			pd.put("startTime", startTime);
+			pd.put("endTime", endTime);
+			pd.put("isDelete", isDelete);
+			pd.put("deleteReason", deleteReason);
+			contestResultService.submitIsDeleteBatch(pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+			return "0";
+		}
+		return "1";
 	}
 	
 	/**

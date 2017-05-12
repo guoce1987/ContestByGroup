@@ -632,9 +632,21 @@
 		<result column="IsDelete" property="isDelete"/>
 		<result column="DeleteReason" property="deleteReason"/>
 	</resultMap>
-		<!-- 违规点详情列表查询(表) -->
+	<!-- 违规点详情列表查询(表) -->
 	<select id="listAllBreakPointDetailForGrid" resultMap="breakPointDetailMapForGrid"  statementType="CALLABLE" parameterType="pd">
 			{ call query_breakPointDetail_RJ(#{year},#{month},#{grouId},#{unit},#{kks}) }
+	</select>
+	<!-- 批量提交违规原因 -->
+	<select id="submitIsDeleteBatch" parameterType="pd" resultType="pd" useCache="false"> 
+		 update BreakPointDetails set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime}
+	</select>
+	<!-- 提交违规原因 -->
+	<select id="updateDeleteReason" parameterType="pd" resultType="pd" useCache="false"> 
+		 update BreakPointDetails set DeleteReason=#{reason} where id=#{id}
+	</select>
+	<!-- 提交违规详情是否delete标识 -->
+	<select id="updateIsDeleteStatus" parameterType="pd" resultType="pd" useCache="false"> 
+		 update BreakPointDetails set IsDelete=#{status} where id=#{id}
 	</select>
 	<!-- 列出所有的违规扣分(图) -->
 	<select id="listAllBreakPointForChart" resultMap="breakPointMapForChart"  statementType="CALLABLE" parameterType="pd">
@@ -752,8 +764,8 @@
 				 StatDate,
 				 GroupName,
 				 RJ_TrainScore
-				FROM vw_ContestResult
-				where year(StatDate)= #{year} and month(StatDate) = #{month} 
+			FROM vw_ContestResult
+			where year(StatDate)= #{year} and month(StatDate) = #{month} 
 	</select>
 	<!-- 列出所有的培训得分(表) -->
 	<select id="listAllTrainScoreForGrid" resultMap="trainScoreMapForGrid"  statementType="CALLABLE" parameterType="pd">
@@ -825,11 +837,86 @@
 	
 	<!-- 考核录入指标列表(全部) -->
 	<select id="listAllItemInputForGrid" parameterType="pd" resultType="pd" useCache="false">
-		select CONVERT(varchar(100), r.CheckDate, 23) as CheckDate,r.CreateUser,r.GroupID,r.ItemID,r.Money,r.Score,r.Unit,r.memo from RewardPunishlog r order by r.CheckDate desc
+		  select r.ID,CONVERT(varchar(100), r.CheckDate, 23) as CheckDate,
+		  r.CreateUser,r.GroupID,r.ItemID,r.Money,r.Score,r.Unit,r.memo as reason ,d.memo
+		  from RewardPunishlog r left join RewardPunishDic d on r.ItemID = d.id order by r.CheckDate desc
 	</select>
 	
 	<!-- 查询所有的KKS -->
 	<select id="listAllKKS" parameterType="pd" resultType="pd" useCache="false">
 		SELECT distinct '【'+KKS+'】 '+ Description as value, KKS as kks FROM BreakPointDic	
 	</select>
+	
+	<!-- 新增一条考核管理项 -->
+	<select id="saveOneContestItem" parameterType="pd" resultType="pd" useCache="false"> 
+		  insert into RewardPunishDic 
+		  	  (ContestItemID
+			  ,IsTag
+			  ,IsDelete
+			  ,itemName
+			  ,StartStopType
+			  ,cent
+			  ,money
+			  ,ratio
+			  ,memo
+			  ,StartStop
+			  ,listorder) values (#{ContestItemID},#{IsTag},#{IsDelete},#{itemName},#{StartStopType},#{cent},#{money},#{ratio},#{memo},#{StartStop},#{listorder})
+	</select>
+	
+	<!-- 新增一条考核管理记录 -->
+	<select id="saveItemInput" parameterType="pd" resultType="pd" useCache="false"> 
+		  insert into RewardPunishLog 
+		  	  (GroupID
+		      ,Unit
+		      ,CheckDate
+		      ,ItemID
+		      ,Score
+		      ,Money
+		      ,Memo
+		      ,LogDate
+		      ,CreateUser) values (#{GroupID},#{Unit},#{CheckDate},#{ItemID},#{Score},#{money},#{memo},CURRENT_TIMESTAMP,#{CreateUser})
+	</select>
+	
+	<!-- 取最新的考核管理记录 -->
+	<select id="listThisItemInput" parameterType="pd" resultType="pd" useCache="false"> 
+		  SELECT TOP 1 id
+		      ,GroupID
+		      ,Unit
+		      ,CONVERT(VARCHAR(20),CheckDate,20) as CheckDate
+		      ,ItemID
+		      ,Score
+		      ,Money
+		      ,Memo
+		      ,CONVERT(VARCHAR(20),LogDate,20) as LogDate
+		      ,CreateUser
+		  FROM RewardPunishLog order by id desc
+	</select>
+	
+	<!-- 根据ID查询一条考核管理记录 -->
+	<select id="listThisItemInputByID" parameterType="pd" resultType="pd" useCache="false"> 
+		  SELECT id
+		      ,GroupID
+		      ,Unit
+		      ,CONVERT(VARCHAR(20),CheckDate,20) as CheckDate
+		      ,ItemID
+		      ,Score
+		      ,Money
+		      ,Memo
+		      ,CONVERT(VARCHAR(20),LogDate,20) as LogDate
+		      ,CreateUser
+		  FROM RewardPunishLog where ID=#{ID}
+	</select>
+	
+	<!-- 根据ID更新一条考核管理记录 -->
+	<select id="updateItemInput" parameterType="pd" resultType="pd" useCache="false"> 
+		  UPDATE RewardPunishLog SET GroupID=#{GroupID},Unit=#{Unit},CheckDate=#{CheckDate},ItemID=#{ItemID},Score=#{Score},Money=#{money},Memo=#{memo},LogDate=CURRENT_TIMESTAMP where ID=#{ID}
+	</select>
+	
+	<!-- 根据ID删除一条考核管理记录 -->
+	<select id="deleteItemInput" parameterType="pd" resultType="pd" useCache="false"> 
+		  DELETE
+		  FROM RewardPunishLog where ID=#{ID}
+	</select>
+	
+	
 </mapper>

@@ -42,86 +42,20 @@
 	<!-- /.col -->
 </div>
 <!-- /.row -->
-<div class="modal fade" id="dialog-confirm-breakdetail" tabindex="-1" role="dialog"
-     aria-labelledby="shareLabel" aria-hidden="true" data-backfrop="static"
-     data-keyboard="false">
-    <div class="modal-dialog" style="width: 1190px;">
-        <div class="modal-content row">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="shareLabel">违规扣分详情</h4>
-            </div>
-             
-            <div class="modal-body">
-            	<form id="transferFormH" class="row col-sm-12">
-
-<div class="col-sm-12 form-horizontal">
-
-                        <label class="control-label col-sm-1 nowrap">日期</label>
-                        <div class="col-sm-2">
-                        	<input type="text" id="datepickerForDetail" class="form-control" />
-                        </div>
-                        <label class="control-label col-sm-1 nowrap">值别</label>
-
-                        <div class="col-sm-1">
-                            <select name="groupId" id="groupId" class="form-control" placeholder="请选择值别">
-                            	<option value="0">全部</option>
-								<option value="1">一值</option>
-								<option value="2">二值</option>
-								<option value="3">三值</option>
-								<option value="4">四值</option>
-								<option value="5">五值</option>
-								<option value="6">六值</option>
-							</select>  
-                        </div>
-                        <label class="control-label col-sm-1 nowrap">机组</label>
-
-                        <div class="col-sm-2">
-                            
-                            <select name="unit" id="unit" class="form-control" placeholder="请选择机组">
-                            	<option value="0">全部</option>
-								<option value="6">6号机</option>
-								<option value="7">7号机</option>
-								<option value="8">8号机</option>
-								<option value="9">9号机</option>
-								<option value="10">10号机</option>
-								<option value="11">11号机</option>
-							</select>  
-                        </div>
-                        <label class="control-label col-sm-1 nowrap">测点</label>
-
-                        <div class="col-sm-2">
-                           <select name="kks" id="kks" class="form-control" placeholder="请选择测点">
-								<option value="0">全部</option>
-							</select>  
-                        </div>
-                         <div class="col-sm-1">
-                        <button id="queryBtn" type="button" class="btn btn-sm btn-success" onclick="queryDetail()">
-						     <span class="glyphicon glyphicon-plus"></span>&nbsp;查询
-						</button>
-						</div>
-                    
-</div>                   
-				
-				<div id="detailGrid"></div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>						 
- 
 <script type="text/javascript">
-
-	function viewInfo(kks) {
-		$("#detailGrid").load("breakpoint/breakpointlist.do", function(data){
-			$(data).find("script:last").appendTo($("#dialog-confirm-breakdetail .modal-body"));
-			$('#dialog-confirm-breakdetail').modal('show');
-		});
-	}
 
 	var year = getYear();
 	var month = getMonth();
+	
+	function viewInfo(kks,groupId, unit) {
+		$.cookie('breakpointyear', year, {path:"/"}); 
+		$.cookie('breakpointmonth', month, {path:"/"}); 
+		$.cookie('breakpointkks', kks, {path:"/"}); 
+		$.cookie('breakpointgroupId', groupId, {path:"/"}); 
+		$.cookie('breakpointunit', unit, {path:"/"});
+		$.cookie('username', $("#username").val(), {path:"/"});
+		window.open("breakpoint/breakpointlist.do","_blank");
+	}
 
 	var fusioncharts = null;
 	function initCharts() {
@@ -221,7 +155,7 @@
 						width : 220,
 						sortable: false,
 						formatter:function(cellvalue, options, rowObject){
-						    return "<a onclick=viewInfo('" + cellvalue +　"') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+						    return "<a onclick=viewInfo('" + cellvalue + "','" + rowObject.groupID + "','" + rowObject.unit + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
 						}
 					}, {
 						name : 'description',
@@ -274,51 +208,6 @@
 
 					caption : "违规扣分明细"
 				});
-	}
-	
-	$("#datepickerForDetail").datepicker({
-		language : 'zh-CN',
-		autoclose : true,
-		format : "yyyy-mm",
-		minViewMode : 1,
-		todayBtn : true
-	});
-	var d = new Date();
-	$("#datepickerForDetail").datepicker("setDate", getYear() + "-" + getMonth());// 设置
-	
-	$.ajax({
-        type: "POST",
-        url: "breakpoint/kksSelect.do",
-        dataType: "json",
-        success: function (data) {
-            for (var i = 0; i < data.length; i++) {
-                $("#kks").append("<option value="+data[i].kks+">" + data[i].value + "</option>");
-            }
-        }
-    });
-	
-	
-	
-	function queryDetail(){
-		var year = $("#datepickerForDetail").val().split("-")[0];
-		var month = $("#datepickerForDetail").val().split("-")[1];
-		var grouId = $("#groupId").val();
-		var unit = $("#unit").val();
-		var kks = $("#kks").val();
-		
-		$.ajax({
-	        type: "GET",
-	        url : "breakpoint/getDetailGridData?year=" + year + "&month=" + month + "&grouId=" + grouId + "&unit=" + unit + "&kks=" + kks,
-	        success: function(data){
-	     	   		grid_data = data;
-	     	   		$("#grid-table-breakpointdetail").jqGrid("clearGridData");
-	                 $("#grid-table-breakpointdetail").jqGrid('setGridParam',
-	                 { 
-	                    datatype: 'local',
-	                    data:grid_data
-	                }).trigger("reloadGrid");
-	           }
-	     });
 	}
 	
 </script>

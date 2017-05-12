@@ -11,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
 import com.fh.entity.system.TrainScoreForChart;
 import com.fh.entity.system.TrainScoreForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -68,22 +66,8 @@ public class TrainScoreController extends BaseController {
 			pd.put("month", month);
 			page.setPd(pd);
 
-			List<TrainScoreForGrid> trainScoreListForGrid = contestResultService.listAllTrainScoreForGrid(pd);
-			List<TrainScoreForChart> trainScoreListForChart = contestResultService.listAllTrainScoreForChart(pd);
-			
-			JSONArray trainScoreArray = new JSONArray();  
-
-			JSONObject jsonObject = new JSONObject();
-			for (TrainScoreForChart TrainScoreForChart : trainScoreListForChart) {
-				jsonObject.element("value", TrainScoreForChart.getRJ_TrainScore());
-				trainScoreArray.add(jsonObject);
-			}
-			
 			mv.setViewName("trainscore/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray trainScoreForGridList = JSONArray.fromObject(trainScoreListForGrid);
-			mv.addObject("trainScoreForGridList", trainScoreForGridList);
-			mv.addObject("trainScoreArray", trainScoreArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -100,7 +84,7 @@ public class TrainScoreController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -154,7 +138,7 @@ public class TrainScoreController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();
 			try{

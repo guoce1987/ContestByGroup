@@ -10,40 +10,30 @@
 			+ path + "/";
 %>
   <div class="row-fluid">
- 
- 						<div class="page-header">
-							<h1>
-								权限管理
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									查询权限管理
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
 						
+				<div class="row">
+						<div class="col-sm-6">
 							<div class="row">
-									<div class="col-sm-6">
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="input-group input-group-sm">
-													<input id="IdOrName" name="IdOrName" class="form-control" placeholder="请输入用户名或者ID"/>
-												</div>
-											</div>
-											<div class="col-sm-2 nowrap">
-						                        <button id="searchBtn" type="button" class="btn btn-sm btn-info" onclick="query()">
-						                            <span class="glyphicon glyphicon-search"></span>&nbsp;查询
-						                        </button>                   
-				                    		</div>
-				                    		<div class="col-sm-2 nowrap">
-						                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="add()">
-						                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增
-						                        </button>                   
-				                    		</div>
-										</div>
-									</div><!-- ./span -->
-								 
-								</div><!-- ./row -->
-								
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<input id="IdOrName" name="IdOrName" class="form-control" placeholder="请输入用户名或者ID"/>
+									</div>
+								</div>
+								<div class="col-sm-2 nowrap">
+			                        <button id="searchBtn" type="button" class="btn btn-sm btn-info" onclick="query()">
+			                            <span class="glyphicon glyphicon-search"></span>&nbsp;查询
+			                        </button>                   
+	                    		</div>
+	                    		<div class="col-sm-2 nowrap">
+			                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="add()">
+			                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增
+			                        </button>                   
+	                    		</div>
+							</div>
+						</div><!-- ./span -->
+					 
+					</div><!-- ./row -->
+					
 
 								
 						<div class="row">
@@ -426,31 +416,15 @@
 			var grid_selector = "#grid-table";
 			var pager_selector = "#grid-pager";
 			
-			
-			var parent_column = $(grid_selector).closest('[class*="col-"]');
-			//resize to fit page size
-			$(window).on('resize.jqGrid', function () {
-				$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() ).jqGrid('setGridHeight', 260);
-		    })
-			
-			//resize on sidebar collapse/expand
-			$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
-				if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
-					//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
-					setTimeout(function() {
-						$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
-					}, 20);
-				}
-		    })
-		
 			jQuery(grid_selector).jqGrid({
 		
 				url: "user/getGridData",
 	            mtype: "GET",
 	            datatype: "json",
-	            
-				height: 250,
-
+	            autowidth : true,
+				height : 'auto',
+				loadonce: true,
+				autoScroll : true,
 				colNames:[ '','ID','roleID','用户名','角色','密码'],
 				colModel:[
 					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
@@ -478,7 +452,6 @@
 				pager : pager_selector,
 				altRows: true,
 				//toppager: true,
-				
 				multiselect: true,
 				//multikey: "ctrlKey",
 		        multiboxonly: true,
@@ -525,8 +498,6 @@
 
 		
 			});
-			$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-			
 			//replace icons with FontAwesome icons like above
 			function updatePagerIcons(table) {
 				var replacement = 

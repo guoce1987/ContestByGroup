@@ -201,6 +201,55 @@ public class ContestItemController extends BaseController {
 		return jsonArr;
 	
 	}
+	
+	/**
+	 * 保存一条考核管理项
+	 */  
+	@RequestMapping(value="/saveContestItem")
+	@ResponseBody
+	public Boolean saveContestItem(Page page){
+		
+
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		Boolean result = false;
+		try{
+			
+			String ContestItemID = pd.getString("contestType");
+			String IsTag = pd.getString("IsTag");
+			String IsDelete = pd.getString("IsDelete");
+			String itemName = pd.getString("itemName");
+			String StartStopType = pd.getString("StartStopType");
+			String cent = pd.getString("cent");
+			String money = pd.getString("money");
+			String memo = pd.getString("memo");
+			String StartStop = pd.getString("StartStop");
+			String listorder = pd.getString("listorder");
+			
+			pd.put("ContestItemID",ContestItemID);
+			pd.put("IsTag",IsTag);
+			pd.put("IsDelete",IsDelete);
+			pd.put("itemName",itemName);
+			pd.put("StartStopType",StartStopType);
+			pd.put("cent",cent);
+			pd.put("ratio","-1");	//？
+			pd.put("money",money);
+			pd.put("memo",memo);
+			pd.put("StartStop",StartStop);
+			pd.put("listorder",listorder);
+
+			Integer insertResult = contestResultService.saveOneContestItem(pd);
+			if(insertResult != 0){
+				result = true;
+			}
+			
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return result;
+	
+	}
 
 	
 }

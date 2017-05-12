@@ -1,34 +1,10 @@
 <%@ page contentType="text/html;charset=utf-8" language="java"%>
 <div class="row">
-	<div class="col-sm-6">
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="input-group input-group-sm">
-					<input type="text" id="datepicker" class="form-control" /> <span
-						class="input-group-addon"> <i
-						class="ace-icon fa fa-calendar"></i>
-					</span>
-				</div>
-			</div>
-			<div class="col-sm-2 nowrap">
-				<button id="searchBtn" type="button" class="btn btn-sm btn-info"
-					onclick="query()">
-					<span class="glyphicon glyphicon-search"></span>&nbsp;查询
-				</button>
-			</div>
-		</div>
-	</div>
-	<!-- ./span -->
-
-</div>
-<!-- ./row -->
-
-<div class="row">
 	<div class="col-sm-12">
 		<div class="widget-box transparent">
 			<div class="widget-header widget-header-flat">
 				<h4 class="widget-title lighter">
-					<i class="ace-icon fa fa-signal"></i> 培训得分
+					<i class="ace-icon fa fa-signal"></i> 培训成绩
 				</h4>
 
 				<div class="widget-toolbar">
@@ -106,7 +82,7 @@
 					} ]
 				} ],
 				"dataset": [{
-		            "seriesName": "培训成绩明细",
+		            "seriesName": "培训得分",
 		            "showValues": "1",
 		            "data": {}
 		        }]

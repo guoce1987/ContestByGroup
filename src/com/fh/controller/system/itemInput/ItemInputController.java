@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -104,6 +107,141 @@ public class ItemInputController extends BaseController {
 		}
 		
 		return jsonArr;
+	
+	}
+	
+	/**
+	 * 表格获取数据
+	 */  
+	@RequestMapping(value="/saveItemInput")
+	@ResponseBody
+	public JSONArray saveItemInput(Page page){
+		
+
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		JSONArray jsonArr = new JSONArray();
+		Boolean result = false;
+		try{
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
+			
+			String GroupID = pd.getString("groupId");
+			String Unit = pd.getString("unit");
+			String CheckDate = pd.getString("CheckDate");
+			String ItemID = pd.getString("ItemID");
+			String Score = pd.getString("score");
+			String money = pd.getString("money");
+			String memo = pd.getString("reason");
+			
+			pd.put("GroupID",GroupID);
+			pd.put("Unit",Unit);
+			pd.put("CheckDate",CheckDate);
+			pd.put("ItemID",ItemID);
+			pd.put("Score",Score);
+			pd.put("money",money);
+			pd.put("memo",memo);	
+			pd.put("CreateUser",USERNAME);
+			
+			Integer insertResult = contestResultService.saveItemInput(pd);
+			if(insertResult != 0){
+				result = true;
+			}
+//			jsonArr.add(0, result);
+			
+			List<PageData> item = contestResultService.listThisItemInput(pd);
+			jsonArr = JSONArray.fromObject(item);
+		} catch(Exception e){
+//			jsonArr.add(0, result);
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	
+	}
+
+	/**
+	 * 表格更新一条数据
+	 */  
+	@RequestMapping(value="/updateItemInput")
+	@ResponseBody
+	public JSONArray updateItemInput(Page page){
+		
+
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		JSONArray jsonArr = new JSONArray();
+		Boolean result = false;
+		try{
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
+			
+			String ID = pd.getString("ID");
+			String GroupID = pd.getString("groupId");
+			String Unit = pd.getString("unit");
+			String CheckDate = pd.getString("CheckDate");
+			String ItemID = pd.getString("ItemID");
+			String Score = pd.getString("score");
+			String money = pd.getString("money");
+			String memo = pd.getString("reason");
+			
+			pd.put("ID",ID);
+			pd.put("GroupID",GroupID);
+			pd.put("Unit",Unit);
+			pd.put("CheckDate",CheckDate);
+			pd.put("ItemID",ItemID);
+			pd.put("Score",Score);
+			pd.put("money",money);
+			pd.put("memo",memo);	
+			pd.put("CreateUser",USERNAME);
+			
+			Integer insertResult = contestResultService.updateItemInput(pd);
+			if(insertResult != 0){
+				result = true;
+			}
+//			jsonArr.add(0, result);
+			
+			List<PageData> item = contestResultService.listThisItemInputByID(pd);
+			jsonArr = JSONArray.fromObject(item);
+		} catch(Exception e){
+//			jsonArr.add(0, result);
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	
+	}
+	
+	/**
+	 * 表格删除一条数据
+	 */  
+	@RequestMapping(value="/deleteItemInput")
+	@ResponseBody
+	public boolean deleteItemInput(Page page){
+		
+
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		Boolean result = false;
+		try{
+			
+			String ID = pd.getString("ID");
+			pd.put("ID",ID);
+			
+			Integer insertResult = contestResultService.deleteItemInput(pd);
+			if(insertResult != 0){
+				result = true;
+			}
+
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return result;
 	
 	}
 
