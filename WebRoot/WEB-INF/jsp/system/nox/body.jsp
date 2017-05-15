@@ -147,5 +147,42 @@
 
 					caption : "脱硝指标明细"
 				});
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "nox/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {};   						
+	    					filter.statDate = data[index].statDate;
+	    					filter.groupName = data[index].groupName;
+	    					filter.RJ_Nox = data[index].RJ_Nox;
+	    					filter.RJ_NoxRank = data[index].RJ_NoxRank;
+	    					filter.RJ_NoxScore = data[index].RJ_NoxScore;
+	    					array.push(filter);
+	    				}
+				   var title = ['日期','值别','偏差', '名次', '得分'];
+				   var tableName = "脱硝指标列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+	
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

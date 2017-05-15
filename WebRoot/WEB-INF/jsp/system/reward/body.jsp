@@ -147,5 +147,41 @@
 
 					caption : "操作加分明细"
 				});
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "reward/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {};   	
+	    					filter.ID = data[index].ID;
+	    					filter.checkDate = data[index].checkDate;
+	    					filter.groupName = data[index].groupName;
+	    					filter.itemName = data[index].itemName;
+	    					filter.operateAddScore = data[index].operateAddScore;
+	    					array.push(filter);
+	    				}
+				   var title = ['ID','考核日期','值别','项目',  '考核分数'];
+				   var tableName = "操作加分列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

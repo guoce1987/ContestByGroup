@@ -55,7 +55,7 @@
 			
 			  <div class="navbar-buttons navbar-header pull-right" role="navigation">
 			  <ul class="nav ace-nav">
-			  
+			  	<!-- 
 					<li class="grey dropdown-modal">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="ace-icon fa fa-tasks"></i>
@@ -130,7 +130,7 @@
 								</li>
 						</ul>
 					</li>
-					
+					 -->
 					<li class="light-blue dropdown-modal">
 						<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 							<img alt="FH" src="static/avatars/user.jpg" class="nav-user-photo" />
@@ -141,10 +141,12 @@
 							<i class="ace-icon fa fa-caret-down"></i>
 						</a>
 						<ul id="user_menu" class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+							<!--  
 							<li><a onclick="editUserH();" style="cursor:pointer;"><i class="icon-user"></i> 修改资料</a></li>
 							<li id="systemset"><a onclick="editSys();" style="cursor:pointer;"><i class="icon-cog"></i> 系统设置</a></li>
 							<li id="productCode"><a onclick="productCode();" style="cursor:pointer;"><i class="icon-cogs"></i> 代码生成</a></li>
 							<li class="divider"></li>
+							-->
 							<li><a href="logout"><i class="icon-off"></i> 退出</a></li>
 						</ul>
 					</li>

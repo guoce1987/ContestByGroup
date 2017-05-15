@@ -158,5 +158,45 @@
 
 					caption : "综合厂用电率明细"
 				});
+		
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "powerratio/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {};   			
+							filter.ID = data[index].ID;
+	    					filter.statDate = data[index].statDate;
+	    					filter.groupName = data[index].groupName;
+	    					filter.dutyName = data[index].dutyName;
+	    					filter.RJ_TotalPlantUsePowerRatio = data[index].RJ_TotalPlantUsePowerRatio;
+	    					filter.RJ_GeneratePower = data[index].RJ_GeneratePower;
+	    					filter.RJ_SuplyPower = data[index].RJ_SuplyPower;
+	    					filter.XL2213PowerFLow = data[index].XL2213PowerFLow;
+	    					array.push(filter);
+	    				}
+				   var title = ['ID','日期','值别','班名','厂用电率', '燃机发电量', '燃机供电量','#3启备变电量'];
+				   var tableName = "综合厂用电率列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

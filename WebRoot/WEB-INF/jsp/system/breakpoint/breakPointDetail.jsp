@@ -84,7 +84,9 @@
 								<option value="0">全部</option>
 							</select>
 					   </div>
-						
+						<div class="form-group" style="padding-top: 5px;">
+				      		<label for="isShowDelete">显示已取消</label><input id="isShowDelete" checked type="checkbox"> 
+		          		</div>
 						<button id="queryBtn" type="button" class="btn btn-sm btn-success" onclick="queryDetail()">
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;查询
 						</button>
@@ -133,6 +135,12 @@
 						<span class="add-on">
 							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 						</span>
+				   </div>
+				   <div class="form-group">
+				    	<label for="kks4BatchSubmit" class="control-label" style="padding-left:0px;">测点：</label>
+						<select name="kks4BatchSubmit" id="kks4BatchSubmit" class="form-control">
+							<option value="0">全部</option>
+						</select>
 				   </div>
 		           <div class="form-group" style="padding-top: 5px;">
 				      	<label for="isDelete" style="padding-left:0px;">是否取消</label><input id="isDelete" type="checkbox"> 
@@ -208,13 +216,13 @@
 	function initBreakDetailGrid() {
 		var grid_selector = "#grid-table-breakpointdetail";
 		var pager_selector = "#grid-pager-breakpointdetail";
-
+		var isShowDelete = $("#isShowDelete").prop('checked') ? 1 : 0;;
 		jQuery(grid_selector).jqGrid(
 				{
 
 					url : "breakpoint/getDetailGridData?year=" + year
 							+ "&month=" + month + "&grouId=" + groupId
-							+ "&unit=" + unit + "&kks=" + kks,
+							+ "&unit=" + unit + "&kks=" + kks + "&isShowDelete=" + isShowDelete,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
@@ -349,8 +357,10 @@
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 $("#kks").append("<option value="+data[i].kks+">" + data[i].value + "</option>");
+                $("#kks4BatchSubmit").append("<option value="+data[i].kks+">" + data[i].value + "</option>");
             }
-            $("#kks").val(kks)
+            $("#kks").val(kks);
+            $("#kks4BatchSubmit").val(kks);
         }
     });
 	
@@ -360,10 +370,10 @@
 		var grouId = $("#groupId").val();
 		var unit = $("#unit").val();
 		var kks = $("#kks").val();
-		
+		var isShowDelete = $("#isShowDelete").prop('checked') ? 1 : 0;
 		$.ajax({
 	        type: "GET",
-	        url : "breakpoint/getDetailGridData?year=" + year + "&month=" + month + "&grouId=" + grouId + "&unit=" + unit + "&kks=" + kks,
+	        url : "breakpoint/getDetailGridData?year=" + year + "&month=" + month + "&grouId=" + grouId + "&unit=" + unit + "&kks=" + kks+ "&isShowDelete=" + isShowDelete,
 	        success: function(data){
 	     	   		grid_data = data;
 	     	   		$("#grid-table-breakpointdetail").jqGrid("clearGridData");
@@ -398,16 +408,26 @@
 	function submitBatch() {
 		var isDelete = $("#isDelete").prop('checked');
 		var reason = $("#reason").val();
+		var kks = $("#kks4BatchSubmit").val();
 		if("" == start || "" == end) {
 			start = $("#datepickerForDeleteTimeRange").val().split("  到  ")[0];
 			end = $("#datepickerForDeleteTimeRange").val().split("  到  ")[1];
 		}
-		$.post("breakpoint/submitIsDeleteBatch",{startTime:start, endTime : end, isDelete : isDelete?1:0, deleteReason:reason},function(data){
+		$.post("breakpoint/submitIsDeleteBatch",{startTime:start, endTime : end, isDelete : isDelete?1:0, deleteReason:reason, kks : kks},function(data){
 			if("0" == data) alert("提交失败");
 			$("#myModal").modal('toggle');
 			queryDetail();
 		});		
 	}
+	
+	$(function(){
+		$("#kks").on("change", function(){
+			$("#kks4BatchSubmit").val($("#kks").val());
+		});
+		$("#isShowDelete").on("click", function(){
+			queryDetail();
+		});
+	});
 </script>
 
 </html>

@@ -205,7 +205,7 @@
 		var year = getYear();
 		var month = getMonth();
 		jQuery(grid_selector).jqGrid({
-			url : "itemInput/getGridData",
+			url : "itemInput/getGridData?year=" + year + "&month=" + month,
 			data: {},
 			mtype : "GET",
 			datatype : "json",

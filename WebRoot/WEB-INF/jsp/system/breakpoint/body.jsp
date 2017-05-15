@@ -208,6 +208,48 @@
 
 					caption : "违规扣分明细"
 				});
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "breakpoint/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+        				for ( var index = 0; index < data.length; index++) {
+        					var filter = {};
+        					filter.groupID = data[index].groupID;
+        					filter.unit = data[index].unit;
+        					filter.KKS = data[index].KKS;
+        					filter.description = data[index].description;
+        					filter.lower = data[index].lower;
+        					filter.upper = data[index].upper;
+        					filter.breakCount = data[index].breakCount;
+        					filter.dutyHours = data[index].dutyHours;
+        					filter.breakCountPerHour = data[index].breakCountPerHour;
+        					filter.punishWay = data[index].punishWay;
+        					array.push(filter);
+        				}
+				   var title = ['值别', '机组', '测点', '描述', '下限', '上限',
+						'违规点数量', '统计小时数', '违规点数(每小时)', '扣分方式'];
+				   var tableName = "违规点列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+	
+		   }, 
+		   position:"last"
+		});
 	}
 	
 </script>

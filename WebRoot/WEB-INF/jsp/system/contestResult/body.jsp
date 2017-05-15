@@ -219,5 +219,48 @@ function initGrid() {
 
 				caption : "竞赛总成绩"
 			});
+	
+			//navButtons
+			jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+			jQuery(grid_selector)
+			.navButtonAdd(pager_selector,{
+			   caption:"导出表格", 
+			   buttonicon:"ace-icon fa fa-download blue", 
+			   onClickButton: function(){ 
+				   
+				   //只能拿到grid中的数据，完整数据实现应该发请求
+					   var promise = $.ajax({
+					   url : "contestResult/getGridData?year=" + year + "&month="
+							+ month,
+					   type: "GET"
+				   });
+				   
+				   promise.done(function(data){
+					 //此处data要转化成array
+					    var array = new Array();
+	        				for ( var index = 0; index < data.length; index++) {
+	        					var filter = {};
+	        					//item":"安全得分","ID1":"2","g1":0.0,"ID":"1","g2":0.0,"g3":0.0,"g4":0.0,"g5":0.0,"g6":0.0
+	        					filter.item = data[index].item;
+	        					filter.g1 = data[index].g1;
+	        					filter.g2 = data[index].g2;
+	        					filter.g3 = data[index].g3;
+	        					filter.g4 = data[index].g4;
+	        					filter.g5 = data[index].g5;
+	        					filter.g6 = data[index].g6;
+	        					array.push(filter);
+	        				}
+					   var title = [ '竞赛项目', '运行一值', '运行二值', '运行三值', '运行四值', '运行五值', '运行六值'];
+					   var tableName = "竞赛总成绩列表_"+new Date().format("yyyyMMddhhmmss");
+					   exportToFile(array,title, true , tableName);
+				   }); 
+				   
+		
+			   }, 
+			   position:"last"
+			});
 	}
+	
+	
+
 </script>

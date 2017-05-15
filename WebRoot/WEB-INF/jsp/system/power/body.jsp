@@ -157,5 +157,41 @@
 		$('#p1_grid_data tr').find("td:eq(2)").each(function() {
 			$(this).css('width', w2);
 		})
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "power/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {};   						
+	    					filter.statDate = data[index].statDate;
+	    					filter.dutyID = data[index].dutyID;
+	    					filter.dutyName = data[index].dutyName;
+	    					filter.groupName = data[index].groupName;
+	    					filter.RJ_GeneratePower = data[index].RJ_GeneratePower;
+	    					array.push(filter);
+	    				}
+				   var title = ['日期','班次ID','班次', '值别', '发电量'];
+				   var tableName = "电量指标列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

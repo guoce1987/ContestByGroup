@@ -634,11 +634,11 @@
 	</resultMap>
 	<!-- 违规点详情列表查询(表) -->
 	<select id="listAllBreakPointDetailForGrid" resultMap="breakPointDetailMapForGrid"  statementType="CALLABLE" parameterType="pd">
-			{ call query_breakPointDetail_RJ(#{year},#{month},#{grouId},#{unit},#{kks}) }
+			{ call query_breakPointDetail_RJ(#{year},#{month},#{grouId},#{unit},#{kks},#{isShowDelete}) }
 	</select>
 	<!-- 批量提交违规原因 -->
 	<select id="submitIsDeleteBatch" parameterType="pd" resultType="pd" useCache="false"> 
-		 update BreakPointDetails set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime}
+		 update BreakPointDetails set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime} and kks=#{kks}
 	</select>
 	<!-- 提交违规原因 -->
 	<select id="updateDeleteReason" parameterType="pd" resultType="pd" useCache="false"> 
@@ -839,7 +839,9 @@
 	<select id="listAllItemInputForGrid" parameterType="pd" resultType="pd" useCache="false">
 		  select r.ID,CONVERT(varchar(100), r.CheckDate, 23) as CheckDate,
 		  r.CreateUser,r.GroupID,r.ItemID,r.Money,r.Score,r.Unit,r.memo as reason ,d.memo
-		  from RewardPunishlog r left join RewardPunishDic d on r.ItemID = d.id order by r.CheckDate desc
+		  from RewardPunishlog r left join RewardPunishDic d on r.ItemID = d.id 
+		  where year(r.CheckDate) = #{year} and month(r.CheckDate) = #{month}
+		  order by r.CheckDate desc
 	</select>
 	
 	<!-- 查询所有的KKS -->

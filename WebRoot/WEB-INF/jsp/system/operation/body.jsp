@@ -149,5 +149,44 @@
 
 			caption : "重大操作明细"
 		});
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "operationscore/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {};   						
+	    					filter.ID = data[index].ID;
+	    					filter.groupName = data[index].groupName;
+	    					filter.operateDate = data[index].operateDate;
+	    					filter.unit = data[index].unit;
+	    					filter.itemName = data[index].itemName;
+	    					filter.startStopType = data[index].startStopType;
+	    					filter.money = data[index].money;
+	    					filter.memo = data[index].memo;
+	    					array.push(filter);
+	    				}
+				   var title = ['id','操作日期','值别','机组', '操作类型', '操作项目','重大操作奖','备注'];
+				   var tableName = "重大操作列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

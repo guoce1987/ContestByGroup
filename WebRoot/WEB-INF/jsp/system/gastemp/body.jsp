@@ -148,5 +148,42 @@
 
 					caption : "排烟温度明细"
 				});
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "gastemp/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {};   						
+	    					filter.statDate = data[index].statDate;
+	    					filter.groupName = data[index].groupName;
+	    					filter.RJ_GasTempDiff = data[index].RJ_GasTempDiff;
+	    					filter.RJ_GasTempScore = data[index].RJ_GasTempScore;
+	    					filter.RJ_GasTempRank = data[index].RJ_GasTempRank;
+	    					array.push(filter);
+	    				}
+				   var title = ['日期','值别','偏差', '名次', '得分'];
+				   var tableName = "排烟温度列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+	
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

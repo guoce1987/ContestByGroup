@@ -261,31 +261,49 @@
 		
 		jQuery(grid_selector)
 		.navButtonAdd(pager_selector,{
-		   caption:"", 
+		   caption:"导出表格", 
 		   buttonicon:"ace-icon fa fa-download blue", 
 		   onClickButton: function(){ 
 			   
 			   //只能拿到grid中的数据，完整数据实现应该发请求
-/* 			   var promise = $.ajax({
-				   url:
-				   type: "POST",
+ 			   var promise = $.ajax({
+				   url: "contestItem/getGridData?contestType=0",
+				   type: "GET"
 			   });
 			   
 			   promise.done(function(data){
 				   
 				   //此处data要转化成array
-				   var title = [ 'ID','名称','得分','奖金','备注','起停'];
-				   
-				   exportToFile(data,title, true , "导出列表");
-			   }); */
+				    var array = new Array();
+        				for ( var index = 0; index < data.length; index++) {
+        					var filter = {};
+        					filter.ID = data[index].ID;
+        					filter.ContestItemID = data[index].ContestItemID;
+        					console.log("istag:"+data[index].IsTag+": isDelete"+data[index].IsDelete);
+        					filter.IsTag = (data[index].IsTag == null)?"":data[index].IsTag;
+        					filter.IsDelete = (data[index].IsDelete == null)?"":data[index].IsDelete;
+        					filter.ItemName = (data[index].ItemName == null)?"":data[index].ItemName;
+        					filter.StartStopType = (data[index].StartStopType == null)?"":data[index].StartStopType;;
+        					filter.Cent = (data[index].Cent == null)?"":data[index].Cent;
+        					filter.money = (data[index].money == null)?"":data[index].money;
+        					filter.ratio = (data[index].ratio == null)?"":data[index].ratio;
+        					filter.memo = (data[index].memo == null)?"":data[index].memo;
+        					filter.StartStop = (data[index].StartStop == null)?"":data[index].StartStop;
+        					filter.listorder = (data[index].listorder == null)?"":data[index].listorder;
+        					array.push(filter);
+        				}
+				   var title = [ 'ID','ContestItemID','IsTag','IsDelete','ItemName','StartStopType','Cent','money','ratio','memo','StartStop','listorder' ];
+				   var tableName = "考核管理列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
 			   
-			   var data = getJQAllData(grid_selector);
+/* 			   var data = getJQAllData(grid_selector);
 			   
 			   var title = [ '',  'ID','名称','得分','奖金','备注','起停'];
 			   
 			   var tableName = "考核管理列表_"+new Date().format("yyyyMMddhhmmss");
 			   
-			   exportToFile(data,title, true , tableName);
+			   exportToFile(data,title, true , tableName); */
 		   }, 
 		   position:"last"
 		});

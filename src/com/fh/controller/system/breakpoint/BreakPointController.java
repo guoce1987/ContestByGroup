@@ -258,11 +258,13 @@ public class BreakPointController extends BaseController {
 			String endTime = pd.getString("endTime");
 			String isDelete = pd.getString("isDelete");
 			String deleteReason = pd.getString("deleteReason");
+			String kss = pd.getString("kss");
 			
 			pd.put("startTime", startTime);
 			pd.put("endTime", endTime);
 			pd.put("isDelete", isDelete);
 			pd.put("deleteReason", deleteReason);
+			pd.put("kss", kss);
 			contestResultService.submitIsDeleteBatch(pd);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -285,12 +287,14 @@ public class BreakPointController extends BaseController {
 			String USERNAME = pd.getString("USERNAME");
 			String year = pd.getString("year");
 			String month = pd.getString("month");
+			String isShowDelete = pd.getString("isShowDelete");
 			if(null != USERNAME && !"".equals(USERNAME)){
 				USERNAME = USERNAME.trim();
 				pd.put("USERNAME", USERNAME);
 			}
 			pd.put("year", Integer.parseInt(year));
 			pd.put("month", Integer.parseInt(month));
+			pd.put("isShowDelete", isShowDelete);
 			page.setPd(pd);
 
 			List<BreakPointDetailForGrid> listForGrid = contestResultService.listAllBreakPointDetailForGrid(pd);

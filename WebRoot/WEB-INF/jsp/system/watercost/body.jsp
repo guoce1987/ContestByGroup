@@ -162,5 +162,43 @@
 
 			caption : "综合水耗明细"
 		});
+		
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
+		jQuery(grid_selector)
+		.navButtonAdd(pager_selector,{
+		   caption:"导出表格", 
+		   buttonicon:"ace-icon fa fa-download blue", 
+		   onClickButton: function(){ 
+			   
+			   //只能拿到grid中的数据，完整数据实现应该发请求
+				   var promise = $.ajax({
+				   url : "trainscore/getGridData?year=" + year + "&month="
+					+ month,
+				   type: "GET"
+			   });
+			   promise.done(function(data){
+				 //此处data要转化成array
+				    var array = new Array();
+	    				for ( var index = 0; index < data.length; index++) {
+	    					var filter = {}; 
+	    					filter.statDate = data[index].statDate;
+	    					filter.groupName = data[index].groupName;
+	    					filter.dutyName = data[index].dutyName;
+	    					filter.RJ_DirtyWater = data[index].RJ_DirtyWater;
+	    					filter.RJ_RawWater = data[index].RJ_RawWater;
+	    					filter.RJ_DeSaltWater = data[index].RJ_DeSaltWater;
+	    					filter.RJ_BoilerSteam = data[index].RJ_BoilerSteam;
+	    					filter.RJ_GeneratePower = data[index].RJ_GeneratePower;
+	    					array.push(filter);
+	    				}
+				   var title = ['日期','值别','班次', '污水用量', '生水用量','除盐水用量','锅炉蒸发量','发电量'];
+				   var tableName = "综合水耗列表_"+new Date().format("yyyyMMddhhmmss");
+				   exportToFile(array,title, true , tableName);
+			   }); 
+			   
+		   }, 
+		   position:"last"
+		});
 	}
 </script>

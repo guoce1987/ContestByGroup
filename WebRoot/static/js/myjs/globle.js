@@ -116,8 +116,9 @@ var exportToFile = function(JSONData, Title, ShowLabel, fileName) {
     var CSV = '';
     if (ShowLabel) {
         var row = "";
-        for (var index in Title) {
+        for (var index = 0; index < Title.length; index++) {
             row += Title[index] + ',';
+            console.log("index:"+index+","+Title[index]);
         }
         row = row.slice(0, -1);
         CSV += row + '\r\n';
@@ -128,7 +129,11 @@ var exportToFile = function(JSONData, Title, ShowLabel, fileName) {
             row += '"' + arrData[i][index] + '",';
         }
         row.slice(0, row.length - 1);
-        CSV += row + '\r\n';
+        if(i==arrData.length-1){
+        	CSV += row;
+        } else {
+        	CSV += row + '\r\n';
+        }
     }
     if (CSV == '') {
         alert("Invalid data");
