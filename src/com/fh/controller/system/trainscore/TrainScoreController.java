@@ -164,5 +164,76 @@ public class TrainScoreController extends BaseController {
 			return jsonArr;
 		}
 
+	/**
+	 * 培训录入页面
+	 */
+	@RequestMapping(value="/trainInput")
+	@ResponseBody
+	public ModelAndView trainInput() { 
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			mv.setViewName("trainscore/trainInput");
+			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
+			mv.addObject("pd", pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
 	
+	/**
+	 * 新增数据
+	 */  
+	@RequestMapping(value="/addTrainScore")
+	@ResponseBody
+	public String addTrainScore(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = pd.getString("USERNAME");
+			String year = pd.getString("year");
+			String month = pd.getString("month");
+			String groupId = pd.getString("groupId");
+			String score = pd.getString("score");
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			pd.put("year", year);
+			pd.put("StatDate", year + "-" + month + "-1");
+			pd.put("groupId", groupId);
+			pd.put("score", score);
+			page.setPd(pd);
+
+			contestResultService.saveTrainScore(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 删除数据
+	 */  
+	@RequestMapping(value="/deleteTrainScore")
+	@ResponseBody
+	public String deleteTrainScore(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String id = pd.getString("id");
+			
+			pd.put("id", id);
+			page.setPd(pd);
+			contestResultService.deleteTrainScore(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
 }

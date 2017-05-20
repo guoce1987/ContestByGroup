@@ -11,6 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
+import com.fh.entity.system.BreakPowerForGrid;
+import com.fh.entity.system.BreakPowerForSum;
+import com.fh.entity.system.GroupInfo;
 import com.fh.entity.system.PowerIndexForChart;
 import com.fh.entity.system.PowerIndexForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -65,23 +68,8 @@ public class PowerIndexController extends BaseController {
 			pd.put("year", year);
 			pd.put("month", month);
 			page.setPd(pd);
-
-			List<PowerIndexForGrid> powerIndexListForGrid = contestResultService.listAllPowerIndexForGrid(pd);
-			List<PowerIndexForChart> powerIndexListForChart = contestResultService.listAllPowerIndexForChart(pd);
-			
-			JSONArray powerScoreArray = new JSONArray();  //安全得分
-
-			JSONObject jsonObject = new JSONObject();
-			for (PowerIndexForChart PowerIndexForChart : powerIndexListForChart) {
-				jsonObject.element("value", PowerIndexForChart.getRJ_GeneratePowerAvg());
-				powerScoreArray.add(jsonObject);
-			}
-			
 			mv.setViewName("powerIndex/list");
 			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
-			JSONArray powerIndexListForGridList = JSONArray.fromObject(powerIndexListForGrid);
-			mv.addObject("powerIndexListForGrid", powerIndexListForGridList);
-			mv.addObject("powerScoreArray", powerScoreArray);
 			
 			mv.addObject("year", year);
 			mv.addObject("month", month);
@@ -98,7 +86,7 @@ public class PowerIndexController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -151,7 +139,7 @@ public class PowerIndexController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
+	public JSONArray listGridContest(Page page){
 			ModelAndView mv = this.getModelAndView();
 			PageData pd = new PageData();
 			JSONArray jsonArr = new JSONArray();
@@ -176,7 +164,172 @@ public class PowerIndexController extends BaseController {
 			}
 			
 			return jsonArr;
+	}
+
+	/**
+	 * 违规电量录入
+	 */
+	@RequestMapping(value="breakpowerInput")
+	@ResponseBody
+	public ModelAndView breakpowerInput(Page page){
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			mv.setViewName("power/breakpowerInput");
+			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
+			mv.addObject("pd", pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * 违规电量列表获取
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/getBreakpowerGridData")
+	@ResponseBody
+	public JSONArray getBreakpowerGridData(Page page){
+		PageData pd = new PageData();
+		JSONArray jsonArr = new JSONArray();
+		try {
+			pd = this.getPageData();
+
+			String USERNAME = pd.getString("USERNAME");
+			String year = pd.getString("year");
+			String month = pd.getString("month");
+			String day = pd.getString("day");
+			String dutyId = pd.getString("dutyId");
+			if (null != USERNAME && !"".equals(USERNAME)) {
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			pd.put("year", Integer.parseInt(year));
+			pd.put("month", Integer.parseInt(month));
+			pd.put("day", day);
+			pd.put("dutyId", dutyId);
+			page.setPd(pd);
+
+			List<BreakPowerForGrid> powerIndexListForGrid = contestResultService.listAllBreakPowerForGrid(pd);
+			jsonArr = JSONArray.fromObject(powerIndexListForGrid);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
 		}
 
+		return jsonArr;
+	}
 	
+	/**
+	 * 添加违规电量
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/addBreakPowerLog")
+	@ResponseBody
+	public String addBreakPowerLog(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = pd.getString("USERNAME");
+			String logs = pd.getString("logs");
+			String dutyId = pd.getString("dutyId");
+			String breakDate = pd.getString("breakDate");
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			pd.put("dutyId", dutyId);
+			pd.put("breakDate", breakDate);
+			page.setPd(pd);
+
+			String[] logsArray = logs.trim().replaceAll("\\s*", "").split(",");
+			for(int i=0; i<logsArray.length; i++) {
+				pd.put("breakpower", logsArray[i]);
+				contestResultService.saveBreakPowerLog(pd);
+			}
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 删除违规电量
+	 */
+	@RequestMapping(value="/deleteBreakpower")
+	@ResponseBody
+	public String deleteBreakpower(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String id = pd.getString("id");
+			
+			pd.put("id", id);
+			page.setPd(pd);
+			contestResultService.deleteBreakpower(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 违规电量合计查询
+	 */
+	@RequestMapping(value="/breakpowerSumInfo")
+	@ResponseBody
+	public JSONObject breakpowerSumInfo(Page page) {
+		PageData pd = new PageData();
+		JSONObject json = new JSONObject();
+		try{
+			pd = this.getPageData();
+			String dutyId = pd.getString("dutyId");
+			String breakDate = pd.getString("breakDate");
+			
+			pd.put("dutyId", dutyId);
+			pd.put("breakDate", breakDate);
+			page.setPd(pd);
+			List<BreakPowerForSum> listForGrid = contestResultService.breakpowerSumInfo(pd);
+			json = JSONObject.fromObject(JSONArray.fromObject(listForGrid).get(0));
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return json;
+	}
+	
+	/**
+	 * 查询值别名称
+	 */
+	@RequestMapping(value="/getGroupName")
+	@ResponseBody
+	public JSONObject getGroupName(Page page) {
+		PageData pd = new PageData();
+		JSONObject json = new JSONObject();
+		try {
+			pd = this.getPageData();
+			String dutyId = pd.getString("dutyId");
+			String statDate = pd.getString("statDate");
+			
+			pd.put("dutyId", dutyId);
+			pd.put("statDate", statDate);
+			page.setPd(pd);
+			List<GroupInfo> groupInfo = contestResultService.queryGroupInfo(pd);
+			if(groupInfo.isEmpty()) {
+				GroupInfo g = new GroupInfo();
+				g.setGroupName("暂无值信息");
+				json = JSONObject.fromObject(g);
+			} else {
+				json = JSONObject.fromObject(JSONArray.fromObject(groupInfo).get(0));
+			}
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return json;
+	}
 }

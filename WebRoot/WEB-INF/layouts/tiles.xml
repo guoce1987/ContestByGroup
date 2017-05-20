@@ -97,6 +97,10 @@
             <add-attribute value="static/js/myjs/power/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    <definition name="power/breakpowerInput" extends="default">
+        <put-attribute name="title" value="电量录入"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/power/breakPowerLog.jsp"/>
+    </definition>
     <definition name="heatIndex/list" extends="default">
         <put-attribute name="title" value="供热指标"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/heat/body.jsp"/>
@@ -145,6 +149,10 @@
          <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="static/js/myjs/breakpoint/body.js?v=1.0.0"/>
         </put-list-attribute>
+    </definition>
+    <definition name="breakpoint/dicinput" extends="default">
+        <put-attribute name="title" value="违规规则管理"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/breakpoint/dicinput.jsp"/>
     </definition>
     <definition name="breakpoint/detaillist" template="/WEB-INF/jsp/system/breakpoint/breakPointDetail.jsp">
     	<put-attribute name="title" value="违规扣分详情"/>
@@ -207,6 +215,10 @@
             <add-attribute value="static/js/myjs/bugstat/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    <definition name="bugstat/buginput" extends="default">
+        <put-attribute name="title" value="设备消缺详情列表"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/bugstat/bugInput.jsp"/>
+    </definition>
     <definition name="powerratio/list" extends="default">
         <put-attribute name="title" value="综合厂用电率"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/powerratio/body.jsp"/>
@@ -228,6 +240,7 @@
             <add-attribute value="static/js/myjs/trainscore/body.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    
     <definition name="operation/list" extends="default">
         <put-attribute name="title" value="重大操作"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/operation/body.jsp"/>
@@ -254,7 +267,7 @@
         </put-list-attribute>
     </definition>
     
-        
+       
     <definition name="itemInput/list" extends="default">
         <put-attribute name="title" value="考核录入"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/itemInput/body.jsp"/>  
@@ -264,7 +277,11 @@
         </put-list-attribute>
     </definition>
         
-    <definition name="authorization" template="/WEB-INF/jsp/authorization.jsp">
+    <definition name="authorization" template="/WEB-INF/jsp/authorization.jsp"></definition>
+        
+    <definition name="trainscore/trainInput" extends="default">
+     	<put-attribute name="title" value="培训录入"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/trainscore/trainInput.jsp"/>  
     </definition>
    
 </tiles-definitions>

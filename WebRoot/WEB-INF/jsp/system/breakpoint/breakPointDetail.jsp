@@ -320,7 +320,6 @@
 					
 					beforeSubmitCell: function(rowid,celname,value,iRow,iCol){
 						var id = $(grid_selector).jqGrid("getCell",rowid,'id');
-						alert(id);
 						return {"sid":id};
 						
 					},

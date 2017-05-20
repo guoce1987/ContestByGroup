@@ -11,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.EconomyIndexForChart;
-import com.fh.entity.system.EconomyIndexForGrid;
 import com.fh.entity.system.BugStatForChart;
 import com.fh.entity.system.BugStatForGrid;
 import com.fh.service.system.appuser.AppuserService;
@@ -100,7 +98,7 @@ public class BugStatController extends BaseController {
 	 */  
 	@RequestMapping(value="/getChartData")
 	@ResponseBody
-	public JSONObject listGridContest(Page page){
+	public JSONObject listChartContest(Page page){
 			PageData pd = new PageData();
 			JSONObject fusionChartJsonObject = new JSONObject();
 			try{
@@ -154,31 +152,108 @@ public class BugStatController extends BaseController {
 	 */  
 	@RequestMapping(value="/getGridData")
 	@ResponseBody
-	public JSONArray listChartContest(Page page){
-			PageData pd = new PageData();
-			JSONArray jsonArr = new JSONArray();
-			try{
-				pd = this.getPageData();
-				
-				String USERNAME = pd.getString("USERNAME");
-				String year = pd.getString("year");
-				String month = pd.getString("month");
-				if(null != USERNAME && !"".equals(USERNAME)){
-					USERNAME = USERNAME.trim();
-					pd.put("USERNAME", USERNAME);
-				}
-				pd.put("year", Integer.parseInt(year));
-				pd.put("month", Integer.parseInt(month));
-				page.setPd(pd);
-
-				List<BugStatForGrid> bugStatListForGrid = contestResultService.listAllBugStatForGrid(pd);
-				jsonArr = JSONArray.fromObject(bugStatListForGrid);
-			} catch(Exception e){
-				logger.error(e.toString(), e);
-			}
+	public JSONArray listGridContest(Page page){
+		PageData pd = new PageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+			pd = this.getPageData();
 			
-			return jsonArr;
-		}
+			String USERNAME = pd.getString("USERNAME");
+			String year = pd.getString("year");
+			String month = pd.getString("month");
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			pd.put("year", Integer.parseInt(year));
+			pd.put("month", Integer.parseInt(month));
+			page.setPd(pd);
 
+			List<BugStatForGrid> bugStatListForGrid = contestResultService.listAllBugStatForGrid(pd);
+			jsonArr = JSONArray.fromObject(bugStatListForGrid);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	}
+
+	/**
+	 * 缺陷录入详情列表
+	 */  
+	@RequestMapping(value="/bugInput")
+	@ResponseBody
+	public ModelAndView bugStatByPersonPage(Page page){
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			mv.setViewName("bugstat/buginput");
+			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
+			mv.addObject("pd", pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
 	
+	/**
+	 * 新增数据
+	 */  
+	@RequestMapping(value="/addBug")
+	@ResponseBody
+	public String addBug(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = pd.getString("USERNAME");
+			String year = pd.getString("year");
+			String month = pd.getString("month");
+			String groupId = pd.getString("groupId");
+			String yxbUser = pd.getString("yxbUser");
+			String logAmount = pd.getString("logAmount");
+			String removeAmount = pd.getString("removeAmount");
+			String repeatBug = pd.getString("repeatBug");
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			pd.put("year", year);
+			pd.put("StatDate", year + "-" + month + "-1");
+			pd.put("groupId", groupId);
+			pd.put("yxbUser", yxbUser);
+			pd.put("logAmount", logAmount);
+			pd.put("removeAmount", removeAmount);
+			pd.put("repeatBug", repeatBug);
+			page.setPd(pd);
+
+			contestResultService.saveBug(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 删除数据
+	 */  
+	@RequestMapping(value="/deleteBug")
+	@ResponseBody
+	public String deleteTrainScore(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String id = pd.getString("id");
+			
+			pd.put("id", id);
+			page.setPd(pd);
+			contestResultService.deleteBug(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
 }

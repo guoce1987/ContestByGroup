@@ -9,7 +9,7 @@ package com.fh.entity.system;
  * 
  */
 public class TrainScoreForGrid {	
-	
+	private String id;
 	private String StatDate;	//日期
 	private String GroupName;	//职别
 	private double Score;	//
@@ -33,6 +33,12 @@ public class TrainScoreForGrid {
 	}
 	public void setGroupName(String groupName) {
 		GroupName = groupName;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

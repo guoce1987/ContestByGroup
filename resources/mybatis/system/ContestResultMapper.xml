@@ -112,8 +112,74 @@
 		<result column="DutyName" property="DutyName"/>
 		<result column="GroupName" property="GroupName"/>
 		<result column="RJ_GeneratePower" property="RJ_GeneratePower"/>
+		<result column="BreakPower" property="BreakPower"/>
 	</resultMap>
-	
+	<resultMap type="BreakPowerForGrid" id="BreakpowerMapForGrid">
+		<result column="ID" property="id"/>
+		<result column="BreakDate" property="breakDate"/>
+		<result column="DutyName" property="dutyName"/>
+		<result column="DutyClass" property="dutyClass"/>
+		<result column="groupName" property="groupName"/>
+		<result column="BreakPower" property="breakPower"/>
+		<result column="CreateDate" property="createDate"/>
+	</resultMap>
+	<resultMap type="GroupInfo" id="GroupInfoMap">
+		<result column="groupName" property="groupName"/>
+	</resultMap>
+	<select id="queryGroupInfo" resultMap="GroupInfoMap"  parameterType="pd">
+		select 
+			d.groupName 
+		from VwShiftRule r 
+		left join GroupDic d on r.GroupId=d.id
+		where Work_Dt=#{statDate} and DutyId=#{dutyId}
+	</select>
+	<!-- 列出所有的违规电量（表） -->
+	<select id="listAllBreakPowerForGrid" resultMap="BreakpowerMapForGrid"  parameterType="pd">
+		SELECT b.ID
+	      ,CONVERT(varchar(100), BreakDate, 23) as BreakDate
+	      ,b.DutyClass
+	      ,d.DutyName
+	      ,b.BreakPower
+	      ,b.CreateDate
+		  ,gd.groupName
+	  	FROM BreakPowerLog b
+	  	left join DutyDic d on b.DutyClass=d.dutyId
+		left join VwShiftRule vr on b.BreakDate=vr.Work_Dt and b.DutyClass=vr.DutyId
+	  	left join GroupDic gd on vr.GroupId=gd.id
+	  	where year(BreakDate)= #{year} and month(BreakDate) = #{month} and day(BreakDate)=#{day} and DutyClass=#{dutyId}
+	  	order by CreateDate desc
+	</select>
+	<resultMap type="BreakPowerForSum" id="breakpowerSumInfoMap">
+		<result column="sumDuty" property="sumDuty"/>
+		<result column="sumDay" property="sumDay"/>
+		<result column="sumMonth" property="sumMonth"/>
+	</resultMap>
+	<select id="breakpowerSumInfo" resultMap="breakpowerSumInfoMap"  parameterType="pd">
+		select 
+			ISNULL((select sum(BreakPower) from BreakPowerLog where BreakDate=#{breakDate} and DutyClass=#{dutyId}),0) as sumDuty,
+			ISNULL((select sum(BreakPower) from BreakPowerLog where BreakDate=#{breakDate}),0) as sumDay,
+			ISNULL((select sum(BreakPower) from BreakPowerLog where year(BreakDate)=year(CONVERT(date, #{breakDate})) and month(BreakDate)=month(CONVERT(date, #{breakDate}))),0)  as sumMonth
+	</select>
+	<!-- 删除违规电量deleteBreakpower -->
+	<select id="deleteBreakpower" parameterType="pd" resultType="pd" useCache="false"> 
+		  delete from BreakPowerLog where id = #{id}
+	</select>
+	<!-- 保存违规电量 -->
+	<select id="saveBreakPowerLog" parameterType="pd" resultType="pd" useCache="false"> 
+		  insert into BreakPowerLog 
+		 	(	
+	  	  		BreakDate
+		      ,DutyClass
+		      ,BreakPower
+		      ,CreateDate
+      		) values 
+      		(
+      			#{breakDate},
+      			#{dutyId},
+      			#{breakpower},
+      			GETDATE()
+      		)
+	</select>
 	<!-- 列出所有的电量指标(图) -->
 	<select id="listAllPowerIndexForChart" resultMap="powerIndexMapForChart"  parameterType="pd">
 			select 
@@ -125,13 +191,17 @@
 	<!-- 列出所有的电量指标(表) -->
 	<select id="listAllPowerIndexForGrid" resultMap="powerIndexMapForGrid"  parameterType="pd">
 			SELECT 
-			 DutyID, 
-			 CONVERT(varchar(100), StatDate, 23) as StatDate,
-			 DutyName, 
-			 GroupName, 
-			 RJ_GeneratePower  
-			FROM vw_CoalCost
-			WHERE (YEAR(statDate) = #{year}) AND (MONTH(statDate) = #{month}) Order by Statdate desc,Dutyid desc
+				cc.DutyID, 
+				CONVERT(varchar(100), cc.StatDate, 23) as StatDate,
+				cc.DutyName, 
+				cc.GroupName, 
+				cc.RJ_GeneratePower,
+				ISNULL(sum(bpl.BreakPower), 0) BreakPower
+			FROM vw_CoalCost cc
+			left join BreakPowerLog bpl on cc.statDate=bpl.BreakDate and cc.DutyID=bpl.DutyClass
+			WHERE (YEAR(cc.statDate) = #{year}) AND (MONTH(cc.statDate) = #{month}) 
+			group by cc.statDate,cc.DutyID,cc.DutyName,cc.GroupName,cc.RJ_GeneratePower
+			Order by cc.Statdate desc,cc.Dutyid desc
 	</select>
 	
 		<!-- 供热指标 -->
@@ -632,6 +702,59 @@
 		<result column="IsDelete" property="isDelete"/>
 		<result column="DeleteReason" property="deleteReason"/>
 	</resultMap>
+	<resultMap type="BreakPointDicForGrid" id="breakPointDicMapForGrid">
+		<result column="id" property="id"/>
+		<result column="unit" property="unit"/>
+		<result column="kks" property="kks"/>
+		<result column="description" property="description"/>
+		<result column="eniEngineering" property="eniEngineering"/>
+		<result column="lower" property="lower"/>
+		<result column="upper" property="upper"/>
+		<result column="condition" property="condition"/>
+		<result column="punishPoint" property="punishPoint"/>
+		<result column="contestType" property="contestType"/>
+		<result column="punisthType" property="punisthType"/>
+		<result column="isActive" property="isActive"/>
+		<result column="cancelReason" property="cancelReason"/>
+		<result column="beginDate" property="beginDate"/>
+		<result column="createDate" property="createDate"/>
+	</resultMap>
+	<select id="listAllBreakPointDicForGrid" resultMap="breakPointDicMapForGrid"  statementType="CALLABLE" parameterType="pd">
+			SELECT 
+				id,
+				unit,
+				kks,
+				description,
+				eniEngineering,
+				lower,
+				upper,
+				condition,
+				punishPoint,
+				contestType,
+				punisthType,
+				isActive,
+				cancelReason,
+				CONVERT(varchar(100), beginDate, 23) as beginDate,
+				CONVERT(varchar(100), createDate, 23) as createDate,
+				createDate orderDate
+			from BreakPointDic
+			<if test="sid!=0 and sid!=null">
+				where id = #{sid}
+			</if>
+			order by orderDate desc
+	</select>
+	<!-- 创建一条违规字典的数据 -->
+	<select id="createBreakDicItem" parameterType="pd" resultType="pd" useCache="false"> 
+		insert into BreakPointDic (IsActive) values(0);
+	</select>
+	
+	<select id="updateBreakDic" parameterType="pd" resultType="pd" useCache="false"> 
+		 update BreakPointDic set ${celname}=#{value} where id=#{sid}
+	</select>
+	<!-- 删除一条数据 -->
+	<select id="deleteBreakDic" parameterType="pd" resultType="pd" useCache="false"> 
+		  delete from BreakPointDic where id = #{id}
+	</select>
 	<!-- 违规点详情列表查询(表) -->
 	<select id="listAllBreakPointDetailForGrid" resultMap="breakPointDetailMapForGrid"  statementType="CALLABLE" parameterType="pd">
 			{ call query_breakPointDetail_RJ(#{year},#{month},#{grouId},#{unit},#{kks},#{isShowDelete}) }
@@ -681,6 +804,29 @@
 		<result column="Total" property="Total"/>
 	</resultMap>
 	
+	<select id="saveBug" parameterType="pd" resultType="pd" useCache="false"> 
+		  insert into BugStatByPerson 
+		 	(	
+	  	  		statdate
+		      ,YxbUser
+		      ,GroupID
+		      ,LogAmount
+		      ,RemoveAmount
+		      ,repeatBug
+      		) values 
+      		(
+      			#{StatDate},
+      			#{yxbUser},
+      			#{groupId},
+      			#{logAmount},
+      			#{removeAmount},
+      			#{repeatBug}
+      		)
+	</select>
+	<select id="deleteBug" parameterType="pd" resultType="pd" useCache="false"> 
+		  delete from BugStatByPerson where id = #{id}
+	</select>
+	
 	<!-- 列出所有的设备消缺(图) -->
 	<select id="listAllBugStatForChart" resultMap="bugStatMapForChart"  statementType="CALLABLE" parameterType="pd">
 			select 
@@ -693,6 +839,7 @@
 	<!-- 列出所有的设备消缺(表) -->
 	<select id="listAllBugStatForGrid" resultMap="bugStatMapForGrid"  statementType="CALLABLE" parameterType="pd">
 			SELECT 
+				id,
 				 StatDate, 
 				 YxbUser, 
 				 GroupName, 
@@ -758,6 +905,25 @@
 		<result column="Score" property="Score"/>
 	</resultMap>
 	
+	<select id="saveTrainScore" parameterType="pd" resultType="pd" useCache="false"> 
+		  insert into Train 
+		 	(	
+	  	  		Area
+     			,StatDate
+     			,GroupId
+     			,Score
+      		) values 
+      		(
+      			'燃机',
+      			#{StatDate},
+      			#{groupId},
+      			#{score}
+      		)
+	</select>
+	<select id="deleteTrainScore" parameterType="pd" resultType="pd" useCache="false"> 
+		  delete from Train where id=#{id}
+	</select>
+	
 	<!-- 列出所有的培训得分(图) -->
 	<select id="listAllTrainScoreForChart" resultMap="trainScoreMapForChart"  statementType="CALLABLE" parameterType="pd">
 			SELECT 
@@ -770,6 +936,7 @@
 	<!-- 列出所有的培训得分(表) -->
 	<select id="listAllTrainScoreForGrid" resultMap="trainScoreMapForGrid"  statementType="CALLABLE" parameterType="pd">
 		SELECT 
+			id,
 			 StatDate,
 			 GroupName,
 			 Score

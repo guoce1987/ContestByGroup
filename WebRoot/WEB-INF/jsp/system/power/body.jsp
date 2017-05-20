@@ -128,13 +128,14 @@
 					autowidth : true,
 					height : 'auto',
 					loadonce: true,
-					colNames:['日期','班次ID','班次', '值别', '发电量'],
+					colNames:['日期','班次ID','班次', '值别', '发电量', '违规电量'],
 					colModel:[
 						{name:'statDate',index:'statDate',  sorttype:"text"},
 						{name:'dutyID',index:'dutyID', sorttype:"text", hidden:true},
 						{name:'dutyName',index:'dutyName', sorttype:"text"},
 						{name:'groupName',index:'groupName', sorttype:"text"},
-						{name:'RJ_GeneratePower',index:'RJ_GeneratePower', sorttype:"double"}
+						{name:'RJ_GeneratePower',index:'RJ_GeneratePower', sorttype:"double"},
+						{name:'breakPower',index:'breakPower', sorttype:"double"}
 					], 
 
 					viewrecords : true,

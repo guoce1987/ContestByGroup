@@ -10,8 +10,11 @@ import com.fh.dao.DaoSupport;
 import com.fh.entity.system.AuxPowerRatioForChart;
 import com.fh.entity.system.AuxPowerRatioForGrid;
 import com.fh.entity.system.BreakPointDetailForGrid;
+import com.fh.entity.system.BreakPointDicForGrid;
 import com.fh.entity.system.BreakPointForChart;
 import com.fh.entity.system.BreakPointForGrid;
+import com.fh.entity.system.BreakPowerForGrid;
+import com.fh.entity.system.BreakPowerForSum;
 import com.fh.entity.system.BugStatForChart;
 import com.fh.entity.system.BugStatForGrid;
 import com.fh.entity.system.ContestResult;
@@ -20,6 +23,7 @@ import com.fh.entity.system.EconomyIndexForChart;
 import com.fh.entity.system.EconomyIndexForGrid;
 import com.fh.entity.system.GasTempForChart;
 import com.fh.entity.system.GasTempForGrid;
+import com.fh.entity.system.GroupInfo;
 import com.fh.entity.system.HeatIndexForChart;
 import com.fh.entity.system.HeatIndexForGrid;
 import com.fh.entity.system.ImportOperationForChart;
@@ -284,5 +288,65 @@ public class ContestResultService{
 	//根据ID删除一条考核管理记录
 	public Integer deleteItemInput(PageData pd) throws Exception {
 		return (Integer) dao.update("ContestResultMapper.deleteItemInput", pd);
+	}
+	
+	// 提交培训得分
+	public Integer saveTrainScore(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.saveTrainScore", pd);
+	}
+	
+	//删除培训数据
+	public Integer deleteTrainScore(PageData pd) throws Exception {
+		return (Integer) dao.delete("ContestResultMapper.deleteTrainScore", pd);
+	}
+	
+	public Integer saveBug(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.saveBug", pd);
+	}
+	
+	public Integer deleteBug(PageData pd) throws Exception {
+		return (Integer) dao.delete("ContestResultMapper.deleteBug", pd);
+	}
+	//查询违规电量
+	public List<BreakPowerForGrid> listAllBreakPowerForGrid(PageData pd) throws Exception {
+		return (List<BreakPowerForGrid>) dao.findForList("ContestResultMapper.listAllBreakPowerForGrid", pd);
+	}
+	
+	//删除违规电量
+	public Integer deleteBreakpower(PageData pd) throws Exception {
+		return (Integer) dao.delete("ContestResultMapper.deleteBreakpower", pd);
+	}
+	
+	//保存违规电量
+	public Integer saveBreakPowerLog(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.saveBreakPowerLog", pd);
+	}
+	
+	//违规电量录入的合计信息查询
+	public List<BreakPowerForSum> breakpowerSumInfo(PageData pd) throws Exception {
+		return (List<BreakPowerForSum>) dao.findForList("ContestResultMapper.breakpowerSumInfo", pd);
+	}
+	
+	//查询值别信息
+	public List<GroupInfo> queryGroupInfo(PageData pd) throws Exception {
+		return (List<GroupInfo>) dao.findForList("ContestResultMapper.queryGroupInfo", pd);
+	}
+	//违规点的字典表
+	public List<BreakPointDicForGrid> listAllBreakPointDicForGrid(PageData pd) throws Exception {
+		return (List<BreakPointDicForGrid>) dao.findForList("ContestResultMapper.listAllBreakPointDicForGrid", pd);
+	}
+	
+	//违规点的字典表
+	public Integer createBreakDicItem(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.createBreakDicItem", pd);
+	}
+	
+	public Integer deleteBreakDic(PageData pd) throws Exception {
+		return (Integer) dao.delete("ContestResultMapper.deleteBreakDic", pd);
+	}
+	
+	//修改违规字典单元格数据
+	public Integer updateBreakDic(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.updateBreakDic", pd);
 	}
 }

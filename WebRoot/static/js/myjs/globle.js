@@ -26,6 +26,10 @@ $(function() {
 		$grid.jqGrid('setGridWidth',$gridParent.width());
 		resizeGridWidth();
 	});
+	
+	function myTrim(x) {
+	    return x.replace(/^\s+|\s+$/gm,'');
+	}
 
 	// resize on sidebar collapse/expand
 	$(document).on('settings.ace.jqGrid', function(ev, event_name, collapsed) {
@@ -78,6 +82,36 @@ $(function() {
 
 });
 
+String.prototype.endWith=function(s){
+	if(s==null||s==""||this.length==0||s.length>this.length)
+		return false;
+	if(this.substring(this.length-s.length)==s)
+		return true;
+	else
+		return false;
+	return true;
+}
+
+String.prototype.startWith=function(s){
+	if(s==null||s==""||this.length==0||s.length>this.length)
+		return false;
+	if(this.substr(0,s.length)==s)
+		return true;
+	else
+		return false;
+	return true;
+}
+
+String.prototype.trim=function(){
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.ltrim=function(){
+	return this.replace(/(^\s*)/g,"");
+}
+String.prototype.rtrim=function(){
+	return this.replace(/(\s*$)/g,"");
+}
+
 function getYear(){
 	var year = $("#datepicker").val().split("-")[0];
 	return year;
@@ -86,6 +120,10 @@ function getYear(){
 function getMonth(){
 	var month = $("#datepicker").val().split("-")[1];
 	return month;
+}
+
+function hideGlobalDatepicker() {
+	$('#globalDatepicker').hide();
 }
 
 function resizeGridWidth(){

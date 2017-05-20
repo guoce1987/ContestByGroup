@@ -19,6 +19,8 @@
 		<typeAlias type="com.fh.entity.system.SecurityIndexForChart" alias="SecurityIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.PowerIndexForChart" alias="PowerIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.PowerIndexForGrid" alias="PowerIndexForGrid"/>
+		<typeAlias type="com.fh.entity.system.BreakPowerForGrid" alias="BreakPowerForGrid"/>
+		<typeAlias type="com.fh.entity.system.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.fh.entity.system.HeatIndexForChart" alias="HeatIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.HeatIndexForGrid" alias="HeatIndexForGrid"/>
 		
@@ -49,6 +51,8 @@
 		<typeAlias type="com.fh.entity.system.BreakPointForChart" alias="BreakPointForChart"/>
 		<typeAlias type="com.fh.entity.system.BreakPointForGrid" alias="BreakPointForGrid"/>
 		<typeAlias type="com.fh.entity.system.BreakPointDetailForGrid" alias="BreakPointDetailForGrid"/>
+		<typeAlias type="com.fh.entity.system.BreakPowerForSum" alias="BreakPowerForSum"/>
+		<typeAlias type="com.fh.entity.system.BreakPointDicForGrid" alias="BreakPointDicForGrid"/>
 
 		<typeAlias type="com.fh.entity.system.BugStatForChart" alias="BugStatForChart"/>
 		<typeAlias type="com.fh.entity.system.BugStatForGrid" alias="BugStatForGrid"/>

@@ -198,7 +198,7 @@
 	<!-- PAGE CONTENT ENDS HERE -->
   </div><!--/row-->
 		
-		<script type="text/javascript">
+	<script type="text/javascript">
 		var grid_selector = "#grid-table";
 		var pager_selector = "#grid-pager";
 		var isLayerEdit = false;
@@ -212,7 +212,7 @@
 			autowidth : true,
 			height : 'auto',
 			loadonce: true,
-
+			autoScroll : true,
 			colNames:[ '',  'ID','ItemID','memo','机组',/*'IsTag','IsDelete' */'考核日期','值别','考核分数','考核奖金','考核原因','创建人'],
 			colModel:[
  				{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
@@ -229,17 +229,16 @@
 				{name:'ItemID',index:'ItemID', width:50, hidden:true},
 				{name:'memo',index:'memo', width:50, hidden:true},
 				{name:'Unit',index:'Unit', width:50, hidden:true},
-				{name:'CheckDate',index:'CheckDate', width:300, sorttype:"date"},
+				{name:'CheckDate',index:'CheckDate', width:100, sorttype:"date"},
 				{name:'GroupID',index:'GroupID',width:90, sorttype:"text"},
                 {name:'Score',index:'Score',width:90, sorttype:"text"},
 				{name:'Money',index:'Money',width:90, sorttype:"text"},
 				{name:'reason',index:'reason',width:200, sorttype:"text"},
-				{name:'CreateUser',index:'CreateUser',width:200, sorttype:"text"}
+				{name:'CreateUser',index:'CreateUser',width:100, sorttype:"text"}
 			], 
 	
 			viewrecords : true,
 			rowNum:30,
-			rowList:[10,20,30],
 			pager : pager_selector,
 			altRows: true,
 			

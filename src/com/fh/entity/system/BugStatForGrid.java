@@ -9,7 +9,7 @@ package com.fh.entity.system;
  * 
  */
 public class BugStatForGrid {
-	
+	private String id;
 	private String StatDate;     //
 	private String YxbUser;	//姓名
 	private String GroupName;	//责任值
@@ -58,6 +58,12 @@ public class BugStatForGrid {
 	}
 	public void setTotal(double total) {
 		Total = total;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

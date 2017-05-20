@@ -14,7 +14,8 @@ public class PowerIndexForGrid {
 	private String StatDate;	//考核日期
 	private String DutyName;	//班名
 	private String GroupName;	//值别
-	private double RJ_GeneratePower;	//考核分数
+	private double RJ_GeneratePower;
+	private double BreakPower;
 	
 	public String getDutyID() {
 		return DutyID;
@@ -45,6 +46,12 @@ public class PowerIndexForGrid {
 	}
 	public void setRJ_GeneratePower(double rJ_GeneratePower) {
 		RJ_GeneratePower = rJ_GeneratePower;
+	}
+	public double getBreakPower() {
+		return BreakPower;
+	}
+	public void setBreakPower(double breakPower) {
+		BreakPower = breakPower;
 	}
 
 }

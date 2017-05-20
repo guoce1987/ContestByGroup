@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.BreakPointDetailForGrid;
+import com.fh.entity.system.BreakPointDicForGrid;
 import com.fh.entity.system.BreakPointForChart;
 import com.fh.entity.system.BreakPointForGrid;
 import com.fh.entity.system.User;
@@ -323,5 +324,147 @@ public class BreakPointController extends BaseController {
 		}
 		
 		return jsonArr;
+	}
+	
+	@RequestMapping(value="/dicinput")
+	@ResponseBody
+	public ModelAndView dicInput(Page page) {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			
+			PageData pb_role = userService.findByUId(pd);
+			PageData pb_edit_right = roleService.findObjectById(pb_role);
+			Boolean edit_right = pb_edit_right.getString("EDIT_QX").equals("1")? true : false;
+			//比如我现在已经查出来了权限值
+			pd.put("editable", edit_right);//加入没有编辑权限
+			page.setPd(pd);
+			mv.setViewName("breakpoint/dicinput");
+			mv.addObject("pd", pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}
+	
+	
+	/**
+	 * 违规字典表-Grid数据获取
+	 */  
+	@RequestMapping(value="/getDicGridData")
+	@ResponseBody
+	public JSONArray getDicGridData(Page page){
+		PageData pd = new PageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+			pd = this.getPageData();
+			page.setPd(pd);
+			List<BreakPointDicForGrid> listForGrid = contestResultService.listAllBreakPointDicForGrid(pd);
+			jsonArr = JSONArray.fromObject(listForGrid);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	}
+	
+	/**
+	 * 添加字典表数据
+	 */
+	@RequestMapping(value="/addBreakDic")
+	@ResponseBody
+	public String addBreakDic(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			contestResultService.createBreakDicItem(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 删除字典表数据
+	 */
+	@RequestMapping(value="/deleteBreakDic")
+	@ResponseBody
+	public String deleteBreakDic(Page page) {
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String id = pd.getString("id");
+			
+			pd.put("id", id);
+			page.setPd(pd);
+			contestResultService.deleteBreakDic(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 编辑提交违规字典数据
+	 */
+	@RequestMapping(value="/submitBreakDic")
+	@ResponseBody
+	public String submitBreakDic(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String sid = pd.getString("sid");
+			String celname = pd.getString("celname");
+			String value = pd.getString("value");
+			//去掉多余的空格
+			if("unit".equals(celname) || "kks".equals(celname) || "lower".equals(celname)
+					|| "upper".equals(celname) || "punishPoint".equals(celname) 
+					|| "contestType".equals(celname) || "punisthType".equals(celname)
+					|| "isActive".equals(celname)) {
+				value = value.replaceAll(" ", "");
+			}
+			
+			if("lower".equals(celname) || "upper".equals(celname)) {
+				if("".equals(value)) value = null;
+			}
+			pd.put("sid", sid);
+			pd.put("celname", celname);
+			pd.put("value", value);
+			
+			//改为激活状态是，要确保关键字段有值
+			if("isActive".equals(celname) && "1".equals(value)) {
+				List<BreakPointDicForGrid> listForGrid = contestResultService.listAllBreakPointDicForGrid(pd);
+				BreakPointDicForGrid breakPointDic = listForGrid.get(0);
+				
+				if(breakPointDic.getUnit() == null) {
+					return "-1";
+				} else if(breakPointDic.getKks() == null) {
+					return "-2";
+				} else if(breakPointDic.getPunishPoint() == null) {
+					return "-3";
+				} else if(breakPointDic.getContestType() == null) {
+					return "-4";
+				} else if(breakPointDic.getPunisthType() == null) {
+					return "-5";
+				} else if(breakPointDic.getLower() == null && breakPointDic.getUpper() == null) {
+					return "-6";
+				}
+			}
+			contestResultService.updateBreakDic(pd);
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "1";
 	}
 }
