@@ -55,7 +55,7 @@
 					<c:if test="${!empty menu.subMenu}">
 					  <a style="cursor:pointer;" class="dropdown-toggle">
 					</c:if>
-						<i class="${menu.MENU_ICON == null ? 'menu-icon fa fa-desktop' : menu.MENU_ICON}"></i>
+						<i class="menu-icon fa ${menu.MENU_ICON == null ? 'fa-desktop' : menu.MENU_ICON}"></i>
 						<span>${menu.MENU_NAME }</span>
  						<c:if test="${!empty menu.subMenu}">
 							<b class="arrow fa fa-angle-down"></b> 

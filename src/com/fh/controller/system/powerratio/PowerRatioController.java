@@ -16,7 +16,6 @@ import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.AuxPowerRatioForChart;
 import com.fh.entity.system.AuxPowerRatioForGrid;
-import com.fh.entity.system.BreakPointDicForGrid;
 import com.fh.entity.system.TableFloorForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;

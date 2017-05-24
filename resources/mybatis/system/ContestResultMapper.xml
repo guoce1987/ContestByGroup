@@ -555,7 +555,6 @@
 		<result column="Unit8SuplyPowerFlow" property="Unit8SuplyPowerFlow"/>
 		<result column="Unit6PlantUsePowerFlow" property="Unit6PlantUsePowerFlow"/>
 		<result column="Unit7PlantUsePowerFlow" property="Unit7PlantUsePowerFlow"/>
-		<result column="StartBack3UsePowerFlow" property="StartBack3UsePowerFlow"/>
 		<result column="RJ_Rewangbeng1PowerFlow1" property="RJ_Rewangbeng1PowerFlow1"/>
 		<result column="RJ_Rewangbeng1PowerFlow2" property="RJ_Rewangbeng1PowerFlow2"/>
 		<result column="RJ_Rewangbeng1PowerFlow3" property="RJ_Rewangbeng1PowerFlow3"/>
@@ -600,7 +599,6 @@
 		      ,Unit8SuplyPowerFlow
 		      ,Unit6PlantUsePowerFlow
 		      ,Unit7PlantUsePowerFlow
-		      ,StartBack3UsePowerFlow
 		      ,RJ_Rewangbeng1PowerFlow1
 		      ,RJ_Rewangbeng1PowerFlow2
 		      ,RJ_Rewangbeng1PowerFlow3

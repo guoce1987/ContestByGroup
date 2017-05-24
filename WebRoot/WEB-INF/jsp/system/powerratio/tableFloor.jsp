@@ -161,14 +161,15 @@
 					loadonce: true,
 					shrinkToFit : false,
 					autoScroll : true,
-					colNames : ['ID','日期','班次', '值別','Unit6PowerFlow', 'Unit7PowerFlow', 'Unit8PowerFlow',
-							'XLHuaTai1PowerFlow', 'XLHuaTai1PowerFlowOpp', 'XLHuaTai2PowerFlow', 'XLHuaTai2PowerFlowOpp',
-							'XL2213PowerFLow','Unit8SuplyPowerFlow','Unit6PlantUsePowerFlow','Unit7PlantUsePowerFlow',
-							'StartBack3UsePowerFlow','RJ_Rewangbeng1PowerFlow1','RJ_Rewangbeng1PowerFlow2','RJ_Rewangbeng1PowerFlow3',
-							'RJ_Rewangbeng1PowerFlow4','RJ_Rewangbeng2PowerFlow1','RJ_Rewangbeng2PowerFlow2','RJ_Rewangbeng2PowerFlow3',
-							'RJ_Rewangbeng2PowerFlow4','RJ_TotalPlantUsePowerFlow','RJ_ProduceUsePowerFlow','RJ_HeatPureUsePowerFlow',
-							'RJ_Addwater','RJ_DeSaltWater','RJ_RawWater','RJ_DirtyWater',
-							'RJ_AuxSteam','RJ_Gas1Flow','RJ_Gas2Flow','RJ_Gas3Flow',
+					colNames : ['ID','日期','班次', '值別','#6机电量', '#7机电量', '#8机电量',
+							'华台1线有功', '华台1线负有功', '华台2线有功', '华台2线负有功',
+							'#3号启备变电量','#6机厂用电量','#7机厂用电量','#8机厂用电量','总厂用电量',
+							'RJ_ProduceUsePowerFlow','RJ_HeatPureUsePowerFlow',
+							'一级1号热网泵','一级2号热网泵','一级3号热网泵',
+							'一级4号热网泵','二级1号热网泵','二级2号热网泵','二级3号热网泵',
+							'二级4号热网泵',
+							'生水量','除盐水量','生水量','污水量',
+							'RJ_AuxSteam','1号管用燃气量','2号管用燃气量','3号管用燃气量',
 							'RJ_Carb1Flow','RJ_Carb2FLow','RJ_SuplyHeat'
 							],
 					colModel : [
@@ -327,24 +328,7 @@
 						        }  
 							}
 						}
-					}, {
-						name : 'unit8SuplyPowerFlow',
-						index : 'unit8SuplyPowerFlow',
-						sortable:false,
-						width : 140,
-						editable: true,
-						cellsubmit:'remote',
-						editrules:{
-							custom:true,
-							custom_func:function(value) {
-								if (isNaN(value)) {  
-						           return [false,"请输入正确的的数字!"];  
-						        } else {  
-						           return [true,"ok"];  
-						        }  
-							}
-						}
-					}, {
+					},  {
 						name : 'unit6PlantUsePowerFlow',
 						index : 'unit6PlantUsePowerFlow',
 						sortable:false,
@@ -367,7 +351,6 @@
 						name : 'unit7PlantUsePowerFlow',
 						index : 'unit7PlantUsePowerFlow',
 						sortable:false,
-						hidden: true,
 						width : 140,
 						sorttype : "text",
 						editable: true,
@@ -382,12 +365,13 @@
 						        }  
 							}
 						}
-					}, {
-						name : 'startBack3UsePowerFlow',
-						index : 'startBack3UsePowerFlow',
+					},{
+						name : 'unit8SuplyPowerFlow',
+						index : 'unit8SuplyPowerFlow',
 						sortable:false,
 						width : 140,
-						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -398,12 +382,32 @@
 						        }  
 							}
 						}
+					},{
+						name : 'RJ_TotalPlantUsePowerFlow',
+						index : 'RJ_TotalPlantUsePowerFlow',
+						sortable:false,
+						width : 140,
+						sorttype : "text"
+					},{
+						name : 'RJ_ProduceUsePowerFlow',
+						index : 'RJ_ProduceUsePowerFlow',
+						sortable:false,
+						width : 100,
+						sorttype : "text"
+					}, {
+						name : 'RJ_HeatPureUsePowerFlow',
+						index : 'RJ_HeatPureUsePowerFlow',
+						sortable:false,
+						width : 100,
+						sorttype : "text"
 					}, {
 						name : 'RJ_Rewangbeng1PowerFlow1',
 						index : 'RJ_Rewangbeng1PowerFlow1',
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -420,6 +424,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -436,6 +442,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -452,6 +460,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -468,6 +478,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -484,6 +496,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -500,6 +514,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -516,6 +532,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -526,60 +544,14 @@
 						        }  
 							}
 						}
-					}, {
-						name : 'RJ_TotalPlantUsePowerFlow',
-						index : 'RJ_TotalPlantUsePowerFlow',
-						sortable:false,
-						width : 140,
-						sorttype : "text",
-						editrules:{
-							custom:true,
-							custom_func:function(value) {
-								if (isNaN(value)) {  
-						           return [false,"请输入正确的的数字!"];  
-						        } else {  
-						           return [true,"ok"];  
-						        }  
-							}
-						}
-					}, {
-						name : 'RJ_ProduceUsePowerFlow',
-						index : 'RJ_ProduceUsePowerFlow',
-						sortable:false,
-						width : 100,
-						sorttype : "text",
-						editrules:{
-							custom:true,
-							custom_func:function(value) {
-								if (isNaN(value)) {  
-						           return [false,"请输入正确的的数字!"];  
-						        } else {  
-						           return [true,"ok"];  
-						        }  
-							}
-						}
-					}, {
-						name : 'RJ_HeatPureUsePowerFlow',
-						index : 'RJ_HeatPureUsePowerFlow',
-						sortable:false,
-						width : 100,
-						sorttype : "text",
-						editrules:{
-							custom:true,
-							custom_func:function(value) {
-								if (isNaN(value)) {  
-						           return [false,"请输入正确的的数字!"];  
-						        } else {  
-						           return [true,"ok"];  
-						        }  
-							}
-						}
-					}, {
+					},{
 						name : 'RJ_Addwater',
 						index : 'RJ_Addwater',
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -596,6 +568,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -612,6 +586,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -628,6 +604,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -644,6 +622,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -658,8 +638,10 @@
 						name : 'RJ_Gas1Flow',
 						index : 'RJ_Gas1Flow',
 						sortable:false,
-						width : 100,
+						width : 150,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -674,8 +656,10 @@
 						name : 'RJ_Gas2Flow',
 						index : 'RJ_Gas2Flow',
 						sortable:false,
-						width : 100,
+						width : 150,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -690,8 +674,10 @@
 						name : 'RJ_Gas3Flow',
 						index : 'RJ_Gas3Flow',
 						sortable:false,
-						width : 100,
+						width : 150,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -706,8 +692,10 @@
 						name : 'RJ_Carb1Flow',
 						index : 'RJ_Carb1Flow',
 						sortable:false,
-						width : 100,
+						width : 150,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -722,8 +710,10 @@
 						name : 'RJ_Carb2FLow',
 						index : 'RJ_Carb2FLow',
 						sortable:false,
-						width : 100,
+						width : 150,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {
@@ -740,6 +730,8 @@
 						sortable:false,
 						width : 100,
 						sorttype : "text",
+						editable: true,
+						cellsubmit:'remote',
 						editrules:{
 							custom:true,
 							custom_func:function(value) {

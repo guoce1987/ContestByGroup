@@ -498,7 +498,6 @@
                                 return remove;
 
                             }
-					
 					},
 					{name:'USER_ID',index:'USER_ID', width:90, sorttype:"text",hidden:true },
 					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text" ,hidden:true },
@@ -634,7 +633,7 @@
 				loadonce: true,
 				autoScroll : true,
 				
-				colNames:[ '','ID','角色','权限'],
+				colNames:[ '','ID','角色','编辑权限','权限'],
 				colModel:[
 					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
 					
@@ -647,6 +646,7 @@
 					},
 					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text"},
 					{name:'ROLE_NAME',index:'ROLE_NAME',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
+					{name:'EDIT_QX',index:'EDIT_QX',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
                     {name:'RIGHTS',index:'RIGHTS',width:90, sorttype:"text",
 						formatter: function (cellvalue, options, rowObject) {
                         	var key = rowObject.ROLE_ID + "^" + rowObject.ROLE_NAME+ "^" + rowObject.RIGHTS;

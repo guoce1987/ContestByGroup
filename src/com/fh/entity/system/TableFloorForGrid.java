@@ -18,7 +18,6 @@ public class TableFloorForGrid {
 	private String Unit8SuplyPowerFlow;
 	private String Unit6PlantUsePowerFlow;
 	private String Unit7PlantUsePowerFlow;
-	private String StartBack3UsePowerFlow;
 	private String RJ_Rewangbeng1PowerFlow1;
 	private String RJ_Rewangbeng1PowerFlow2;
 	private String RJ_Rewangbeng1PowerFlow3;
@@ -142,12 +141,6 @@ public class TableFloorForGrid {
 	}
 	public void setUnit7PlantUsePowerFlow(String unit7PlantUsePowerFlow) {
 		Unit7PlantUsePowerFlow = unit7PlantUsePowerFlow;
-	}
-	public String getStartBack3UsePowerFlow() {
-		return StartBack3UsePowerFlow;
-	}
-	public void setStartBack3UsePowerFlow(String startBack3UsePowerFlow) {
-		StartBack3UsePowerFlow = startBack3UsePowerFlow;
 	}
 	public String getRJ_Rewangbeng1PowerFlow1() {
 		return RJ_Rewangbeng1PowerFlow1;
