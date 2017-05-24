@@ -106,8 +106,8 @@ public class LoginController extends BaseController {
 				String PASSWORD  = KEYDATA[1];
 				pd.put("USERNAME", USERNAME);
 				if(!Tools.notEmpty(sessionCode) /*&& sessionCode.equalsIgnoreCase(code)*/){
-//					String passwd = new SimpleHash("SHA-1", USERNAME, PASSWORD).toString();	//密码加密
-					pd.put("PASSWORD", PASSWORD);
+					String passwd = new SimpleHash("SHA-1", "ABC", PASSWORD).toString();	//密码加密
+					pd.put("PASSWORD", passwd);
 					pd = userService.getUserByNameAndPwd(pd);
 					if(pd != null){
 						pd.put("LAST_LOGIN",DateUtil.getTime().toString());
@@ -326,6 +326,8 @@ public class LoginController extends BaseController {
 		pd = this.getPageData();
 		String  msg = pd.getString("msg");
 		pd.put("msg", msg);
+		
+		pd.put("logoutClicked", "1");
 		
 		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
 		mv.setViewName("system/admin/login");

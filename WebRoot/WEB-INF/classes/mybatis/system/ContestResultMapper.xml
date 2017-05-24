@@ -529,13 +529,109 @@
 		<result column="ID" property="ID"/>
 		<result column="StatDate" property="StatDate"/>
 		<result column="DutyName" property="DutyName"/>
+		<result column="DutyID" property="DutyID"/>
 		<result column="GroupName" property="GroupName"/>
 		<result column="RJ_AuxPowerRatio" property="RJ_AuxPowerRatio"/>
 		<result column="RJ_GeneratePower" property="RJ_GeneratePower"/>
 		<result column="RJ_SuplyPower" property="RJ_SuplyPower"/>
 		<result column="XL2213PowerFLow" property="XL2213PowerFLow"/>
+		<result column="BreakPower" property="BreakPower"/>
+	</resultMap>
+	<resultMap type="TableFloorForGrid" id="tableFloorMapForGrid">
+		<result column="ID" property="ID"/>
+		<result column="StatDate" property="StatDate"/>
+		<result column="DutyName" property="DutyName"/>
+		<result column="DutyID" property="DutyID"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="GroupId" property="GroupId"/>
+		<result column="Unit6PowerFlow" property="Unit6PowerFlow"/>
+		<result column="Unit7PowerFlow" property="Unit7PowerFlow"/>
+		<result column="Unit8PowerFlow" property="Unit8PowerFlow"/>
+		<result column="XLHuaTai1PowerFlow" property="XLHuaTai1PowerFlow"/>
+		<result column="XLHuaTai1PowerFlowOpp" property="XLHuaTai1PowerFlowOpp"/>
+		<result column="XLHuaTai2PowerFlow" property="XLHuaTai2PowerFlow"/>
+		<result column="XLHuaTai2PowerFlowOpp" property="XLHuaTai2PowerFlowOpp"/>
+		<result column="XL2213PowerFLow" property="XL2213PowerFLow"/>
+		<result column="Unit8SuplyPowerFlow" property="Unit8SuplyPowerFlow"/>
+		<result column="Unit6PlantUsePowerFlow" property="Unit6PlantUsePowerFlow"/>
+		<result column="Unit7PlantUsePowerFlow" property="Unit7PlantUsePowerFlow"/>
+		<result column="StartBack3UsePowerFlow" property="StartBack3UsePowerFlow"/>
+		<result column="RJ_Rewangbeng1PowerFlow1" property="RJ_Rewangbeng1PowerFlow1"/>
+		<result column="RJ_Rewangbeng1PowerFlow2" property="RJ_Rewangbeng1PowerFlow2"/>
+		<result column="RJ_Rewangbeng1PowerFlow3" property="RJ_Rewangbeng1PowerFlow3"/>
+		<result column="RJ_Rewangbeng1PowerFlow4" property="RJ_Rewangbeng1PowerFlow4"/>
+		<result column="RJ_Rewangbeng2PowerFlow1" property="RJ_Rewangbeng2PowerFlow1"/>
+		<result column="RJ_Rewangbeng2PowerFlow2" property="RJ_Rewangbeng2PowerFlow2"/>
+		<result column="RJ_Rewangbeng2PowerFlow3" property="RJ_Rewangbeng2PowerFlow3"/>
+		<result column="RJ_Rewangbeng2PowerFlow4" property="RJ_Rewangbeng2PowerFlow4"/>
+		<result column="RJ_TotalPlantUsePowerFlow" property="RJ_TotalPlantUsePowerFlow"/>
+		<result column="RJ_ProduceUsePowerFlow" property="RJ_ProduceUsePowerFlow"/>
+		<result column="RJ_HeatPureUsePowerFlow" property="RJ_HeatPureUsePowerFlow"/>
+		<result column="RJ_Addwater" property="RJ_Addwater"/>
+		<result column="RJ_DeSaltWater" property="RJ_DeSaltWater"/>
+		<result column="RJ_RawWater" property="RJ_RawWater"/>
+		<result column="RJ_DirtyWater" property="RJ_DirtyWater"/>
+		<result column="RJ_AuxSteam" property="RJ_AuxSteam"/>
+		<result column="RJ_Gas1Flow" property="RJ_Gas1Flow"/>
+		<result column="RJ_Gas2Flow" property="RJ_Gas2Flow"/>
+		<result column="RJ_Gas3Flow" property="RJ_Gas3Flow"/>
+		<result column="RJ_Carb1Flow" property="RJ_Carb1Flow"/>
+		<result column="RJ_Carb2FLow" property="RJ_Carb2FLow"/>
+		<result column="RJ_SuplyHeat" property="RJ_SuplyHeat"/>
 	</resultMap>
 	
+	<!-- 列出所有表底数据 -->
+	<select id="listAllTableFloorForGrid" resultMap="tableFloorMapForGrid"  parameterType="pd">
+			SELECT
+			 	tf.ID
+		      ,CONVERT(varchar(100), StatDate, 23) as StatDate
+			  ,tf.DutyID
+			  ,dd.DutyName
+			  ,tf.GroupId
+			  ,gd.GroupName
+		      ,Unit6PowerFlow
+		      ,Unit7PowerFlow
+		      ,Unit8PowerFlow
+		      ,XLHuaTai1PowerFlow
+		      ,XLHuaTai1PowerFlowOpp
+		      ,XLHuaTai2PowerFlow
+		      ,XLHuaTai2PowerFlowOpp
+		      ,XL2213PowerFLow
+		      ,Unit8SuplyPowerFlow
+		      ,Unit6PlantUsePowerFlow
+		      ,Unit7PlantUsePowerFlow
+		      ,StartBack3UsePowerFlow
+		      ,RJ_Rewangbeng1PowerFlow1
+		      ,RJ_Rewangbeng1PowerFlow2
+		      ,RJ_Rewangbeng1PowerFlow3
+		      ,RJ_Rewangbeng1PowerFlow4
+		      ,RJ_Rewangbeng2PowerFlow1
+		      ,RJ_Rewangbeng2PowerFlow2
+		      ,RJ_Rewangbeng2PowerFlow3
+		      ,RJ_Rewangbeng2PowerFlow4
+		      ,RJ_TotalPlantUsePowerFlow
+		      ,RJ_ProduceUsePowerFlow
+		      ,RJ_HeatPureUsePowerFlow
+		      ,RJ_Addwater
+		      ,RJ_DeSaltWater
+		      ,RJ_RawWater
+		      ,RJ_DirtyWater
+		      ,RJ_AuxSteam
+		      ,RJ_Gas1Flow
+		      ,RJ_Gas2Flow
+		      ,RJ_Gas3Flow
+		      ,RJ_Carb1Flow
+		      ,RJ_Carb2FLow
+		      ,RJ_SuplyHeat
+		  FROM TableFloor tf
+		  left join DutyDic dd on tf.DutyID=dd.DutyId
+		  left join GroupDic gd on gd.id=tf.groupid
+			where StatDate between #{statDateStart} and #{statDateEnd}
+			order by StatDate desc,tf.DutyID asc
+	</select>
+	<select id="updateTableFloor" parameterType="pd" resultType="pd" useCache="false"> 
+		 update TableFloor set ${celname}=#{value} where id=#{sid}
+	</select>
 	<!-- 列出所有的综合厂用电率指标(图) -->
 	<select id="listAllAuxPowerRatioForChart" resultMap="auxPowerRatioMapForChart"  parameterType="pd">
 			 SELECT 
@@ -551,17 +647,28 @@
 	<!-- 列出所有的综合厂用电率指标(表) -->
 	<select id="listAllAuxPowerRatioForGrid" resultMap="auxPowerRatioMapForGrid"  parameterType="pd">
 			SELECT 
-				    ID, 
-				    StatDate, 
-				    DutyName, 
-				    GroupName,
-				    RJ_TotalPlantUsePowerRatio*100 AS RJ_TotalPlantUsePowerRatio,  
-				    RJ_GeneratePower, 
-				    RJ_SuplyPower,
-				    XL2213PowerFLow
-				FROM vw_CoalCost 
-				where year(StatDate)= #{year} and month(StatDate) = #{month}
-				ORDER BY statDate DESC, DutyID asc
+				cc.id,
+				cc.DutyID, 
+				CONVERT(varchar(100), cc.StatDate, 23) as StatDate,
+				cc.DutyName, 
+				cc.GroupName, 
+				cc.RJ_GeneratePower,
+				cc.RJ_TotalPlantUsePowerRatio*100 AS RJ_TotalPlantUsePowerRatio,  
+				cc.RJ_SuplyPower,
+				cc.XL2213PowerFLow,
+				ISNULL(lg.BreakPower, 0) BreakPower
+			FROM vw_CoalCost cc
+			left join 
+			(
+				select 
+					BreakDate,
+					DutyClass,
+					sum(BreakPower) BreakPower
+				from BreakPowerLog 
+				group by BreakDate,DutyClass
+			) lg on lg.BreakDate=cc.statDate and lg.DutyClass=cc.DutyID
+			where year(StatDate)= #{year} and month(StatDate) = #{month}
+			ORDER BY statDate DESC, DutyID asc
 	</select>
 	
 	<!-- 操作加分 -->
@@ -1087,5 +1194,7 @@
 		  FROM RewardPunishLog where ID=#{ID}
 	</select>
 	
-	
+	<select id="runPr" parameterType="pd" resultType="pd" statementType="CALLABLE" useCache="false">
+		{ call sp_DutyTask(#{statDate}) }
+	</select>
 </mapper>

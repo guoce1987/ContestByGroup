@@ -23,6 +23,7 @@
 		<typeAlias type="com.fh.entity.system.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.fh.entity.system.HeatIndexForChart" alias="HeatIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.HeatIndexForGrid" alias="HeatIndexForGrid"/>
+		<typeAlias type="com.fh.entity.system.TableFloorForGrid" alias="TableFloorForGrid"/>
 		
 		<typeAlias type="com.fh.entity.system.EconomyIndexForChart" alias="EconomyIndexForChart"/>
 		<typeAlias type="com.fh.entity.system.EconomyIndexForGrid" alias="EconomyIndexForGrid"/>

@@ -85,9 +85,16 @@
 	});
 	var d = new Date();
 	var year = d.getFullYear();
-	var month = d.getMonth()+1;
+	var month = d.getMonth() + 1;
 	var day = d.getDate();
-	$("#datepickerForBreakPowerLog").datepicker("setDate", year + "-" + month + "-" + day);// 设置
+	
+	var dateToSet = year + "-" + month + "-" + day;
+	
+	if(typeof($.cookie('statDate4BreakPower')) != "undefined") {
+		dateToSet = $.cookie('statDate4BreakPower');
+	}
+	
+	$("#datepickerForBreakPowerLog").datepicker("setDate", dateToSet);// 设置
 	$("#datepickerForBreakPowerLog").datepicker().on("changeDate", function(e) {
 		setTimeout(function() {
 			queryBreakpower();
@@ -99,6 +106,11 @@
 	var year = $("#datepickerForBreakPowerLog").val().split("-")[0];
 	var month = $("#datepickerForBreakPowerLog").val().split("-")[1];
 	var day = $("#datepickerForBreakPowerLog").val().split("-")[2];
+	
+	
+	if(typeof($.cookie('dutyID4BreakPower')) != "undefined") {
+		$("#dutyId").val($.cookie('dutyID4BreakPower'));
+	}
 	var dutyId = $("#dutyId").val();
 	function initGrid() {
 		var grid_selector = "#grid-table";
@@ -214,13 +226,17 @@
 	}
 	
 	function deleteBreakpower(id) {
-		$.post("power/deleteBreakpower", {id : id}, function(data){
-			if(data == "0") {
-				alert("删除失败，请重新尝试");
-				return;
+		bootbox.confirm("确认删除当前记录?", function(result) {
+			if(result) {
+				$.post("power/deleteBreakpower", {id : id}, function(data){
+					if(data == "0") {
+						alert("删除失败，请重新尝试");
+						return;
+					}
+					queryBreakpower();
+				});
 			}
-			queryBreakpower();
-		});
+		}); 
 	}
 	
 	function queryBreakpower(){

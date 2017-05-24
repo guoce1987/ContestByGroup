@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
+import com.fh.entity.system.BreakPointDicForGrid;
 import com.fh.entity.system.Menu;
 import com.fh.entity.system.Role;
 import com.fh.service.system.menu.MenuService;
@@ -421,6 +422,89 @@ public class RoleController extends BaseController {
 		map.put("result", errInfo);
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**
+	 * 显示角色列表(用户组)
+	 */
+	@RequestMapping(value="/getGridData")
+	@ResponseBody
+	public JSONArray listUserAddRoles(Page page)throws Exception{
+		
+
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+
+			List<Role> roleList = roleService.listAllRoles();	
+			jsonArr = JSONArray.fromObject(roleList);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	
+	}
+	
+	/**
+	 * 添加角色数据
+	 */
+	@RequestMapping(value="/addRole")
+	@ResponseBody
+	public String addBreakDic(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			roleService.insertOneEmpty(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 添加角色数据
+	 */
+	@RequestMapping(value="/deleteRole")
+	@ResponseBody
+	public String deleteBreakDic(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String id = pd.getString("id");
+			
+			pd.put("id", id);
+			roleService.deleteRoleById(id);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	
+	/**
+	 * 编辑数据
+	 */
+	@RequestMapping(value="/submitRole")
+	@ResponseBody
+	public String submitRole(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String roleName = pd.getString("name");
+			
+			pd.put("roleName", roleName);
+			
+			
+			roleService.updateRoleName(pd);
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "1";
+	}
+
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){

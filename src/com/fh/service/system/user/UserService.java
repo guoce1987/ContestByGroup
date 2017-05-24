@@ -131,4 +131,19 @@ public class UserService {
 		return (List<PageData>) dao.findForList("UserXMapper.listAllUserGuoCe", pd);
 	}
 	
+	
+	/*
+	*更新用户权限
+	*/
+	public void submitUserRole(PageData pd) throws Exception{
+		dao.update("UserXMapper.submitUserRole", pd);
+	}
+	
+	/*
+	*更新用户名和密码
+	*/
+	public void submitUser(PageData pd) throws Exception{
+		dao.update("UserXMapper.submitUser", pd);
+	}
+	
 }

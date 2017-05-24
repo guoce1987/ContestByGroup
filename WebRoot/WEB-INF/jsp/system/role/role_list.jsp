@@ -14,7 +14,7 @@
 				<div class="row">
 						<div class="col-sm-6">
 							<div class="row">
-								<div class="col-sm-4">
+<!-- 								<div class="col-sm-4">
 									<div class="input-group input-group-sm">
 										<input id="IdOrName" name="IdOrName" class="form-control" placeholder="请输入用户名或者ID"/>
 									</div>
@@ -23,12 +23,13 @@
 			                        <button id="searchBtn" type="button" class="btn btn-sm btn-info" onclick="query()">
 			                            <span class="glyphicon glyphicon-search"></span>&nbsp;查询
 			                        </button>                   
-	                    		</div>
+	                    		</div> -->
 	                    		<div class="col-sm-2 nowrap">
-			                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="add()">
-			                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增
+			                        <button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="addUser()">
+			                            <span class="glyphicon glyphicon-plus"></span>&nbsp;新增用户
 			                        </button>                   
 	                    		</div>
+	                    		
 							</div>
 						</div><!-- ./span -->
 					 
@@ -37,12 +38,28 @@
 
 								
 						<div class="row">
-							<div class="col-sm-12" style="padding-top: 20px">
+							<div class="col-sm-12" style="padding-top: 10px">
 								<!-- PAGE CONTENT BEGINS -->
 
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+						<div class="col-sm-2 nowrap" style="margin-top: 20px">
+			             	<button id="addBtn" type="button" class="btn btn-sm btn-success" onclick="addRole()">
+			                  	<span class="glyphicon glyphicon-plus"></span>&nbsp;新增角色
+			                </button>                   
+	                    </div>
+						<div class="row">
+							<div class="col-sm-12" style="padding-top: 10px">
+								<!-- PAGE CONTENT BEGINS -->
+
+								<table id="role-table"></table>
+
+								<div id="role-pager"></div>
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
@@ -61,7 +78,7 @@
 											</p>
 										</div>#dialog-confirm -->
 										
-<div class="modal fade" id="dialog-confirm" tabindex="-1" role="dialog"
+<div class="modal fade" id="dialog-confirm-user" tabindex="-1" role="dialog"
      aria-labelledby="shareLabel" aria-hidden="true" data-backfrop="static"
      data-keyboard="false">
     <div class="modal-dialog" style="width: 700px;">
@@ -117,6 +134,51 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="dialog-confirm-role" tabindex="-1" role="dialog"
+     aria-labelledby="shareLabel" aria-hidden="true" data-backfrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog" style="width: 700px;">
+        <div class="modal-content row">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="shareLabel">编辑角色</h4>
+            </div>
+            <div class="modal-body">
+                <form id="transferFormH" class="row col-sm-12 form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 nowrap">角色名</label>
+
+                        <div class="col-sm-4">
+                            <input id="roleName" name="roleName" class="form-control" readonly="readonly"/>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 nowrap">权限</label>
+
+                        <div class="col-sm-4">
+							<select name="role" id="role" class="form-control">
+							<option value="0">普通用户</option>
+							<option value="1">管理员用户</option>
+						</select>
+						</div>
+
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="row">&nbsp;</div>
+            <div class="modal-footer">
+                <button id="submitTransfer" type="button" class="btn btn-default forApprove btn-submit">
+                    <span class="glyphicon glyphicon-ok">&nbsp;提交</span></button>
+                 <button id="backButton" type="button" class="btn btn-default btn-submit">
+                    <span class="glyphicon glyphicon-ban-circle">&nbsp;返回</span></button> 
+            </div>
+        </div>
+    </div>
+</div>
 									 
  
 	<!-- PAGE CONTENT ENDS HERE -->
@@ -125,7 +187,7 @@
 		<script type="text/javascript">
 		
 		//新增组
-		function addRole(){
+<%-- 		function addRole(){
 			// top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
@@ -141,7 +203,7 @@
 				diag.close();
 			 };
 			 diag.show();
-		}
+		} --%>
 		
 		//新增角色
 		function addRole2(pid){
@@ -425,25 +487,33 @@
 				height : 'auto',
 				loadonce: true,
 				autoScroll : true,
-				colNames:[ '','ID','roleID','用户名','角色','密码'],
+				colNames:[ '','ID','roleID','用户名', '昵称', '角色','密码'],
 				colModel:[
 					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
 					
                         formatter: function (cellvalue, options, rowObject) {
                         	var key = rowObject.USER_ID + "^" + rowObject.USERNAME + "^" + rowObject.ROLE_NAME+ "^" + rowObject.ROLE_ID;
-                            var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-pencil" tag="' + key + '"></span></a>';
                             var remove = '<a title="删除"><span class="glyphicon glyphicon-trash" tag="' + key + '"></span></a>';
   
-                                return edit + '&nbsp;&nbsp;' + remove;
+                                return remove;
 
                             }
 					
 					},
-					{name:'USER_ID',index:'USER_ID', width:90, sorttype:"text"},
-					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text"/* ,hidden:true */},
-					{name:'USERNAME',index:'USERNAME',width:90, sorttype:"text"},
-					{name:'ROLE_NAME',index:'ROLE_NAME',width:90, sorttype:"text"},
-                    {name:'PASSWORD',index:'PASSWORD',width:90, sorttype:"text"}
+					{name:'USER_ID',index:'USER_ID', width:90, sorttype:"text",hidden:true },
+					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text" ,hidden:true },
+					{name:'USERNAME',index:'USERNAME',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
+					{name:'NAME',index:'NAME',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
+					{name:'ROLE_NAME',index:'ROLE_NAME',width:90, sorttype:"text",
+						formatter: function (cellvalue, options, rowObject) {
+							
+                            var roleSelect = '<select roleid="" id="roles'+rowObject.USER_ID+'" name="roles" onchange="userUpdateSubmit(this,'+rowObject.USER_ID+')" style="padding-top:0px;padding-bottom:0px"></select>';
+  
+                                return roleSelect;
+
+                            }
+					},
+                    {name:'PASSWORD',index:'PASSWORD',width:90, sorttype:"text", editable: true,cellsubmit:'remote'}
 				], 
 		
 				viewrecords : true,
@@ -463,10 +533,24 @@
 					}, 0);
 				},
 		
-				editurl: "./dummy.php",//nothing is saved
 				caption: "用户管理",
 		
 				gridComplete: function () {
+					$.ajax({
+				        type: "GET",
+				        url : "role/getGridData",
+				        success: function(data) {
+				        	$("select[name='roles']").empty();
+				        	for(var i=0;i<data.length;i++){
+				        		$("select[name='roles']").append("<option value="+data[i].ROLE_ID+">" + data[i].ROLE_NAME + "</option>");
+				        	}
+				        	 var allRows = $(grid_selector).jqGrid("getRowData");
+				        	for(var i=0;i<allRows.length;i++){
+				        		var roleSelect = '#roles'+allRows[i].USER_ID;
+				        		$(roleSelect).val(allRows[i].ROLE_ID);
+				        	} 
+				         }
+				     });
                     $("span.glyphicon.glyphicon-pencil", this).on("click", function (e) {
                         var key = $(e.target).attr("tag");
                         var model = {};
@@ -486,15 +570,151 @@
                        editRights(model.roleId);
                     });
                     $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
-                        var id = $(e.target).attr("tag");
+                    	var key = $(e.target).attr("tag");
+                        var model = {};
+                        var arr = key.split("^");
+                        model.id = arr[0];
     					bootbox.confirm("确认删除当前用户?", function(result) {
     						if(result) {
-    							alert(result);
+    							$.post("user/deleteUser", {id : model.id}, function(data){
+    								if(data == "0") {
+    									alert("删除失败，请重新尝试");
+    									return;
+    								}
+    								queryUsers();
+    								//queryBreakpointDic(); 刷新用户表
+    							});
     						}
     					});
         			
                     });
-				}
+                    
+                    
+				},
+				beforeSubmitCell: function(rowid,celname,value,iRow,iCol){
+					var USER_ID = $(grid_selector).jqGrid("getCell",rowid,'USER_ID');
+					return {"USER_ID":USER_ID, celname : celname, value : value};
+					
+				},
+				cellEdit: true,
+				cellurl: "user/submitUser"
+		
+			});
+			//replace icons with FontAwesome icons like above
+			function updatePagerIcons(table) {
+				var replacement = 
+				{
+					'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+					'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+					'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+					'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+				};
+				$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+					var icon = $(this);
+					var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+					
+					if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+				})
+			}
+
+		});
+		
+		jQuery(function($) {
+
+			var grid_selector = "#role-table";
+			var pager_selector = "#role-pager";
+			
+			jQuery(grid_selector).jqGrid({
+		
+				url: "role/getGridData",
+				mtype : "GET",
+				datatype : "json",
+				autowidth : true,
+				height : 'auto',
+				loadonce: true,
+				autoScroll : true,
+				
+				colNames:[ '','ID','角色','权限'],
+				colModel:[
+					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
+					
+                         formatter: function (cellvalue, options, rowObject) {
+                        	 var key = rowObject.ROLE_ID + "^" + rowObject.ROLE_NAME+ "^" + rowObject.RIGHTS;
+                            var remove = '<a title="删除"><span class="glyphicon glyphicon-trash" tag="' + key + '"></span></a>';
+                                return remove;
+                            } 
+					
+					},
+					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text"},
+					{name:'ROLE_NAME',index:'ROLE_NAME',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
+                    {name:'RIGHTS',index:'RIGHTS',width:90, sorttype:"text",
+						formatter: function (cellvalue, options, rowObject) {
+                        	var key = rowObject.ROLE_ID + "^" + rowObject.ROLE_NAME+ "^" + rowObject.RIGHTS;
+                            var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-pencil" tag="' + key + '">点击查看</span></a>';
+  
+                                return edit;
+
+                            } 
+                    }
+				], 
+		
+				viewrecords : true,
+				rowNum:10,
+				rowList:[10,20,30],
+				pager : pager_selector,
+				altRows: true,
+				//toppager: true,
+				multiselect: true,
+				//multikey: "ctrlKey",
+		        multiboxonly: true,
+		
+				loadComplete : function() {
+					var table = this;
+					setTimeout(function(){
+						updatePagerIcons(table);resizeGridWidth();
+					}, 0);
+				},
+		
+				caption: "角色管理",
+		
+				 gridComplete: function () {
+                    $("span.glyphicon.glyphicon-pencil", this).on("click", function (e) {
+                         var key = $(e.target).attr("tag");
+                        var model = {};
+                        var arr = key.split("^");
+                        model.role_id = arr[0];
+                        model.role_name = arr[1];
+                        model.rights = arr[2];
+                        
+                       editRights(model.role_id); 
+                    });
+                    $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
+                    	 var key = $(e.target).attr("tag");
+                    	 var model = {};
+                         var arr = key.split("^");
+                    	 model.role_id = arr[0];
+    					bootbox.confirm("确认删除当前角色?", function(result) {
+    						if(result) {
+    							$.post("role/deleteRole", {id : model.role_id}, function(data){
+    								if(data == "0") {
+    									alert("删除失败，请重新尝试");
+    									return;
+    								}
+    								queryRoles();
+    								//queryBreakpointDic(); 刷新用户表
+    							});
+    						}
+    					}); 
+        			
+                    });
+				} ,
+				beforeSubmitCell: function(rowid,celname,value,iRow,iCol){
+					var ROLE_ID = $(grid_selector).jqGrid("getCell",rowid,'ROLE_ID');
+					return {"ROLE_ID":ROLE_ID};
+				},
+				cellEdit: true,
+				cellurl: "role/submitRole"
+				
 
 		
 			});
@@ -535,9 +755,67 @@
  	                  }
  	            });
 		} 
-			function add(){
- 				$('#dialog-confirm').modal('show');
+			function addUser(){
+				$.post("user/addUser", {}, function(data){
+					if(data == "0") {
+						alert("添加失败");
+						return;
+					}
+					queryUsers();
+				});
  			}
+			
+			
+			
+			function addRole(){
+				$.post("role/addRole", {}, function(data){
+					if(data == "0") {
+						alert("添加失败");
+						return;
+					}
+					queryRoles();
+				});
+ 			}
+			
+			function queryRoles() {
+				$.ajax({
+			        type: "GET",
+			        url : "role/getGridData",
+			        success: function(data) {
+			     	   		$("#role-table").jqGrid("clearGridData");
+			                $("#role-table").jqGrid('setGridParam',
+			                 { 
+			                    datatype: 'local',
+			                    data:data
+			                }).trigger("reloadGrid");
+			           }
+			     });
+			} 
+			
+			function queryUsers() {
+				$.ajax({
+			        type: "GET",
+			        url : "user/getGridData",
+			        success: function(data) {
+			     	   		$("#grid-table").jqGrid("clearGridData");
+			                $("#grid-table").jqGrid('setGridParam',
+			                 { 
+			                    datatype: 'local',
+			                    data:data
+			                }).trigger("reloadGrid");
+			           }
+			     });
+			} 
+			
+			function userUpdateSubmit(s,userid){
+				 $.ajax({
+			        type: "GET",
+			        url : "user/submitUserRole?userID="+userid+"&roleId="+$(s).val(),
+			        success: function(data) {
+			        	 queryUsers();
+			           }
+			     }); 
+			}
 		</script>
 
 

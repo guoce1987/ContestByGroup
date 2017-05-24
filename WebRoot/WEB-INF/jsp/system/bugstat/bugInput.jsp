@@ -217,13 +217,17 @@
 	}
 	
 	function deleteBug(id) {
-		$.post("bugstat/deleteBug", {id : id}, function(data){
-			if(data == "0") {
-				alert("删除失败，请重新尝试");
-				return;
+		bootbox.confirm("确认删除当前记录?", function(result) {
+			if(result) {
+				$.post("bugstat/deleteBug", {id : id}, function(data){
+					if(data == "0") {
+						alert("删除失败，请重新尝试");
+						return;
+					}
+					queryBugDetail();
+				});
 			}
-			queryBugDetail();
-		});
+		}); 
 	}
 	
 	function queryBugDetail(){

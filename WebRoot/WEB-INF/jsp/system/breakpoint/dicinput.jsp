@@ -348,13 +348,17 @@
 	}
 	
 	function deleteBreakDic(id) {
-		$.post("breakpoint/deleteBreakDic", {id : id}, function(data){
-			if(data == "0") {
-				alert("删除失败，请重新尝试");
-				return;
+		bootbox.confirm("确认删除当前记录?", function(result) {
+			if(result) {
+				$.post("breakpoint/deleteBreakDic", {id : id}, function(data){
+					if(data == "0") {
+						alert("删除失败，请重新尝试");
+						return;
+					}
+					queryBreakpointDic();
+				});
 			}
-			queryBreakpointDic();
-		});
+		}); 
 	}
 	
 	function queryBreakpointDic() {

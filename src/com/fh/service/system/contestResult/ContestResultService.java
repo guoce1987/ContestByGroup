@@ -40,6 +40,7 @@ import com.fh.entity.system.SpiritScoreForChart;
 import com.fh.entity.system.SpiritScoreForGrid;
 import com.fh.entity.system.SuplyPowerGasCostForChart;
 import com.fh.entity.system.SuplyPowerGasCostForGrid;
+import com.fh.entity.system.TableFloorForGrid;
 import com.fh.entity.system.TrainScoreForChart;
 import com.fh.entity.system.TrainScoreForGrid;
 import com.fh.entity.system.VacmIndexForChart;
@@ -348,5 +349,17 @@ public class ContestResultService{
 	//修改违规字典单元格数据
 	public Integer updateBreakDic(PageData pd) throws Exception {
 		return (Integer) dao.save("ContestResultMapper.updateBreakDic", pd);
+	}
+	public void runPr(PageData pd) throws Exception {
+		dao.save("ContestResultMapper.runPr", pd);		
+	}
+	
+	//表底表数据获取
+	public List<TableFloorForGrid> listAllTableFloorForGrid(PageData pd) throws Exception {
+		return (List<TableFloorForGrid>) dao.findForList("ContestResultMapper.listAllTableFloorForGrid", pd);
+	}
+	
+	public Integer updateTableFloor(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.updateTableFloor", pd);
 	}
 }

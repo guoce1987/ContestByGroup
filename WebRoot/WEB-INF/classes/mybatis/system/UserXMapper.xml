@@ -166,35 +166,9 @@
 	<!-- 新增用户 -->
 	<insert id="saveU" parameterType="pd" flushCache="false">
 		insert into SYS_USER (
-			USER_ID,
-			USERNAME,
-			PASSWORD,
-			NAME,
-			RIGHTS,
-			ROLE_ID,
-			LAST_LOGIN,
-			IP,
-			STATUS,
-			BZ,
-			SKIN,
-			EMAIL,
-			NUMBER,
-			PHONE
+			USERNAME,STATUS
 		) values (
-			#{USER_ID},
-			#{USERNAME},
-			#{PASSWORD},
-			#{NAME},
-			#{RIGHTS},
-			#{ROLE_ID},
-			#{LAST_LOGIN},
-			#{IP},
-			#{STATUS},
-			#{BZ},
-			#{SKIN},
-			#{EMAIL},
-			#{NUMBER},
-			#{PHONE}
+			'',0
 		)
 	</insert>
 	<!-- 用户列表(用户组) -->
@@ -302,7 +276,7 @@
 	
 	<!-- 用户列表(全部) -->
 	<select id="listAllUserGuoCe" parameterType="pd" resultType="pd" useCache="false">
-		 select 
+		<!--  select 
 		 	 u.ROLE_ID,
 			 u.USER_ID,
 			 u.USERNAME,
@@ -313,6 +287,27 @@
 		 <if test="IdOrName != null and IdOrName != ''">
 		 	and (u.USER_ID like '%${IdOrName}%'  or u.USERNAME like '%${IdOrName}%')
 		 </if>
-		 order by u.USER_ID
+		 order by u.USER_ID -->
+		 
+		  select u.ROLE_ID, u.USER_ID, u.USERNAME, u.NAME, r.ROLE_NAME, '******' as PASSWORD  
+				  from sys_user u 
+				  left join sys_role r 
+				  on u.ROLE_ID = r.ROLE_ID 
+				  order by u.USER_ID desc 
+				 
 	</select>
+	
+	<!-- 更新用户权限 -->
+	<update id="submitUserRole" parameterType="pd" flushCache="false">
+		update SYS_USER set 
+		ROLE_ID = #{ROLE_ID} 
+		where USER_ID = #{USER_ID}
+	</update>
+	
+	<!-- 更新用户名和密码 -->
+	<update id="submitUser" parameterType="pd" flushCache="false">
+		update SYS_USER set 
+			${celname} = #{value}
+		where USER_ID = #{USER_ID}
+	</update>
 </mapper>

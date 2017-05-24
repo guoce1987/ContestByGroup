@@ -134,6 +134,10 @@ public class RoleService{
 		dao.findForList("RoleMapper.insert", pd);
 	}
 	
+	public void insertOneEmpty(PageData pd) throws Exception {
+		dao.update("RoleMapper.insertOneEmpty", pd);
+	}
+	
 	/**
 	 * 保存客服权限
 	 */
@@ -160,6 +164,11 @@ public class RoleService{
 	 */
 	public PageData edit(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("RoleMapper.edit", pd);
+	}
+
+
+	public void updateRoleName(PageData pd)  throws Exception {
+		dao.update("RoleMapper.updateRoleName", pd);
 	}
 
 }

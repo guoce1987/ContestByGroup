@@ -14,10 +14,12 @@ public class AuxPowerRatioForGrid {
 	private String StatDate;
 	private String GroupName;	//值别
 	private String DutyName;	//班名
+	private String DutyID;	//班名
 	private double RJ_TotalPlantUsePowerRatio;	//厂用电率
 	private double RJ_GeneratePower;	//燃机发电量
 	private double RJ_SuplyPower;	//燃机供电量
 	private double XL2213PowerFLow; //#3启备变电量
+	private String BreakPower;
 	
 	public String getID() {
 		return ID;
@@ -67,6 +69,18 @@ public class AuxPowerRatioForGrid {
 	}
 	public void setRJ_TotalPlantUsePowerRatio(double rJ_TotalPlantUsePowerRatio) {
 		RJ_TotalPlantUsePowerRatio = rJ_TotalPlantUsePowerRatio;
+	}
+	public String getBreakPower() {
+		return BreakPower;
+	}
+	public void setBreakPower(String breakPower) {
+		BreakPower = breakPower;
+	}
+	public String getDutyID() {
+		return DutyID;
+	}
+	public void setDutyID(String dutyID) {
+		DutyID = dutyID;
 	}
 
 }

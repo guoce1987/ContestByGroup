@@ -30,8 +30,7 @@ import com.fh.util.TwoDimensionCode;
 @Controller
 @RequestMapping(value="/tool")
 public class ToolController extends BaseController {
-	
-	
+
 	/**
 	 * 去接口测试页面
 	 */

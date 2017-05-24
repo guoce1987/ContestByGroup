@@ -535,4 +535,90 @@ public class UserController extends BaseController {
 		return jsonArr;
 	
 	}
+	
+	/**
+	 * 添加角色数据
+	 */
+	@RequestMapping(value="/addUser")
+	@ResponseBody
+	public String addUser(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			userService.saveU(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 添加角色数据
+	 */
+	@RequestMapping(value="/deleteUser")
+	@ResponseBody
+	public String deleteUser(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String id = pd.getString("id");
+			
+			pd.put("USER_ID", id);
+			userService.deleteU(pd);
+			return "1";
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
+	/**
+	 * 编辑用户名
+	 */
+	@RequestMapping(value="/submitUser")
+	@ResponseBody
+	public String submitUser(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String USER_ID = pd.getString("USER_ID");
+			String celname = pd.getString("celname");
+			String value = pd.getString("value");
+			pd.put("USER_ID", USER_ID);
+			pd.put("celname", celname);
+			pd.put("value", value);
+			
+			if(celname.equals("PASSWORD")){
+				pd.put("value", new SimpleHash("SHA-1", "ABC", pd.getString("value")).toString());
+			}
+			
+			
+			userService.submitUser(pd);
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "1";
+	}
+	
+	/**
+	 * 编辑用户权限
+	 */
+	@RequestMapping(value="/submitUserRole")
+	@ResponseBody
+	public String submitUserRole(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String userID = pd.getString("userID");
+			String roleId = pd.getString("roleId");
+			pd.put("USER_ID", userID);
+			pd.put("ROLE_ID", roleId);
+			
+			userService.submitUserRole(pd);
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "1";
+	}
 }

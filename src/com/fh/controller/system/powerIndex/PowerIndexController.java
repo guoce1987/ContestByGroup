@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +22,7 @@ import com.fh.entity.system.PowerIndexForGrid;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
+import com.fh.service.system.user.UserService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
@@ -45,7 +49,8 @@ public class PowerIndexController extends BaseController {
 	private RoleService roleService;
 	@Resource(name="contestResultService")
 	private ContestResultService contestResultService;
-	
+	@Resource(name="userService")
+	private UserService userService;
 	
 	/**
 	 * 变量列表
@@ -58,13 +63,20 @@ public class PowerIndexController extends BaseController {
 		try{
 			pd = this.getPageData();
 			
-			String USERNAME = pd.getString("USERNAME");
+			Subject currentUser = SecurityUtils.getSubject();  
+			Session session = currentUser.getSession();
 			String year = pd.getString("year");
 			String month = pd.getString("month");
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
 			if(null != USERNAME && !"".equals(USERNAME)){
 				USERNAME = USERNAME.trim();
 				pd.put("USERNAME", USERNAME);
 			}
+			PageData pb_role = userService.findByUId(pd);
+			PageData pb_edit_right = roleService.findObjectById(pb_role);
+			Boolean edit_right = pb_edit_right.getString("EDIT_QX").equals("1")? true : false;
+			
+			pd.put("editable", edit_right);//加入没有编辑权限
 			pd.put("year", year);
 			pd.put("month", month);
 			page.setPd(pd);

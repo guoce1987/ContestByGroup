@@ -1,4 +1,5 @@
 $(function() {
+	bootbox.setDefaults({locale: "zh_CN"});
 	$("#datepicker").datepicker({
 		language : 'zh-CN',
 		autoclose : true,

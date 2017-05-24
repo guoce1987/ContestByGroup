@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java"%>
-
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="row">
 	<div class="col-sm-12">
@@ -130,20 +132,44 @@
 					autowidth : true,
 					height : 'auto',
 					loadonce: true,
-					colNames:['ID','日期','值别','班名','厂用电率', '燃机发电量', '燃机供电量','#3启备变电量'],
+					colNames:['ID','日期','值别','班名','DutyID','厂用电率', '燃机发电量', '燃机供电量','#3启备变电量','违规电量'],
 					colModel:[
 					    {name:'ID',index:'ID', width:90, sorttype:"text"},
 						{name:'statDate',index:'statDate', width:90, sorttype:"text"},
 						{name:'groupName',index:'groupName',width:90, sorttype:"text"},
 						{name:'dutyName',index:'DutyName',width:90, sortable: false},
+						{name:'dutyID',index:'dutyID',width:90, sortable: false, hidden:true},
 						{name:'RJ_TotalPlantUsePowerRatio',index:'RJ_TotalPlantUsePowerRatio',width:90, sorttype:"double",
 							formatter: function(cellvalue, options, rowObject ){
 								return cellvalue.toFixed(2)+'%';
 							}
 						},
-						{name:'RJ_GeneratePower',index:'RJ_GeneratePower',width:90, sorttype:"double"},
-						{name:'RJ_SuplyPower',index:'RJ_SuplyPower',width:90, sorttype:"double"},
-						{name:'XL2213PowerFLow',index:'XL2213PowerFLow',width:90, sorttype:"double"}
+						{name:'RJ_GeneratePower',index:'RJ_GeneratePower',width:90, sorttype:"double",
+							formatter:function(cellvalue, options, rowObject){
+							    return "<a onclick=jumpToTableFloorPage('" + rowObject.dutyID + "','" + rowObject.statDate + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+							}
+						},
+						{name:'RJ_SuplyPower',index:'RJ_SuplyPower',width:90, sorttype:"double",
+							formatter:function(cellvalue, options, rowObject){
+							    return "<a onclick=jumpToTableFloorPage('" + rowObject.dutyID + "','" + rowObject.statDate + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+							}
+						},
+						{name:'XL2213PowerFLow',index:'XL2213PowerFLow',width:90, sorttype:"double",
+							formatter:function(cellvalue, options, rowObject){
+							    return "<a onclick=jumpToTableFloorPage('" + rowObject.dutyID + "','" + rowObject.statDate + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+							}
+						},
+						{
+							name:'breakPower',
+							index:'breakPower', 
+							sorttype:"double",
+							<c:if test="${pd.editable}">
+								formatter:function(cellvalue, options, rowObject){
+								    return "<a onclick=jumpToBreakpowerInputPage('" + rowObject.dutyID + "','" + rowObject.statDate + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+								}
+							</c:if>
+						}
+						
 					],
 					viewrecords : true,
 					rowNum : 30,
@@ -198,5 +224,24 @@
 		   }, 
 		   position:"last"
 		});
+	}
+	
+	
+	function jumpToBreakpowerInputPage(dutyID,statDate) {
+		$.cookie('dutyID4BreakPower', dutyID, {
+			expires : 7
+		});
+		$.cookie('statDate4BreakPower', statDate, {
+			expires : 7
+		});
+		$('#lm23').addClass('open').find("ul").show();
+		var fnStr = $("#z26  a").attr('onclick')
+		eval(fnStr);
+	}
+	
+	function jumpToTableFloorPage(dutyID,statDate) {
+		$.cookie('dutyID4Tablefloor', dutyID, {path:"/"});
+		$.cookie('statDate4Tablefloor', statDate, {path:"/"});
+		window.open("powerratio/tableFloor.do","_blank");
 	}
 </script>

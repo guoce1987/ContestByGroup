@@ -209,8 +209,8 @@
 			CHA_QX,
 			QX_ID
 		from SYS_ROLE 
-		where PARENT_ID = '0'
 		ORDER BY ROLE_ID
+		desc
 	</select>
 	
 	<select id="listAllRolesByPId" resultMap="roleResultMap">
@@ -239,7 +239,13 @@
 	
 	<update id="updateRoleRights" parameterType="Role">
 		update SYS_ROLE 
-		set RIGHTS=#{RIGHTS} 
+		set	RIGHTS=#{RIGHTS}
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+	
+	<update id="updateRoleName" parameterType="Role">
+		update SYS_ROLE 
+		set ROLE_NAME=#{ROLE_NAME}
 		where ROLE_ID=#{ROLE_ID}
 	</update>
 	<delete id="deleteRoleById" parameterType="String">
@@ -310,7 +316,6 @@
 	<!-- 添加 -->
 	<insert id="insert" parameterType="pd">
 		insert into SYS_ROLE (
-			ROLE_ID,
 			ROLE_NAME,
 			RIGHTS,
 			PARENT_ID,
@@ -320,7 +325,6 @@
 			CHA_QX,
 			QX_ID
 		) values (
-			#{ROLE_ID},
 			#{ROLE_NAME},
 			#{RIGHTS},
 			#{PARENT_ID},
@@ -330,6 +334,9 @@
 			#{CHA_QX},
 			#{QX_ID}
 		)
+	</insert>
+	<insert id="insertOneEmpty" parameterType="pd">
+		insert into SYS_ROLE (ROLE_NAME) values ('') 
 	</insert>
 	
 	<!-- 通过id查找 -->

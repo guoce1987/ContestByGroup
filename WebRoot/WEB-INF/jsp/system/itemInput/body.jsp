@@ -231,16 +231,15 @@
 				{name:'Unit',index:'Unit', width:50, hidden:true},
 				{name:'CheckDate',index:'CheckDate', width:100, sorttype:"date"},
 				{name:'GroupID',index:'GroupID',width:90, sorttype:"text"},
-                {name:'Score',index:'Score',width:90, sorttype:"text"},
-				{name:'Money',index:'Money',width:90, sorttype:"text"},
-				{name:'reason',index:'reason',width:200, sorttype:"text"},
+                {name:'Score',index:'Score',width:120, sorttype:"text"},
+				{name:'Money',index:'Money',width:120, sorttype:"text"},
+				{name:'reason',index:'reason',width:400, sorttype:"text"},
 				{name:'CreateUser',index:'CreateUser',width:100, sorttype:"text"}
 			], 
 	
 			viewrecords : true,
 			rowNum:30,
 			pager : pager_selector,
-			altRows: true,
 			
 			multiselect: true,
 	        multiboxonly: true,
@@ -248,11 +247,7 @@
 			loadComplete : function() {
 				var table = this;
 				setTimeout(function(){
-					styleCheckbox(table);
-					
-					updateActionIcons(table);
 					updatePagerIcons(table);
-					enableTooltips(table);
 				}, 0);
 
 			},

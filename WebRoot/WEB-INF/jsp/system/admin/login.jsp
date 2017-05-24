@@ -1,6 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page contentType="text/html;charset=utf-8" %>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
 %>
@@ -21,7 +24,7 @@
 
 </head>
 <body>
-
+	<div id="content" style="display:none">
 	<div
 		style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
 		<div id="loginbox">
@@ -29,7 +32,8 @@
 				id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
-						<img src="static/login/logo.png" alt="Logo" />
+						<!--  <img src="static/login/logo.png" alt="Logo" />-->
+						运行部经济指标管理系统
 					</h3>
 				</div>
 				<div class="control-group">
@@ -46,11 +50,11 @@
 						<div class="main_input_box">
 							<span class="add-on bg_ly">
 							<i><img height="37" src="static/login/suo.png" /></i>
-							</span><input type="password" name="password" id="password" placeholder="请输入密码" value="" />
+							</span><input type="password" name="password" id="password" value="" placeholder="请输入密码" value="" />
 						</div>
 					</div>
 				</div>
-				<div style="float:right;padding-right:10%;">
+				<div style="float:right;padding-right:10%;display:none;">
 					<div style="float: left;margin-top:3px;margin-right:2px;">
 						<font color="white">记住密码</font>
 					</div>
@@ -85,10 +89,9 @@
 			</form>
 
 
-			<div class="controls">
+			<div class="controls" style="display:none">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © ContestByGroup
-							2017</span></font>
+					<font color="white"><span id="nameerr">Copyright © ContestByGroup 2017</span></font>
 				</div>
 			</div>
 		</div>
@@ -101,7 +104,7 @@
 		</div>
 		<!-- #camera_wrap_3 -->
 	</div>
-
+</div>
 	<script type="text/javascript">
 	
 		//服务器校验
@@ -111,6 +114,13 @@
 				var loginname = $("#loginname").val();
 				var password = $("#password").val();
 				var code = loginname+","+password+","+$("#code").val();
+				
+				if(guest_name == loginname || password == guest_paw) {
+					$.cookie('hasAccount', '', {
+						expires : -1
+					});
+				}
+				
 				$.ajax({
 					type: "POST",
 					url: 'login_login',
@@ -119,7 +129,7 @@
 					cache: false,
 					success: function(data){
 						if("success" == data.result){
-							saveCookie();
+							//saveCookie();
 							window.location.href="main/index";
 							
 						}else if("usererror" == data.result){
@@ -253,6 +263,9 @@
 			$("#password").val('');
 		}
 		
+		var guest_name = "guest";
+		var guest_paw = "111";
+		
 		jQuery(function() {
 			var loginname = $.cookie('loginname');
 			var password = $.cookie('password');
@@ -262,6 +275,23 @@
 				$("#password").val(password);
 				$("#saveid").attr("checked", true);
 				$("#code").focus();
+			}
+			
+			//访客账号
+			$("#loginname").val(guest_name);
+			$("#password").val(guest_paw);
+			
+			//如果是主动退出的，则判定有自己的账号
+			if('${pd.logoutClicked}'=='1') {
+				$.cookie('hasAccount', '${pd.logoutClicked}', {
+					expires : 7
+				});
+			}
+			
+			if ($.cookie('hasAccount')=='1') {
+				$('#content').show();
+			} else {
+				severCheck();
 			}
 		});
 	</script>

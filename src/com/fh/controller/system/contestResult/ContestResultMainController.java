@@ -1,5 +1,11 @@
 package com.fh.controller.system.contestResult;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -44,6 +50,63 @@ public class ContestResultMainController extends BaseController {
 	@Resource(name="contestResultService")
 	private ContestResultService contestResultService;
 	
+	/**
+	 * 手动运行存储过程页面
+	 */
+	@RequestMapping(value="/runprcpage")
+	public ModelAndView runprcpage() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		
+		try{
+			pd = this.getPageData();
+			mv.setViewName("contestResult/runprc");
+			mv.addObject("pd", pd);
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * 手动运行存储过程
+	 */
+	@RequestMapping(value="/runprc")
+	@ResponseBody
+	public String runprc() throws Exception{
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try{
+			pd = this.getPageData();
+			String statDate = pd.getString("statDate");
+			DateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd");
+			Date date = dateFormat.parse(statDate + "-01");
+			Timestamp statDateT = new Timestamp(date.getTime());
+			pd.put("statDate", statDateT);
+			
+			//获取上月一号
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(new Date());
+	        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+	        
+	        String thisMonth = dateFormat.format(cal.getTime());
+	        
+	        cal.add(Calendar.MONTH, -1);
+	        
+	        String lastMonth = dateFormat.format(cal.getTime());
+	        
+	        if(thisMonth.equals(dateFormat.format(date)) || lastMonth.equals(dateFormat.format(date))) {
+	        	contestResultService.runPr(pd);
+	        	return "1";
+	        }
+	        return "2";
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
 	
 	/**
 	 * 变量列表
@@ -335,10 +398,12 @@ public class ContestResultMainController extends BaseController {
 		
 		return mv;
 	}
-	
 
-
-	
-	
-	
+	public static void main(String[] args) throws ParseException {
+		String statDate = "2017-05";
+		DateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd");
+		Date date = dateFormat.parse(statDate + "-01");
+		Timestamp statDateT = new Timestamp(date.getTime());
+		System.out.println(statDateT);
+	}
 }
