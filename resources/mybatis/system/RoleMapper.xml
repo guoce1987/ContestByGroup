@@ -245,7 +245,7 @@
 	
 	<update id="updateRoleName" parameterType="Role">
 		update SYS_ROLE 
-		set ROLE_NAME=#{ROLE_NAME}
+		set ${celname} = #{value}
 		where ROLE_ID=#{ROLE_ID}
 	</update>
 	<delete id="deleteRoleById" parameterType="String">

@@ -163,11 +163,9 @@
 							name:'breakPower',
 							index:'breakPower', 
 							sorttype:"double",
-							<c:if test="${pd.editable}">
-								formatter:function(cellvalue, options, rowObject){
-								    return "<a onclick=jumpToBreakpowerInputPage('" + rowObject.dutyID + "','" + rowObject.statDate + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
-								}
-							</c:if>
+							formatter:function(cellvalue, options, rowObject){
+							    return "<a onclick=jumpToBreakpowerDetail('" + rowObject.dutyID + "','" + rowObject.statDate + "') style='text-decoration:underline;cursor:pointer'>"+cellvalue+"</a>";
+							}
 						}
 						
 					],
@@ -237,6 +235,16 @@
 		$('#lm23').addClass('open').find("ul").show();
 		var fnStr = $("#z26  a").attr('onclick')
 		eval(fnStr);
+	}
+	
+	function jumpToBreakpowerDetail(dutyID,statDate) {
+		$.cookie('dutyID4BreakPower', dutyID, {
+			expires : 7
+		});
+		$.cookie('statDate4BreakPower', statDate, {
+			expires : 7
+		});
+		window.open("power/breakpowerdetail.do","_blank");
 	}
 	
 	function jumpToTableFloorPage(dutyID,statDate) {

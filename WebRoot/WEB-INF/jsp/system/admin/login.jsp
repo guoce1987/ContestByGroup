@@ -78,7 +78,7 @@
 								title="点击更换" src="" /></i>
 						</div>
  -->
-						<span class="pull-right" style="padding-right:3%;"><a
+						<span class="pull-right"><a
 							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
 							class="pull-right"><a onclick="severCheck();"
 							class="flip-link btn btn-info" id="to-recover">登录</a></span>
@@ -130,7 +130,7 @@
 					success: function(data){
 						if("success" == data.result){
 							//saveCookie();
-							window.location.href="main/index";
+							window.location.replace("main/index");
 							
 						}else if("usererror" == data.result){
 							$("#loginname").tips({

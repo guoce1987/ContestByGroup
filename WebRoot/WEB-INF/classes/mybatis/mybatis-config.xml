@@ -14,6 +14,7 @@
 		<typeAlias type="com.fh.entity.system.Role" alias="Role"/>
 		<typeAlias type="com.fh.entity.system.Menu" alias="Menu"/>
 		<typeAlias type="com.fh.entity.system.ContestResult" alias="ContestResult"/>
+		<typeAlias type="com.fh.entity.system.EditQx" alias="EditQx"/>
 		<typeAlias type="com.fh.entity.system.ContestResultForGrid" alias="ContestResultForGrid"/>
 		<typeAlias type="com.fh.entity.system.SecurityIndexForGrid" alias="SecurityIndexForGrid"/>
 		<typeAlias type="com.fh.entity.system.SecurityIndexForChart" alias="SecurityIndexForChart"/>
@@ -66,6 +67,8 @@
 		
 		<typeAlias type="com.fh.entity.system.ImportOperationForChart" alias="ImportOperationForChart"/>
 		<typeAlias type="com.fh.entity.system.ImportOperationForGrid" alias="ImportOperationForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.MonitorDataForGrid" alias="MonitorDataForGrid"/>
 
 		<!-- 分页 -->
 		<typeAlias type="com.fh.util.PageData" alias="pd"/>

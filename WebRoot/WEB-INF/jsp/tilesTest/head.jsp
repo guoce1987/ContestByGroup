@@ -135,19 +135,19 @@
 						<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 							<img alt="FH" src="static/avatars/user.jpg" class="nav-user-photo" />
 							<span id="user_info">
-							<small>Welcome,</small>
-									郭策
+							<small>Welcome</small>
+							${name}
 							</span>
 							<i class="ace-icon fa fa-caret-down"></i>
 						</a>
 						<ul id="user_menu" class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+							<li style='display:${isGuest?"none":"block"}'><a onclick="openModifyPwdDialog()" style="cursor:pointer;"><i class="icon-user"></i> 修改密码</a></li>
 							<!--  
-							<li><a onclick="editUserH();" style="cursor:pointer;"><i class="icon-user"></i> 修改资料</a></li>
 							<li id="systemset"><a onclick="editSys();" style="cursor:pointer;"><i class="icon-cog"></i> 系统设置</a></li>
 							<li id="productCode"><a onclick="productCode();" style="cursor:pointer;"><i class="icon-cogs"></i> 代码生成</a></li>
 							<li class="divider"></li>
 							-->
-							<li><a href="logout"><i class="icon-off"></i> 退出</a></li>
+							<li><a href="javascript:void(0)" onclick="window.location.replace('logout')"><i class="icon-off"></i> 退出</a></li>
 						</ul>
 					</li>
 			  </ul><!--/.ace-nav-->
@@ -164,3 +164,9 @@
 <!-- 		<script type="text/javascript" src="static/js/myjs/head.js"></script> -->
 
 <div id="websocket_button"></div>
+
+<script>
+	function openModifyPwdDialog() {
+		$('#dialog-modify-pwd').modal('show');
+	}
+</script>

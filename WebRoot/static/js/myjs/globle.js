@@ -63,24 +63,6 @@ $(function() {
 	});
 	
 	var locat = (window.location+'').split('/'); 
-	
-	$.ajax({
-		type: "POST",
-		url: '/ContestByGroup/head/getUname.do?tm='+new Date().getTime(),
-    	data: encodeURI(""),
-		dataType:'json',
-		//beforeSend: validateData,
-		cache: false,
-		success: function(data){
-			//alert(data.list.length);
-			 $.each(data.list, function(i, list){
-				 //登陆者资料
-				 $("#user_info").html('<small>Welcome</small> '+list.NAME+'');
-				 $("#username").val(list.USERNAME);
-			 });
-		}
-	});
-
 });
 
 String.prototype.endWith=function(s){

@@ -19,6 +19,7 @@
 							    <label>日期</label>
 								<input type="text" class="form-control" id="datepickerForRunProc" class="form-control" />
 						   </div>
+						   &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="breakpoint" id="breakpoint">&nbsp;&nbsp;违规点
 							<button id="queryBtn" type="button" class="btn btn-sm btn-success" onclick="startRun()">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;执行
 							</button>
@@ -60,7 +61,8 @@
 	function startRun() {
 		$('#info_place').append('开始执行......');
 		var statDate = $("#datepickerForRunProc").val();
-		$.post("contestResult/runprc", {statDate : statDate}, function(data){
+		var breakpoint = $("#breakpoint").prop('checked') ? "1" : "0";
+		$.post("contestResult/runprc", {statDate : statDate, breakpoint:breakpoint}, function(data){
 			if("0" == data) {
 				$('#info_place').append('<p>执行失败</p>');
 			} else if("2" == data) {

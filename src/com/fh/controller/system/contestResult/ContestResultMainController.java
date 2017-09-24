@@ -10,6 +10,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,14 +20,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
+import com.fh.entity.system.AuxPowerRatioForGrid;
 import com.fh.entity.system.ContestResult;
 import com.fh.entity.system.ContestResultForGrid;
+import com.fh.entity.system.MonitorDataForGrid;
 import com.fh.entity.system.Role;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.contestResult.ContestResultService;
 import com.fh.service.system.role.RoleService;
+import com.fh.service.system.user.UserService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
+import com.fh.util.RightsHelper;
 import com.fh.util.Tools;
 import com.guoce.schedule.MyFirstSchedule;
 
@@ -49,6 +56,106 @@ public class ContestResultMainController extends BaseController {
 	private RoleService roleService;
 	@Resource(name="contestResultService")
 	private ContestResultService contestResultService;
+	
+	@Resource(name="userService")
+	private UserService userService;
+	/**
+	 * 数据监控页面
+	 */
+	@RequestMapping(value="/datamonitorpage")
+	public ModelAndView datamonitorpage() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		
+		try{
+			pd = this.getPageData();
+			
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+
+			PageData pb_role = userService.findByUId(pd);
+			PageData pb_edit_right = roleService.findObjectById(pb_role);
+			Boolean edit_right = RightsHelper.testRights(pb_edit_right.getString("EDIT_QX"), "1");
+			//比如我现在已经查出来了权限值
+			pd.put("editable", edit_right);//加入没有编辑权限
+			mv.setViewName("contestResult/datamonitorpage");
+			mv.addObject("pd", pd);
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/getDataMonitorGridData")
+	@ResponseBody
+	public JSONArray getDataMonitorGridData(Page page){
+		PageData pd = new PageData();
+		JSONArray jsonArr = new JSONArray();
+		try{
+			pd = this.getPageData();
+			
+			String statDate = pd.getString("statDate");
+			pd.put("statDate", statDate);
+			
+			page.setPd(pd);
+
+			List<MonitorDataForGrid> powerRatioListForGrid = contestResultService.listAllMonitorDataForGrid(pd);
+			jsonArr = JSONArray.fromObject(powerRatioListForGrid);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return jsonArr;
+	}
+	
+	/**
+	 * 修改错误数据
+	 */
+	@RequestMapping(value="/updateErrorData")
+	@ResponseBody
+	public String saveTableFloorGridData(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			String did = pd.getString("did");
+			String tablename = pd.getString("tablename");
+			String sid = pd.getString("sid");
+			String celname = pd.getString("celname");
+			String value = pd.getString("value");
+			//去掉多余的空格
+			value = value.replaceAll(" ", "");
+			
+			try {
+				if(value == null || value.isEmpty()) {
+					value = null;
+				} else {
+					Double.parseDouble(value);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "-1";
+			}
+			
+			pd.put("did", did);
+			pd.put("tablename", tablename);
+			pd.put("sid", sid);
+			pd.put("celname", celname);
+			pd.put("value", value);
+			
+			contestResultService.updateErrorData(pd);
+			return "1";
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+
 	
 	/**
 	 * 手动运行存储过程页面
@@ -81,10 +188,14 @@ public class ContestResultMainController extends BaseController {
 		try{
 			pd = this.getPageData();
 			String statDate = pd.getString("statDate");
+			String breakpoint = pd.getString("breakpoint");
+			
 			DateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd");
 			Date date = dateFormat.parse(statDate + "-01");
 			Timestamp statDateT = new Timestamp(date.getTime());
+			
 			pd.put("statDate", statDateT);
+			pd.put("breakpoint", breakpoint);
 			
 			//获取上月一号
 	        Calendar cal = Calendar.getInstance();

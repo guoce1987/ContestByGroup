@@ -310,4 +310,7 @@
 			${celname} = #{value}
 		where USER_ID = #{USER_ID}
 	</update>
+	<update id="modifyPwd" parameterType="pd" flushCache="false">
+		update SYS_USER set PASSWORD = #{new_pwd} where USER_ID = #{USER_ID} and PASSWORD=#{old_pwd}
+	</update>
 </mapper>

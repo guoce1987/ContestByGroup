@@ -28,6 +28,7 @@ import com.fh.entity.system.HeatIndexForChart;
 import com.fh.entity.system.HeatIndexForGrid;
 import com.fh.entity.system.ImportOperationForChart;
 import com.fh.entity.system.ImportOperationForGrid;
+import com.fh.entity.system.MonitorDataForGrid;
 import com.fh.entity.system.NoxIndexForChart;
 import com.fh.entity.system.NoxIndexForGrid;
 import com.fh.entity.system.OperationScoreForChart;
@@ -361,5 +362,18 @@ public class ContestResultService{
 	
 	public Integer updateTableFloor(PageData pd) throws Exception {
 		return (Integer) dao.save("ContestResultMapper.updateTableFloor", pd);
+	}
+	public Integer deleteOneContestItem(PageData pd) throws Exception {
+		return (Integer) dao.delete("ContestResultMapper.deleteOneContestItem", pd);
+	}
+	public Integer updateOneContestItem(PageData pd) throws Exception {
+		return (Integer) dao.update("ContestResultMapper.updateOneContestItem", pd);
+	}
+	public List<MonitorDataForGrid> listAllMonitorDataForGrid(PageData pd) throws Exception {
+		return (List<MonitorDataForGrid>) dao.findForList("ContestResultMapper.listAllMonitorDataForGrid", pd);
+	}
+	public Integer updateErrorData(PageData pd) throws Exception {
+		dao.save("ContestResultMapper.updateErrorData", pd);
+		return (Integer) dao.save("ContestResultMapper.updateMonitorData", pd);
 	}
 }

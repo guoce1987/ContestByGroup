@@ -146,7 +146,13 @@
 	  	left join DutyDic d on b.DutyClass=d.dutyId
 		left join VwShiftRule vr on b.BreakDate=vr.Work_Dt and b.DutyClass=vr.DutyId
 	  	left join GroupDic gd on vr.GroupId=gd.id
-	  	where year(BreakDate)= #{year} and month(BreakDate) = #{month} and day(BreakDate)=#{day} and DutyClass=#{dutyId}
+	  	where
+	  	<if test="startDate!=null and endDate!=null">
+		  	BreakDate between #{startDate} and #{endDate} and DutyClass=#{dutyId}
+		</if>
+		<if test="year!=null and month!=null and day!=null">
+		  	year(BreakDate)= #{year} and month(BreakDate) = #{month} and day(BreakDate)=#{day} and DutyClass=#{dutyId}
+		</if>
 	  	order by CreateDate desc
 	</select>
 	<resultMap type="BreakPowerForSum" id="breakpowerSumInfoMap">
@@ -1137,6 +1143,27 @@
 			  ,listorder) values (#{ContestItemID},#{IsTag},#{IsDelete},#{itemName},#{StartStopType},#{cent},#{money},#{ratio},#{memo},#{StartStop},#{listorder})
 	</select>
 	
+	<!-- 删除一条考核管理项 -->
+	<select id="deleteOneContestItem" parameterType="pd" resultType="pd" useCache="false"> 
+		  delete from RewardPunishDic where ID = #{ID}
+	</select>
+	
+	<!-- 编辑一条考核管理项 -->
+	<select id="updateOneContestItem" parameterType="pd" resultType="pd" useCache="false"> 
+		  update RewardPunishDic 
+		  	  set ContestItemID = #{ContestItemID}
+			  ,IsTag = #{IsTag}
+			  ,IsDelete = #{IsDelete}
+			  ,itemName = #{itemName}
+			  ,StartStopType = #{StartStopType}
+			  ,cent = #{cent}
+			  ,money = #{money}
+			  ,ratio =#{ratio}
+			  ,memo = #{memo}
+			  ,StartStop = #{StartStop}
+			  ,listorder = #{listorder}  where  ID = #{ID}
+	</select>
+	
 	<!-- 新增一条考核管理记录 -->
 	<select id="saveItemInput" parameterType="pd" resultType="pd" useCache="false"> 
 		  insert into RewardPunishLog 
@@ -1193,6 +1220,31 @@
 	</select>
 	
 	<select id="runPr" parameterType="pd" resultType="pd" statementType="CALLABLE" useCache="false">
-		{ call sp_DutyTask(#{statDate}) }
+		{ call sp_ManualRun(#{statDate},#{breakpoint}) }
+	</select>
+	
+	<!-- 查询监控数据 -->
+	<select id="listAllMonitorDataForGrid" resultMap="monitorDataForGrid"  statementType="CALLABLE" parameterType="pd">
+		 { call sp_DataMonitor_Query(#{statDate}) }
+	</select>
+	
+	<resultMap type="MonitorDataForGrid" id="monitorDataForGrid">
+		<result column="id" property="id"/>
+		<result column="DataId" property="dataId"/>
+		<result column="DataValue" property="dataValue"/>
+		<result column="KKS" property="kks"/>
+		<result column="name" property="name"/>
+		<result column="Upper" property="upper"/>
+		<result column="Lower" property="lower"/>
+		<result column="FromTable" property="fromTable"/>
+		<result column="FiledName" property="filedName"/>
+		<result column="StatDate" property="StatDate"/>
+	</resultMap>
+	
+	<select id="updateErrorData" parameterType="pd" resultType="pd" useCache="false"> 
+		 update ${tablename} set ${celname}=#{value} where id=#{sid}
+	</select>
+	<select id="updateMonitorData" parameterType="pd" resultType="pd" useCache="false"> 
+		 update DataMonitor set DataValue=#{value} where id=#{did}
 	</select>
 </mapper>

@@ -25,6 +25,7 @@
             <add-attribute value="static/assets/js/jquery.jqGrid.min.js"/>
             <add-attribute value="static/assets/js/i18n/grid.locale-cn.js" />
             <add-attribute value="static/assets/js/bootbox.js"/>
+            <add-attribute value="static/assets/js/select2.min.js?v=1.0.0"/>
             <!-- 以下js画图用 -->
             <add-attribute value="static/assets/js/jquery-ui.custom.min.js" />
             <add-attribute value="static/assets/js/jquery.ui.touch-punch.min.js" />
@@ -68,6 +69,7 @@
             <add-attribute value="static/assets/css/ace-skins.min.css"/>
             <add-attribute value="static/assets/css/ace-rtl.min.css"/>
             <add-attribute value="static/assets/css/mycss/globle.css"/>
+            <add-attribute value="static/assets/css/select2.min.css"/>
         </put-list-attribute>
         <put-list-attribute name="javascripts">
         </put-list-attribute>
@@ -266,6 +268,49 @@
         <put-list-attribute name="javascripts">
         </put-list-attribute>
     </definition>
+    
+    <definition name="power/breakpowerdetail" template="/WEB-INF/jsp/system/power/breakPowerDetail.jsp">
+    	<put-attribute name="title" value="违规电量详情"/>
+    	<put-list-attribute name="libJavascripts">
+        	<add-attribute value="static/js/myjs/globle.js"/>
+            <add-attribute value="static/assets/js/bootstrap.min.js"/>
+            <add-attribute value="static/assets/js/bootbox.js?v=1.0.0"/>
+            <!-- page specific plugin scripts -->
+            
+            <add-attribute value="static/assets/js/moment.min.js"/>
+            <add-attribute value="static/assets/js/moment.zh-cn.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datepicker.min.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datetimepicker.js"/>
+            <add-attribute value="static/assets/js/daterangepicker.js"/>
+            <add-attribute value="static/assets/js/bootstrap-datepicker.zh-CN.js"/>
+            <add-attribute value="static/assets/js/jquery.jqGrid.min.js"/>
+            <add-attribute value="static/assets/js/i18n/grid.locale-cn.js" />
+        </put-list-attribute>
+        
+        <put-list-attribute name="libStylesheets">
+         	<!-- bootstrap & fontawesome -->
+            <add-attribute value="static/assets/css/bootstrap.min.css"/>
+            <add-attribute value="static/assets/css/formValidation.min.css"/>
+            <add-attribute value="static/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+            <!-- page specific plugin styles -->
+            <add-attribute value="static/assets/css/jquery-ui.min.css" />
+            <add-attribute value="static/assets/css/bootstrap-datepicker3.min.css"/>
+            <add-attribute value="static/assets/css/daterangepicker.css"/>
+            <add-attribute value="static/assets/css/bootstrap-datetimepicker.min.css"/>
+            <add-attribute value="static/assets/css/ui.jqgrid.min.css"/>
+            <!-- text fonts -->
+            <add-attribute value="static/assets/css/fonts.googleapis.com.css" />
+            <!-- ace styles -->
+            <add-attribute value="static/assets/css/ace.min.css"/>
+            
+            <add-attribute value="static/assets/css/ace-skins.min.css"/>
+            <add-attribute value="static/assets/css/ace-rtl.min.css"/>
+            <add-attribute value="static/assets/css/mycss/globle.css"/>
+        </put-list-attribute>
+        <put-list-attribute name="javascripts">
+        </put-list-attribute>
+    </definition>
+    
     <definition name="spiritscore/list" extends="default">
         <put-attribute name="title" value="精神文明"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/spiritscore/body.jsp"/>
@@ -295,6 +340,10 @@
          <put-list-attribute name="javascripts" inherit="true">
             <add-attribute value="static/js/myjs/role/role.js?v=1.0.0"/>
             <add-attribute value="static/assets/js/bootbox.js?v=1.0.0"/>
+            <add-attribute value="static/assets/js/select2.min.js?v=1.0.0"/>
+        </put-list-attribute>
+        <put-list-attribute name="libStylesheets" inherit="true">
+        	<add-attribute value="static/assets/css/select2.min.css"/>
         </put-list-attribute>
     </definition>
     
@@ -318,6 +367,8 @@
     </definition>
         
     <definition name="authorization" template="/WEB-INF/jsp/authorization.jsp"></definition>
+    
+    <definition name="system/role/role_button" template="/WEB-INF/jsp/system/role/role_button.jsp"></definition>
         
     <definition name="trainscore/trainInput" extends="default">
      	<put-attribute name="title" value="培训录入"/>
@@ -327,5 +378,10 @@
     <definition name="contestResult/runprc" extends="default">
         <put-attribute name="title" value="自动运行存储过程"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/tools/runprc.jsp"/>
+    </definition>
+    
+    <definition name="contestResult/datamonitorpage" extends="default">
+        <put-attribute name="title" value="数据监控"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/tools/datamonitor.jsp"/>
     </definition>
 </tiles-definitions>

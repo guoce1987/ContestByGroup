@@ -167,4 +167,63 @@
 		    <script src="<c:url value="${js}"/>"></script>
 		</c:forEach>
 	</body>
+	<!-- 修改密码弹出 -->
+	<div class="modal fade" id="dialog-modify-pwd" tabindex="-1" role="dialog" aria-labelledby="shareLabel" aria-hidden="true" >
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	           <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="exampleModalLabel">修改密码</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		          <div class="form-group">
+		            <label for="old_pwd" class="control-label">旧密码:</label>
+		            <input type="text" class="form-control" id="old_pwd">
+		          </div>
+		          <div class="form-group">
+		            <label for="new_pwd" class="control-label">新密码:</label>
+		            <input type="text" class="form-control" id="new_pwd">
+		          </div>
+		          <div class="form-group">
+		            <label for="re_new_pwd" class="control-label">确认新密码:</label>
+		            <input type="text" class="form-control" id="re_new_pwd">
+		          </div>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		        <button id="btn-modify-pwd" type="button" class="btn btn-primary">提交</button>
+		      </div>
+	            
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			$("#btn-modify-pwd").on("click", function(){
+				var old_pwd = $("#old_pwd").val();
+				var new_pwd = $("#new_pwd").val();
+				var re_new_pwd = $("#re_new_pwd").val();
+				if(old_pwd.trim() == "" || new_pwd.trim() == "" || re_new_pwd.trim() == "") {
+					alert("旧密码、新密码、确认新密码均不能为空！");
+					return;
+				}
+				if(new_pwd != re_new_pwd) {
+					alert("新密码两次输入不一致");
+					return;
+				}
+				$.post("user/modifyPwd",{old_pwd:old_pwd, new_pwd:new_pwd, re_new_pwd:re_new_pwd}, function(data){
+					if("0" == data) {
+						alert("旧密码有误");
+						return;
+					} else {
+						$('#dialog-modify-pwd').modal('hide');
+						alert("修改成功");
+						window.location.replace("logout");
+					}
+				});
+			});
+		});
+	</script>
 </html>

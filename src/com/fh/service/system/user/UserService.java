@@ -131,7 +131,6 @@ public class UserService {
 		return (List<PageData>) dao.findForList("UserXMapper.listAllUserGuoCe", pd);
 	}
 	
-	
 	/*
 	*更新用户权限
 	*/
@@ -144,6 +143,10 @@ public class UserService {
 	*/
 	public void submitUser(PageData pd) throws Exception{
 		dao.update("UserXMapper.submitUser", pd);
+	}
+	
+	public Integer modifyPwd(PageData pd) throws Exception {
+		return (Integer) dao.update("UserXMapper.modifyPwd", pd);
 	}
 	
 }

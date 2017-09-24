@@ -4,7 +4,9 @@
 
 	<!-- Appenders -->
 	<appender name="console" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="Target" value="D:/output.log" />
+		<param name="Target" value="D:/log/output.log" />
+		<param name="MaxBackupIndex" value="10" />
+        <param name="MaxFileSize" value="4000000" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy HH:mm:ss} %-5p %c - %m%n" />
 		</layout>

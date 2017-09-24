@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.fh.dao.DaoSupport;
+import com.fh.entity.system.EditQx;
 import com.fh.entity.system.Menu;
 import com.fh.util.PageData;
 
@@ -84,5 +85,13 @@ public class MenuService{
 	 */
 	public PageData editType(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("MenuMapper.editType", pd);
+	}
+
+	/**
+	 * 查询编辑权限列表
+	 * @return
+	 */
+	public List<EditQx> listAllEditQX() throws Exception {
+		return (List<EditQx>) dao.findForList("MenuMapper.listAllEditQX", null);
 	}
 }

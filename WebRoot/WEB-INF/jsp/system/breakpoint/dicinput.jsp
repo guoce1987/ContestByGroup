@@ -284,7 +284,7 @@
 						}
 						return [true, ''];
 					},
-					cellEdit: ${pd.editable},
+					cellEdit: true,
 					cellurl: "breakpoint/submitBreakDic",
 					caption : "编辑违规点字典"
 				});

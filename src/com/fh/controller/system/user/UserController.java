@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.Role;
+import com.fh.entity.system.User;
 import com.fh.service.system.menu.MenuService;
 import com.fh.service.system.role.RoleService;
 import com.fh.service.system.user.UserService;
@@ -39,8 +40,8 @@ import com.fh.util.FileUpload;
 import com.fh.util.GetPinyin;
 import com.fh.util.Jurisdiction;
 import com.fh.util.ObjectExcelRead;
-import com.fh.util.PageData;
 import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
 import com.fh.util.PathUtil;
 import com.fh.util.Tools;
 
@@ -621,4 +622,34 @@ public class UserController extends BaseController {
 		}
 		return "1";
 	}
+	
+	/**
+	 * 修改密码
+	 */
+	@RequestMapping(value="/modifyPwd")
+	@ResponseBody
+	public String modifyPwd(Page page){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			Subject currentUser = SecurityUtils.getSubject();  
+			Session session = currentUser.getSession();
+			User userr = (User)session.getAttribute(Const.SESSION_USERROL);
+			
+			String old_pwd = pd.getString("old_pwd");
+			String new_pwd = pd.getString("new_pwd");
+			String re_new_pwd = pd.getString("re_new_pwd");
+			
+			pd.put("USER_ID", userr.getUSER_ID());
+			pd.put("old_pwd", new SimpleHash("SHA-1", "ABC", old_pwd).toString());
+			pd.put("new_pwd", new SimpleHash("SHA-1", "ABC", new_pwd).toString());
+			pd.put("re_new_pwd", new SimpleHash("SHA-1", "ABC", re_new_pwd).toString());
+			int modifyedId = userService.modifyPwd(pd);
+			return modifyedId + "";
+		} catch(Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return "0";
+	}
+	
 }

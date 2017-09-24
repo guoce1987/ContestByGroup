@@ -23,6 +23,7 @@ import com.fh.service.system.role.RoleService;
 import com.fh.service.system.user.UserService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
+import com.fh.util.RightsHelper;
 import com.fh.util.Tools;
 
 import net.sf.json.JSONArray;
@@ -210,7 +211,7 @@ public class PowerRatioController extends BaseController {
 			}
 			PageData pb_role = userService.findByUId(pd);
 			PageData pb_edit_right = roleService.findObjectById(pb_role);
-			Boolean edit_right = pb_edit_right.getString("EDIT_QX").equals("1")? true : false;
+			Boolean edit_right = RightsHelper.testRights(pb_edit_right.getString("EDIT_QX"), "2");
 			
 			pd.put("editable", edit_right);//加入没有编辑权限
 			pd.put("year", year);

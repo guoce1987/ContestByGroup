@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.BreakPointDicForGrid;
+import com.fh.entity.system.EditQx;
 import com.fh.entity.system.Menu;
 import com.fh.entity.system.Role;
 import com.fh.service.system.menu.MenuService;
@@ -291,7 +292,7 @@ public class RoleController extends BaseController {
 	public ModelAndView button(@RequestParam String ROLE_ID,@RequestParam String msg,Model model)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		try{
-			List<Menu> menuList = menuService.listAllMenu();
+			List<EditQx> menuList = menuService.listAllEditQX();
 			Role role = roleService.getRoleById(ROLE_ID);
 			
 			String roleRights = "";
@@ -306,20 +307,14 @@ public class RoleController extends BaseController {
 			}
 			
 			if(Tools.notEmpty(roleRights)){
-				for(Menu menu : menuList){
-					menu.setHasMenu(RightsHelper.testRights(roleRights, menu.getMENU_ID()));
-					if(menu.isHasMenu()){
-						List<Menu> subMenuList = menu.getSubMenu();
-						for(Menu sub : subMenuList){
-							sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMENU_ID()));
-						}
-					}
+				for(EditQx menu : menuList){
+					menu.setHasMenu(RightsHelper.testRights(roleRights, menu.getMenu_id()));
 				}
 			}
 			JSONArray arr = JSONArray.fromObject(menuList);
 			String json = arr.toString();
 			//System.out.println(json);
-			json = json.replaceAll("MENU_ID", "id").replaceAll("MENU_NAME", "name").replaceAll("subMenu", "nodes").replaceAll("hasMenu", "checked");
+			json = json.replaceAll("menu_id", "id").replaceAll("qx_name", "name").replaceAll("hasMenu", "checked");
 			mv.addObject("zTreeNodes", json);
 			mv.addObject("roleId", ROLE_ID);
 			mv.addObject("msg", msg);
@@ -493,10 +488,13 @@ public class RoleController extends BaseController {
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			String roleName = pd.getString("name");
+			String roleId = pd.getString("ROLE_ID");
+			String celname = pd.getString("celname");
+			String value = pd.getString("value");
 			
-			pd.put("roleName", roleName);
-			
+			pd.put("ROLE_ID", roleId);
+			pd.put("celname", celname);
+			pd.put("value", value);
 			
 			roleService.updateRoleName(pd);
 		} catch(Exception e) {

@@ -261,7 +261,8 @@ public class LoginController extends BaseController {
 //				mv.setViewName("CustomerForm");
 				
 //				mv.addObject("menuList", menuList);
-			    mv.addObject("name", "郭策");
+			    mv.addObject("name", user.getNAME());
+			    mv.addObject("isGuest", "guest".equals(user.getUSERNAME()));
 				mv.addObject("description", "Tiles 测试");
 			}else {
 				mv.setViewName("system/admin/login");//session失效后跳转登录页面
@@ -354,26 +355,26 @@ public class LoginController extends BaseController {
 			
 			pd = roleService.findObjectById(pd);																
 				
-			pd2 = roleService.findGLbyrid(pd2);
-			if(null != pd2){
-				map.put("FX_QX", pd2.get("FX_QX").toString());
-				map.put("FW_QX", pd2.get("FW_QX").toString());
-				map.put("QX1", pd2.get("QX1").toString());
-				map.put("QX2", pd2.get("QX2").toString());
-				map.put("QX3", pd2.get("QX3").toString());
-				map.put("QX4", pd2.get("QX4").toString());
-			
-				pd2.put("ROLE_ID", ROLE_ID);
-				pd2 = roleService.findYHbyrid(pd2);
-				map.put("C1", pd2.get("C1").toString());
-				map.put("C2", pd2.get("C2").toString());
-				map.put("C3", pd2.get("C3").toString());
-				map.put("C4", pd2.get("C4").toString());
-				map.put("Q1", pd2.get("Q1").toString());
-				map.put("Q2", pd2.get("Q2").toString());
-				map.put("Q3", pd2.get("Q3").toString());
-				map.put("Q4", pd2.get("Q4").toString());
-			}
+//			pd2 = roleService.findGLbyrid(pd2);
+//			if(null != pd2){
+//				map.put("FX_QX", pd2.get("FX_QX").toString());
+//				map.put("FW_QX", pd2.get("FW_QX").toString());
+//				map.put("QX1", pd2.get("QX1").toString());
+//				map.put("QX2", pd2.get("QX2").toString());
+//				map.put("QX3", pd2.get("QX3").toString());
+//				map.put("QX4", pd2.get("QX4").toString());
+//			
+//				pd2.put("ROLE_ID", ROLE_ID);
+//				pd2 = roleService.findYHbyrid(pd2);
+//				map.put("C1", pd2.get("C1").toString());
+//				map.put("C2", pd2.get("C2").toString());
+//				map.put("C3", pd2.get("C3").toString());
+//				map.put("C4", pd2.get("C4").toString());
+//				map.put("Q1", pd2.get("Q1").toString());
+//				map.put("Q2", pd2.get("Q2").toString());
+//				map.put("Q3", pd2.get("Q3").toString());
+//				map.put("Q4", pd2.get("Q4").toString());
+//			}
 			
 			map.put("adds", pd.getString("ADD_QX"));
 			map.put("dels", pd.getString("DEL_QX"));

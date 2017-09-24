@@ -97,7 +97,7 @@
 				</form>
 			</div>
 			<div class="col-sm-1">
-				<button id="queryBtn" type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#myModal" onclick="queryDetail()">
+				<button id="queryBtn" type="button" style="display: ${pd.editable?'block':'none'}" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#myModal" onclick="queryDetail()">
 							<span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;&nbsp;批量取消
 				</button>
 			</div>

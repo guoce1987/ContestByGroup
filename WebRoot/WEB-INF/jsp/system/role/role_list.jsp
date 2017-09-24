@@ -439,7 +439,7 @@
 			 diag.Drag = true;
 			 diag.Title = "菜单权限";
 			 diag.URL = '<%=basePath%>role/auth.do?ROLE_ID='+ROLE_ID;
-			 diag.Width = 280;
+			 diag.Width = 380;
 			 diag.Height = 370;
 			 diag.CancelEvent = function(){ //关闭事件
 				diag.close();
@@ -447,9 +447,10 @@
 			 diag.show();
 		}
 		
+		
+		
 		//按钮权限
 		function roleButton(ROLE_ID,msg){
-			top.jzts();
 			if(msg == 'add_qx'){
 				var Title = "授权新增权限";
 			}else if(msg == 'del_qx'){
@@ -464,7 +465,7 @@
 			 diag.Drag = true;
 			 diag.Title = Title;
 			 diag.URL = '<%=basePath%>role/button.do?ROLE_ID='+ROLE_ID+'&msg='+msg;
-			 diag.Width = 200;
+			 diag.Width = 280;
 			 diag.Height = 370;
 			 diag.CancelEvent = function(){ //关闭事件
 				diag.close();
@@ -646,7 +647,20 @@
 					},
 					{name:'ROLE_ID',index:'ROLE_ID', width:90, sorttype:"text"},
 					{name:'ROLE_NAME',index:'ROLE_NAME',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
-					{name:'EDIT_QX',index:'EDIT_QX',width:90, sorttype:"text", editable: true,cellsubmit:'remote'},
+					{name:'EDIT_QX',index:'EDIT_QX',width:90, sorttype:"text",/*  cellsubmit:'remote', */
+						/* formatter: function (cellvalue, options, rowObject){
+							var key = null;
+							var select = '<select multiple="multiple" class="select2" id="editQX'+rowObject.ROLE_ID+'" style="padding-top:0px;padding-bottom:0px;width:300px" data-placeholder="请选择编辑权限"><option value=""></option><option value="2">编辑权限1</option><option value="6">编辑权限2</option></select>';
+							return select;
+						} */
+						formatter: function (cellvalue, options, rowObject) {
+                        	var key = rowObject.ROLE_ID + "^" + rowObject.ROLE_NAME+ "^" + rowObject.RIGHTS;
+                            var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-user" tag="' + key + '">点击查看</span></a>';
+  
+                                return edit;
+
+                            } 
+					},
                     {name:'RIGHTS',index:'RIGHTS',width:90, sorttype:"text",
 						formatter: function (cellvalue, options, rowObject) {
                         	var key = rowObject.ROLE_ID + "^" + rowObject.ROLE_NAME+ "^" + rowObject.RIGHTS;
@@ -678,6 +692,7 @@
 				caption: "角色管理",
 		
 				 gridComplete: function () {
+					$('.select2').select2({allowClear:true})
                     $("span.glyphicon.glyphicon-pencil", this).on("click", function (e) {
                          var key = $(e.target).attr("tag");
                         var model = {};
@@ -688,6 +703,16 @@
                         
                        editRights(model.role_id); 
                     });
+					$("span.glyphicon.glyphicon-user", this).on("click", function (e) {
+                        var key = $(e.target).attr("tag");
+                       var model = {};
+                       var arr = key.split("^");
+                       model.role_id = arr[0];
+                       model.role_name = arr[1];
+                       model.rights = arr[2];
+                       
+                       roleButton(model.role_id,'edit_qx'); 
+                   });
                     $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
                     	 var key = $(e.target).attr("tag");
                     	 var model = {};
@@ -710,7 +735,7 @@
 				} ,
 				beforeSubmitCell: function(rowid,celname,value,iRow,iCol){
 					var ROLE_ID = $(grid_selector).jqGrid("getCell",rowid,'ROLE_ID');
-					return {"ROLE_ID":ROLE_ID};
+					return {"ROLE_ID":ROLE_ID,celname : celname, value : value};
 				},
 				cellEdit: true,
 				cellurl: "role/submitRole"

@@ -38,6 +38,16 @@
 		select  * from SYS_MENU
 		where PARENT_ID = #{parentId} order by MENU_ORDER 
 	</select>
+	
+	<resultMap type="EditQx" id="qxmenuResultMap">
+		<result column="id" property="id"/>
+		<result column="menu_id" property="menu_id"/>
+		<result column="qx_name" property="qx_name"/>
+	</resultMap>
+	<!-- 查询编辑权限列表 -->
+	<select id="listAllEditQX" parameterType="String" resultMap="qxmenuResultMap">
+		select * from sys_edit_qx
+	</select>
 		
 	<select id="getMenuById" parameterType="pd" resultType="pd">
 		select  MENU_ID,

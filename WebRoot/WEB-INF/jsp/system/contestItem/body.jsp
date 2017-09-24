@@ -24,8 +24,8 @@
 														<option value="10">精神文明</option>
 														<option value="14">操作加分</option>
 														<option value="15">操作启停奖</option>
-														<option value="8">设备消缺</option>
-														<option value="9">巡回检查</option>
+														<!-- <option value="8">设备消缺</option>
+														<option value="9">巡回检查</option> -->
 													</select>
 												</div>
 												
@@ -67,36 +67,24 @@
             </div>
             <div class="modal-body">
                 <form id="transferFormH" class="row col-sm-12 form-horizontal">
-
+                <!-- 隐藏域，存放ID -->
+					<input type="hidden" id="ID">  
                     <div class="form-group">
                         <label class="control-label col-sm-4 nowrap">考核类型</label>
                         <div class="col-sm-4">
-                            <select name="contestType" class="form-control" placeholder="请选择考核指标类型">
+                            <select id="contestTypeForModal" name="contestTypeForModal" class="form-control" placeholder="请选择考核指标类型">
 								<option value="1">安全指标</option>
 								<option value="10">精神文明</option>
 								<option value="14">操作加分</option>
 								<option value="15">操作启停奖</option>
-								<option value="8">设备消缺</option>
-								<option value="9">巡回检查</option>
+								<!-- <option value="8">设备消缺</option>
+								<option value="9">巡回检查</option> -->
 							</select>
                         </div>
 					</div>
+                    
                     <div class="form-group">
-                        <label class="control-label col-sm-4 nowrap">IsTag</label>
-
-                        <div class="col-sm-4">
-                            <input id="IsTag" name="IsTag" class="form-control"/>  
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4 nowrap">IsDelete</label>
-
-                        <div class="col-sm-4">
-                            <input id="IsDelete" name="IsDelete" class="form-control" />  
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4 nowrap">itemName</label>
+                        <label class="control-label col-sm-4 nowrap">名称</label>
 
                         <div class="col-sm-4">
                             <input id="itemName" name="itemName" class="form-control" />  
@@ -127,21 +115,35 @@
                         <label class="control-label col-sm-4 nowrap">备注</label>
 
                         <div class="col-sm-4">
-                            <input id="memo" name="memo" class="form-control" />  
+                        	<textarea class="form-control" id="memo" name="memo" style="width:300px;height:200px;"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"  style='display:none'>
                         <label class="control-label col-sm-4 nowrap">StartStop</label>
 
                         <div class="col-sm-4">
                             <input id="StartStop" name="StartStop" class="form-control" />  
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style='display:none'>
                         <label class="control-label col-sm-4 nowrap">listorder</label>
 
                         <div class="col-sm-4">
                             <input id="listorder" name="listorder" class="form-control" />  
+                        </div>
+                    </div>
+                    <div class="form-group" style='display:none'>
+                        <label class="control-label col-sm-4 nowrap">IsTag</label>
+
+                        <div class="col-sm-4">
+                            <input id="IsTag" name="IsTag" class="form-control"/>  
+                        </div>
+                    </div>
+                    <div class="form-group" style='display:none'>
+                        <label class="control-label col-sm-4 nowrap">IsDelete</label>
+
+                        <div class="col-sm-4">
+                            <input id="IsDelete" name="IsDelete" class="form-control" />  
                         </div>
                     </div>
                 </form>
@@ -165,6 +167,7 @@
 		var pager_selector = "#grid-pager";
 		var year = getYear();
 		var month = getMonth();
+		var saveOrUpdate = true;
 		jQuery(grid_selector).jqGrid({
 			url : "contestItem/getGridData?contestType=0",
 			mtype : "GET",
@@ -172,12 +175,13 @@
 			autowidth : true,
 			height : 'auto',
 			loadonce: true,
-			colNames:[ '',  'ID',/*'ContestItemID','IsTag','IsDelete' */'名称','得分','奖金','备注','起停'],
+			colNames:[ '',  'ID','ContestItemID' ,'名称','得分','奖金','备注','起停','listorder','IsTag','IsDelete','StartStopType'],
 			colModel:[
  				{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false, align:'center',
 				
                     formatter: function (cellvalue, options, rowObject) {
-                    	var key = rowObject.id + "^" + rowObject.ItemName + "^" + rowObject.cent + "^" + rowObject.money + "^" + rowObject.memo;
+                    	var key = rowObject.ID + "^" + rowObject.ItemName + "^" + rowObject.ContestItemID+ "^" + rowObject.Cent + "^" + rowObject.money + "^" + rowObject.memo
+                    				+ "^" + rowObject.StartStop + "^" + rowObject.listorder+ "^" + rowObject.IsTag + "^" + rowObject.IsDelete + "^" + rowObject.StartStopType;
                         var edit = '<a title="编辑"><span onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');" class="glyphicon glyphicon-pencil" tag="' + key + '"></span></a>';
                         var remove = '<a title="删除"><span class="glyphicon glyphicon-trash" tag="' + key + '"></span></a>';
 
@@ -187,17 +191,17 @@
 				
 				}, 
 				{name:'id',index:'ID', width:90, sorttype:"text",hidden:true},
-				 /*{name:'ContestItemID',index:'ContestItemID',width:90, sorttype:"text"}, 
-				{name:'IsTag',index:'IsTag',width:90, sorttype:"text"},
-                {name:'IsDelete',index:'IsDelete',width:90, sorttype:"text"},*/
-				{name:'ItemName',index:'ItemName', width:300, sorttype:"text"},
-				/* {name:'StartStopType',index:'StartStopType',width:90, sorttype:"text"}, */
-				{name:'cent',index:'Cent',width:90, sorttype:"text"},
+				{name:'ContestItemID',index:'ContestItemID',width:90, sorttype:"text",hidden:true}, 
+				{name:'ItemName',index:'ItemName', width:100, sorttype:"text"},
+				{name:'Cent',index:'Cent',width:90, sorttype:"text"},
                 {name:'money',index:'money',width:90, sorttype:"text"},
 				/* {name:'ratio',index:'ratio', width:90, sorttype:"text"}, */
-				{name:'memo',index:'memo',width:200, sorttype:"text"} ,
-				{name:'StartStop',index:'StartStop',width:90, sorttype:"text"}
-                /*{name:'listorder',index:'listorder',width:90, sorttype:"text"} */
+				{name:'memo',index:'memo',width:300, sorttype:"text"} ,
+				{name:'StartStop',index:'StartStop',width:90, sorttype:"text",hidden:true},
+                {name:'listorder',index:'listorder',width:90, sorttype:"text",hidden:true},
+                {name:'IsTag',index:'IsTag',width:90, sorttype:"text",hidden:true},
+                {name:'IsDelete',index:'IsDelete',width:90, sorttype:"text",hidden:true},
+                {name:'StartStopType',index:'StartStopType',width:90, sorttype:"text",hidden:true}
 			], 
 	
 			viewrecords : true,
@@ -224,28 +228,70 @@
 			
 			gridComplete: function () {
                 $("span.glyphicon.glyphicon-pencil", this).on("click", function (e) {
-   /*                  var key = $(e.target).attr("tag");
+                	 
+                     var key = $(e.target).attr("tag");
                     var model = {};
                     var arr = key.split("^");
-                    model.id = arr[0];
-                    model.userName = arr[1];
-                    model.role = arr[2];
-                    $("#ID").val(model.id);
-                    $("#userName").val(model.userName);
-                    if("0" == model.role){
-                    	$("#role").val(0);
-                    }else if("1" == model.role){
-                    	$("#role").val(1);
-                    } */
+                    model.ID = arr[0];
+                    model.ItemName = arr[1];
+                    model.ContestItemID = arr[2];
+                    model.Cent = arr[3];
+                    model.money = arr[4];
+                    model.memo = arr[5];
+                    model.StartStop = arr[6];
+                    model.listorder = arr[7];
+                    model.IsTag = arr[8];
+                    model.IsDelete = arr[9];
+                    model.StartStopType = arr[10];
                     
+                    $("#ID").val(model.ID);
+                    $("#contestTypeForModal").val(model.ContestItemID);
+                    $("#itemName").val((model.ItemName== "undefined")? "":model.ItemName);
+                    $("#StartStopType").val((model.StartStopType== "undefined")? "":model.StartStopType);
+                    $("#ItemName").val((model.ItemName == "undefined")? "":model.ItemName);
+                    $("#cent").val((model.Cent == "undefined")? "":model.Cent);
+                    $("#money").val((model.money == "undefined")? "":model.money);
+                    $("#memo").val((model.memo == "undefined")? "":model.memo);
+                    $("#StartStop").val((model.StartStop == "undefined")? "":model.StartStop);
+                    $("#listorder").val((model.listorder == "undefined")? "":model.listorder);
+                    $("#IsTag").val((model.IsTag == "undefined")? "":model.IsTag);
+                    $("#IsDelete").val((model.IsDelete == "undefined")? "":model.IsDelete);
+                    saveOrUpdate = false;
                     $('#dialog-confirm').modal('show');
 
                 });
                 $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
-                    var id = $(e.target).attr("tag");
+                    var key = $(e.target).attr("tag");
+                    var model = {};
+                    var arr = key.split("^");
+                    model.id = arr[0];
 					bootbox.confirm("确认删除当前用户?", function(result) {
 						if(result) {
-							alert(result);
+							$.ajax({
+					               type: "GET",
+					               url: "contestItem/deleteContestItem.do?ID="+model.id,
+					               success: function(data){
+					            	   		if(data){
+					            	   			bootbox.alert("删除成功！");  //插入成功刷新前页面
+					            	   			
+					            	   			$.ajax({
+					            	 	               type: "GET",
+					            	 	               url: "contestItem/getGridData.do?contestType="+$("#contestType").val(),
+					            	 	               success: function(data){
+					            	 	            	   		$("#grid-table").jqGrid("clearGridData");
+					            	 	                        $("#grid-table").jqGrid('setGridParam',
+					            	 	                               { 
+					            	 	                           datatype: 'local',
+					            	 	                           data:data
+					            	 	                       }).trigger("reloadGrid");
+					            	 	                  }
+					            	 	            });
+					            	   		}else{
+					            	   			bootbox.alert("删除失败！");
+					            	   		}
+					                  }
+					            });
+							
 						}
 					});
     			
@@ -309,6 +355,7 @@
 		});
 		
 		function addContestItem(){
+			saveOrUpdate = true;
 			resetModal();
 			$('#dialog-confirm').modal('show');
 		}
@@ -318,21 +365,56 @@
 		}
 		
 		function submit(){
-			$.ajax({
-	               type: "GET",
-	               url: "contestItem/saveContestItem.do?"+$('#transferFormH').serialize(),
-	               success: function(data){
-	            	   		if(data){
-	            	   			bootbox.alert("新增成功！");  //插入成功刷新前页面
-	            	   			$(grid_selector).jqGrid('setGridParam',
-	 	                               { 
-	            	   				url: "contestItem/getGridData.do?contestType="+$("#contestType").val(),
-	 	                       }).trigger("reloadGrid");
-	            	   		}else{
-	            	   			bootbox.alert("新增失败！");
-	            	   		}
-	                  }
-	            });
+			if(saveOrUpdate){
+				$.ajax({
+		               type: "GET",
+		               url: "contestItem/saveContestItem.do?"+$('#transferFormH').serialize(),
+		               success: function(data){
+		            	   		if(data){
+		            	   			bootbox.alert("新增成功！");  //插入成功刷新前页面
+		            	   			$.ajax({
+		            	 	               type: "GET",
+		            	 	               url: "contestItem/getGridData.do?contestType="+$("#contestType").val(),
+		            	 	               success: function(data){
+		            	 	            	   		$("#grid-table").jqGrid("clearGridData");
+		            	 	                        $("#grid-table").jqGrid('setGridParam',
+		            	 	                               { 
+		            	 	                           datatype: 'local',
+		            	 	                           data:data
+		            	 	                       }).trigger("reloadGrid");
+		            	 	                  }
+		            	 	            });
+		            	   		}else{
+		            	   			bootbox.alert("新增失败！");
+		            	   		}
+		                  }
+		            });
+			}else{
+				$.ajax({
+		               type: "GET",
+		               url: "contestItem/updateContestItem.do?"+$('#transferFormH').serialize()+"&ID="+$("#ID").val(),
+		               success: function(data){
+		            	   		if(data){
+		            	   			bootbox.alert("修改成功！");  //插入成功刷新前页面
+		            	   			$.ajax({
+		            	 	               type: "GET",
+		            	 	               url: "contestItem/getGridData.do?contestType="+$("#contestType").val(),
+		            	 	               success: function(data){
+		            	 	            	   		$("#grid-table").jqGrid("clearGridData");
+		            	 	                        $("#grid-table").jqGrid('setGridParam',
+		            	 	                               { 
+		            	 	                           datatype: 'local',
+		            	 	                           data:data
+		            	 	                       }).trigger("reloadGrid");
+		            	 	                  }
+		            	 	            });
+		            	   		}else{
+		            	   			bootbox.alert("修改失败！");
+		            	   		}
+		                  }
+		            });
+			}
+			
 			
 		}
 		

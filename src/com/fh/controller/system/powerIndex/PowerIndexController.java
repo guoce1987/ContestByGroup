@@ -55,6 +55,47 @@ public class PowerIndexController extends BaseController {
 	/**
 	 * 变量列表
 	 */
+	@RequestMapping(value="/breakpowerdetail")
+	@ResponseBody
+	public ModelAndView breakpowerDetail(Page page){
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			
+			Subject currentUser = SecurityUtils.getSubject();  
+			Session session = currentUser.getSession();
+			String year = pd.getString("year");
+			String month = pd.getString("month");
+			String USERNAME = (String) session.getAttribute(Const.SESSION_USERNAME);
+			if(null != USERNAME && !"".equals(USERNAME)){
+				USERNAME = USERNAME.trim();
+				pd.put("USERNAME", USERNAME);
+			}
+			PageData pb_role = userService.findByUId(pd);
+			PageData pb_edit_right = roleService.findObjectById(pb_role);
+			Boolean edit_right = pb_edit_right.getString("EDIT_QX").equals("1")? true : false;
+			
+			pd.put("editable", edit_right);//加入没有编辑权限
+			pd.put("year", year);
+			pd.put("month", month);
+			page.setPd(pd);
+			mv.setViewName("power/breakpowerdetail");
+			pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); //读取系统名称
+			
+			mv.addObject("year", year);
+			mv.addObject("month", month);
+			mv.addObject("pd", pd);
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * 变量列表
+	 */
 	@RequestMapping(value="/list")
 	@ResponseBody
 	public ModelAndView listUsers(Page page){
@@ -214,15 +255,27 @@ public class PowerIndexController extends BaseController {
 			String year = pd.getString("year");
 			String month = pd.getString("month");
 			String day = pd.getString("day");
+			
+			String startDate = pd.getString("startDate");
+			String endDate = pd.getString("endDate");
+			
 			String dutyId = pd.getString("dutyId");
 			if (null != USERNAME && !"".equals(USERNAME)) {
 				USERNAME = USERNAME.trim();
 				pd.put("USERNAME", USERNAME);
 			}
-			pd.put("year", Integer.parseInt(year));
-			pd.put("month", Integer.parseInt(month));
-			pd.put("day", day);
+			if(year != null)
+				pd.put("year", Integer.parseInt(year));
+			if(month != null)
+				pd.put("month", Integer.parseInt(month));
+			if(day != null)
+				pd.put("day", day);
 			pd.put("dutyId", dutyId);
+			
+			if(startDate != null)
+				pd.put("startDate", startDate);
+			if(endDate != null)
+				pd.put("endDate", endDate);
 			page.setPd(pd);
 
 			List<BreakPowerForGrid> powerIndexListForGrid = contestResultService.listAllBreakPowerForGrid(pd);

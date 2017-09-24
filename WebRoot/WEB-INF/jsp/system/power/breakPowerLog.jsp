@@ -179,13 +179,14 @@
 	    					var filter = {};   
 	    					filter.breakDate = data[index].breakDate;
 	    					filter.dutyName = data[index].dutyName;
+	    					filter.groupName = data[index].groupName;
 	    					filter.breakPower = data[index].breakPower;
 	    					array.push(filter);
 	    				}
-				   var title = ['日期','班次', '违规电量'];
+				   var title = ['日期','班次', '值别', '违规电量'];
 				   var tableName = "违规电量列表_"+new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
-			   }); 
+				}); 
 		   }, 
 		   position:"last"
 		});
