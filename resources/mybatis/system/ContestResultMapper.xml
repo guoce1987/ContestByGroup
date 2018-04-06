@@ -45,7 +45,7 @@
 		  RJ_TrainScore,
 		  RJ_SpiritScore,
 		  RJ_TotalScore
-		 from vw_ContestResult
+		 from vw_ContestResultNew
 		 where year(StatDate)= #{year} and month(StatDate) = #{month}
 		 order by GroupID
 	</select>
@@ -81,8 +81,8 @@
 			select 
  			GroupName,
  			RJ_SafetyScore
- 			from vw_ContestResult
- 			where year(StatDate)= #{year} and month(StatDate) = #{month}
+ 			from vw_ContestResultNew
+ 			where year(StatDate)= #{year,jdbcType=INTEGER} and month(StatDate) = #{month,jdbcType=INTEGER}
 	</select>
 	<!-- 列出所有的安全指标(表) -->
 	<select id="listAllSecurityIndexForGrid" resultMap="securityIndexMapForGrid"  parameterType="pd">
@@ -96,7 +96,7 @@
 		    Memo,
 		    ContestItem
 			FROM Vw_RewardPunishLog
-			WHERE ContestItemid=1 AND YEAR(CheckDate)= #{year} AND MONTH(CheckDate) = #{month}
+			WHERE ContestItemid=1 AND YEAR(CheckDate)= #{year,jdbcType=INTEGER} AND MONTH(CheckDate) = #{month,jdbcType=INTEGER}
 			ORDER BY CheckDate desc
 	</select>
 	
@@ -142,7 +142,7 @@
 	      ,b.BreakPower
 	      ,b.CreateDate
 		  ,gd.groupName
-	  	FROM BreakPowerLog b
+	  	FROM BreakPowerLog${termIndex} b
 	  	left join DutyDic d on b.DutyClass=d.dutyId
 		left join VwShiftRule vr on b.BreakDate=vr.Work_Dt and b.DutyClass=vr.DutyId
 	  	left join GroupDic gd on vr.GroupId=gd.id
@@ -162,17 +162,17 @@
 	</resultMap>
 	<select id="breakpowerSumInfo" resultMap="breakpowerSumInfoMap"  parameterType="pd">
 		select 
-			ISNULL((select sum(BreakPower) from BreakPowerLog where BreakDate=#{breakDate} and DutyClass=#{dutyId}),0) as sumDuty,
-			ISNULL((select sum(BreakPower) from BreakPowerLog where BreakDate=#{breakDate}),0) as sumDay,
-			ISNULL((select sum(BreakPower) from BreakPowerLog where year(BreakDate)=year(CONVERT(date, #{breakDate})) and month(BreakDate)=month(CONVERT(date, #{breakDate}))),0)  as sumMonth
+			ISNULL((select sum(BreakPower) from BreakPowerLog${termIndex} where BreakDate=#{breakDate} and DutyClass=#{dutyId}),0) as sumDuty,
+			ISNULL((select sum(BreakPower) from BreakPowerLog${termIndex} where BreakDate=#{breakDate}),0) as sumDay,
+			ISNULL((select sum(BreakPower) from BreakPowerLog${termIndex} where year(BreakDate)=year(CONVERT(date, #{breakDate})) and month(BreakDate)=month(CONVERT(date, #{breakDate}))),0)  as sumMonth
 	</select>
 	<!-- 删除违规电量deleteBreakpower -->
 	<select id="deleteBreakpower" parameterType="pd" resultType="pd" useCache="false"> 
-		  delete from BreakPowerLog where id = #{id}
+		  delete from BreakPowerLog${termIndex} where id = #{id}
 	</select>
 	<!-- 保存违规电量 -->
 	<select id="saveBreakPowerLog" parameterType="pd" resultType="pd" useCache="false"> 
-		  insert into BreakPowerLog 
+		  insert into BreakPowerLog${termIndex} 
 		 	(	
 	  	  		BreakDate
 		      ,DutyClass
@@ -191,7 +191,7 @@
 			select 
 			groupName,
 			RJ_GeneratePowerAvg  
-			from vw_ContestResult
+			from vw_ContestResult${termIndex}
 			where year(StatDate)= #{year} and month(StatDate) = #{month}
 	</select>
 	<!-- 列出所有的电量指标(表) -->
@@ -203,8 +203,8 @@
 				cc.GroupName, 
 				cc.RJ_GeneratePower,
 				ISNULL(sum(bpl.BreakPower), 0) BreakPower
-			FROM vw_CoalCost cc
-			left join BreakPowerLog bpl on cc.statDate=bpl.BreakDate and cc.DutyID=bpl.DutyClass
+			FROM vw_CoalCost${termIndex} cc
+			left join BreakPowerLog${termIndex} bpl on cc.statDate=bpl.BreakDate and cc.DutyID=bpl.DutyClass
 			WHERE (YEAR(cc.statDate) = #{year}) AND (MONTH(cc.statDate) = #{month}) 
 			group by cc.statDate,cc.DutyID,cc.DutyName,cc.GroupName,cc.RJ_GeneratePower
 			Order by cc.Statdate desc,cc.Dutyid desc
@@ -229,7 +229,7 @@
 			select 	 statDate,
 					 groupName,
 					 RJ_HeatAvg
-					 from vw_ContestResult
+					 from vw_ContestResult${termIndex}
 					 where year(StatDate)= #{year} and month(StatDate) = #{month}
 	</select>
 	<!-- 列出所有的供热指标(表) -->
@@ -240,7 +240,7 @@
 			 DutyName, 
 			 GroupName, 
 			 RJ_SuplyHeat  
-			FROM vw_CoalCost
+			FROM vw_CoalCost${termIndex}
 			WHERE (YEAR(statDate) = #{year}) AND (MONTH(statDate) = #{month}) Order by Statdate desc,Dutyid desc
 	</select>
 	
@@ -293,7 +293,7 @@
 			 RJ_NoxScore,
 			 RJ_TotalScore,
 			 RJ_BreakPunishScore
-			from vw_Economy_Month
+			from vw_Economy_Month${termIndex}
 					 where year(StatDate)= #{year} and month(StatDate) = #{month}
 			 order by GroupId asc
 	</select>
@@ -318,7 +318,7 @@
 			      ,RJ_NoxScore
 			      ,RJ_BreakPunishScore
 			      ,r.RJ_TotalScore
-			      FROM  vw_Economy_Month r    
+			      FROM  vw_Economy_Month${termIndex} r    
 			 WHERE (YEAR(R.StatDate) = #{year}) AND (MONTH(R.StatDate) = #{month})
 			 order by r.GroupId asc
 	</select>
@@ -357,7 +357,7 @@
 			 RJ_SuplyPowerCoalCost,
 			 RJ_SuplyPowerGasCostScore,
 			 RJ_SuplyPowerGasCost
-			from vw_Economy_Month
+			from vw_Economy_Month${termIndex}
 					 where year(StatDate)= #{year} and month(StatDate) = #{month}
 			order by groupId asc
 	</select>
@@ -366,8 +366,8 @@
 	
 			 select c.Dutyid,
 			        CONVERT(varchar(100), c.Statdate, 23) AS Statdate,
-			        d.Dutyname                  ,
-			        g.Groupname                 ,
+			        c.Dutyname                  ,
+			        c.Groupname                 ,
 			        c.RJ_generatepower          ,
 			        c.RJ_suplypower             ,
 			        t.RJ_gas1flow               ,
@@ -380,12 +380,8 @@
 			        t.RJ_totalplantusepowerflow ,
 			        t.RJ_produceusepowerflow    ,
 			        t.RJ_heatpureusepowerflow   
-			   from coalcost as c
-			  inner join dutydic as d
-			     on c.dutyid = d.dutyid
-			  inner join groupdic as g
-			     on c.groupid = g.id
-			  inner join tablefloor as t
+			   from vw_CoalCost${termIndex} as c
+			  inner join TableFloor${termIndex} as t
 			     on c.statdate = t.statdate
 			    and c.dutyid = t.dutyid
 			  where (year(c.statdate) = #{year})
@@ -418,7 +414,7 @@
 				 RJ_GasTempDiff,
 				 RJ_GasTempRank,
 				 RJ_GasTempScore
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -430,7 +426,7 @@
 				 RJ_GasTempDiff,
 				 RJ_GasTempRank,
 				 RJ_GasTempScore
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -460,7 +456,7 @@
 				 RJ_VacmDiff,
 				 RJ_VacmRank,
 				 RJ_VacmScore
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -472,7 +468,7 @@
 				 RJ_VacmDiff,
 				 RJ_VacmRank,
 				 RJ_VacmScore
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -502,7 +498,7 @@
 				 RJ_Nox,
 				 RJ_NoxRank,
 				 RJ_NoxScore
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -514,7 +510,7 @@
 				 RJ_Nox,
 				 RJ_NoxRank,
 				 RJ_NoxScore
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -627,14 +623,14 @@
 		      ,RJ_Carb1Flow
 		      ,RJ_Carb2FLow
 		      ,RJ_SuplyHeat
-		  FROM TableFloor tf
+		  FROM TableFloor${termIndex} tf
 		  left join DutyDic dd on tf.DutyID=dd.DutyId
 		  left join GroupDic gd on gd.id=tf.groupid
 			where StatDate between #{statDateStart} and #{statDateEnd}
 			order by StatDate desc,tf.DutyID asc
 	</select>
 	<select id="updateTableFloor" parameterType="pd" resultType="pd" useCache="false"> 
-		 update TableFloor set ${celname}=#{value} where id=#{sid}
+		 update TableFloor${termIndex} set ${celname}=#{value} where id=#{sid}
 	</select>
 	<!-- 列出所有的综合厂用电率指标(图) -->
 	<select id="listAllAuxPowerRatioForChart" resultMap="auxPowerRatioMapForChart"  parameterType="pd">
@@ -644,7 +640,7 @@
 				GroupName,
 				RJ_PlantUsePowerRatio,
 				RJ_PlantUsePowerScore
-			FROM vw_Economy_Month
+			FROM vw_Economy_Month${termIndex}
 			where year(StatDate)= #{year} and month(StatDate) = #{month}
 			order by GroupId asc
 	</select>
@@ -661,14 +657,14 @@
 				cc.RJ_SuplyPower,
 				cc.XL2213PowerFLow,
 				ISNULL(lg.BreakPower, 0) BreakPower
-			FROM vw_CoalCost cc
+			FROM vw_CoalCost${termIndex} cc
 			left join 
 			(
 				select 
 					BreakDate,
 					DutyClass,
 					sum(BreakPower) BreakPower
-				from BreakPowerLog 
+				from BreakPowerLog${termIndex} 
 				group by BreakDate,DutyClass
 			) lg on lg.BreakDate=cc.statDate and lg.DutyClass=cc.DutyID
 			where year(StatDate)= #{year} and month(StatDate) = #{month}
@@ -687,7 +683,7 @@
 		<result column="ItemName" property="ItemName"/>
 		<result column="GroupName" property="GroupName"/>
 		<result column="OperateAddScore" property="OperateAddScore"/>
-		<result column="Memo" property="Memo"/>
+		<!-- <result column="Memo" property="Memo"/> -->
 	</resultMap>
 	
 	<!-- 列出所有的操作加分指标(图) -->
@@ -695,7 +691,7 @@
 			  SELECT
 				    GroupName,
 				    RJ_OperationScore 
-				FROM vw_Economy_Month
+				FROM vw_Economy_Month${termIndex}
 				where year(StatDate)= #{year} and month(StatDate) = #{month}
 				order by GroupId asc
 	</select>
@@ -745,7 +741,7 @@
 				RJ_DesaltWaterScore,
 				RJ_DirtyWaterRatio, 
 				RJ_DirtyWaterScore
-			FROM vw_Economy_Month
+			FROM vw_Economy_Month${termIndex}
 			where year(StatDate)= #{year} and month(StatDate) = #{month}
 			order by GroupId asc
 	</select>
@@ -761,7 +757,7 @@
 				 ,RJ_DeSaltWater
 				 ,RJ_BoilerSteam
 				 ,RJ_GeneratePower
-				FROM vw_CoalCost
+				FROM vw_CoalCost${termIndex}
 				  where year(StatDate)= #{year} and month(StatDate) = #{month} 
 				  ORDER BY StatDate,DutyId
 	</select>
@@ -848,7 +844,7 @@
 				CONVERT(varchar(100), beginDate, 23) as beginDate,
 				CONVERT(varchar(100), createDate, 23) as createDate,
 				createDate orderDate
-			from BreakPointDic
+			from BreakPointDic${termIndex}
 			<if test="sid!=0 and sid!=null">
 				where id = #{sid}
 			</if>
@@ -856,31 +852,31 @@
 	</select>
 	<!-- 创建一条违规字典的数据 -->
 	<select id="createBreakDicItem" parameterType="pd" resultType="pd" useCache="false"> 
-		insert into BreakPointDic (IsActive) values(0);
+		insert into BreakPointDic${termIndex} (IsActive) values(0);
 	</select>
 	
 	<select id="updateBreakDic" parameterType="pd" resultType="pd" useCache="false"> 
-		 update BreakPointDic set ${celname}=#{value} where id=#{sid}
+		 update BreakPointDic${termIndex} set ${celname}=#{value} where id=#{sid}
 	</select>
 	<!-- 删除一条数据 -->
 	<select id="deleteBreakDic" parameterType="pd" resultType="pd" useCache="false"> 
-		  delete from BreakPointDic where id = #{id}
+		  delete from BreakPointDic${termIndex} where id = #{id}
 	</select>
 	<!-- 违规点详情列表查询(表) -->
 	<select id="listAllBreakPointDetailForGrid" resultMap="breakPointDetailMapForGrid"  statementType="CALLABLE" parameterType="pd">
-			{ call query_breakPointDetail_RJ(#{year},#{month},#{grouId},#{unit},#{kks},#{isShowDelete}) }
+			{ call query_breakPointDetail_RJ${termIndex}(#{year},#{month},#{grouId},#{unit},#{kks},#{isShowDelete}) }
 	</select>
 	<!-- 批量提交违规原因 -->
 	<select id="submitIsDeleteBatch" parameterType="pd" resultType="pd" useCache="false"> 
-		 update BreakPointDetails set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime} and kks=#{kks}
+		 update ${termIndex}${termIndex} set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime} and kks=#{kks}
 	</select>
 	<!-- 提交违规原因 -->
 	<select id="updateDeleteReason" parameterType="pd" resultType="pd" useCache="false"> 
-		 update BreakPointDetails set DeleteReason=#{reason} where id=#{id}
+		 update ${termIndex}${termIndex} set DeleteReason=#{reason} where id=#{id}
 	</select>
 	<!-- 提交违规详情是否delete标识 -->
 	<select id="updateIsDeleteStatus" parameterType="pd" resultType="pd" useCache="false"> 
-		 update BreakPointDetails set IsDelete=#{status} where id=#{id}
+		 update ${termIndex}${termIndex} set IsDelete=#{status} where id=#{id}
 	</select>
 	<!-- 列出所有的违规扣分(图) -->
 	<select id="listAllBreakPointForChart" resultMap="breakPointMapForChart"  statementType="CALLABLE" parameterType="pd">
@@ -888,14 +884,14 @@
 				StatDate,
 				GroupName, 
 				RJ_BreakPunishScore 
-			from vw_Economy_Month
+			from vw_Economy_Month${termIndex}
 			where year(StatDate)= #{year} and month(StatDate) = #{month} 
 			order by GroupId asc
 	</select>
 
 	<!-- 列出所有的违规扣分(表) -->
 	<select id="listAllBreakPointForGrid" resultMap="breakPointMapForGrid"  statementType="CALLABLE" parameterType="pd">
-			{ call query_breakPoint_RJ(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
+			{ call query_breakPoint_RJ${termIndex}(#{year,jdbcType=INTEGER},#{month,jdbcType=INTEGER}) }
 	</select>
 	
 	<!-- 设备消缺 -->
@@ -944,7 +940,7 @@
 				 StatDate,
 				 GroupName,
 				 RJ_BugSum 
-				from vw_ContestResult
+				from vw_ContestResultNew
 				where year(StatDate)= #{year} and month(StatDate) = #{month} 
 	</select>
 	<!-- 列出所有的设备消缺(表) -->
@@ -985,7 +981,7 @@
 				 StatDate,
 				 GroupName,
 				 RJ_SpiritScore
-				FROM vw_ContestResult
+				FROM vw_ContestResultNew
 				where year(StatDate)= #{year} and month(StatDate) = #{month} 
 	</select>
 	<!-- 列出所有的精神文明(表) -->
@@ -1017,7 +1013,7 @@
 	</resultMap>
 	
 	<select id="saveTrainScore" parameterType="pd" resultType="pd" useCache="false"> 
-		  insert into Train 
+		  insert into vw_train 
 		 	(	
 	  	  		Area
      			,StatDate
@@ -1032,7 +1028,7 @@
       		)
 	</select>
 	<select id="deleteTrainScore" parameterType="pd" resultType="pd" useCache="false"> 
-		  delete from Train where id=#{id}
+		  delete from vw_train where id=#{id}
 	</select>
 	
 	<!-- 列出所有的培训得分(图) -->
@@ -1041,17 +1037,18 @@
 				 StatDate,
 				 GroupName,
 				 RJ_TrainScore
-			FROM vw_ContestResult
+			FROM vw_ContestResultNew
 			where year(StatDate)= #{year} and month(StatDate) = #{month} 
 	</select>
 	<!-- 列出所有的培训得分(表) -->
 	<select id="listAllTrainScoreForGrid" resultMap="trainScoreMapForGrid"  statementType="CALLABLE" parameterType="pd">
 		SELECT 
-			id,
-			 StatDate,
-			 GroupName,
-			 Score
-			FROM vw_train
+			t.id,
+			 t.StatDate,
+			 gd.GroupName,
+			 t.Score
+			FROM vw_train t
+			left join GroupDic gd on t.groupId=gd.id
 			WHERE year(StatDate)= #{year} and month(StatDate) = #{month} 
 
 	</select>
@@ -1082,7 +1079,7 @@
 				 GroupID,
 				 GroupName,
 				 RJ_OperationMoney
-				FROM vw_ContestResult
+				FROM vw_ContestResultNew
 				where year(StatDate)= #{year} and month(StatDate) = #{month} 
 	</select>
 	<!-- 列出所有的重大操作(表) -->
@@ -1116,15 +1113,15 @@
 	<!-- 考核录入指标列表(全部) -->
 	<select id="listAllItemInputForGrid" parameterType="pd" resultType="pd" useCache="false">
 		  select r.ID,CONVERT(varchar(100), r.CheckDate, 23) as CheckDate,
-		  r.CreateUser,r.GroupID,r.ItemID,r.Money,r.Score,r.Unit,r.memo as reason ,d.memo
-		  from RewardPunishlog r left join RewardPunishDic d on r.ItemID = d.id 
+		  r.CreateUser,r.GroupID,r.GroupName,r.ItemID,r.Money,r.Score,r.Unit,r.memo as reason ,d.memo
+		  from vw_RewardPunishLog r left join RewardPunishDic d on r.ItemID = d.id 
 		  where year(r.CheckDate) = #{year} and month(r.CheckDate) = #{month}
 		  order by r.CheckDate desc
 	</select>
 	
 	<!-- 查询所有的KKS -->
 	<select id="listAllKKS" parameterType="pd" resultType="pd" useCache="false">
-		SELECT distinct '【'+KKS+'】 '+ Description as value, KKS as kks FROM BreakPointDic	
+		SELECT distinct '【'+KKS+'】 '+ Description as value, KKS as kks FROM BreakPointDic${termIndex}	
 	</select>
 	
 	<!-- 新增一条考核管理项 -->
@@ -1190,7 +1187,7 @@
 		      ,Memo
 		      ,CONVERT(VARCHAR(20),LogDate,20) as LogDate
 		      ,CreateUser
-		  FROM RewardPunishLog order by id desc
+		  FROM vw_RewardPunishLog order by id desc
 	</select>
 	
 	<!-- 根据ID查询一条考核管理记录 -->
@@ -1205,7 +1202,7 @@
 		      ,Memo
 		      ,CONVERT(VARCHAR(20),LogDate,20) as LogDate
 		      ,CreateUser
-		  FROM RewardPunishLog where ID=#{ID}
+		  FROM vw_RewardPunishLog where ID=#{ID}
 	</select>
 	
 	<!-- 根据ID更新一条考核管理记录 -->
@@ -1225,7 +1222,7 @@
 	
 	<!-- 查询监控数据 -->
 	<select id="listAllMonitorDataForGrid" resultMap="monitorDataForGrid"  statementType="CALLABLE" parameterType="pd">
-		 { call sp_DataMonitor_Query(#{statDate}) }
+		 { call sp_DataMonitor_Query${termIndex}(#{statDate}) }
 	</select>
 	
 	<resultMap type="MonitorDataForGrid" id="monitorDataForGrid">
@@ -1242,9 +1239,46 @@
 	</resultMap>
 	
 	<select id="updateErrorData" parameterType="pd" resultType="pd" useCache="false"> 
-		 update ${tablename} set ${celname}=#{value} where id=#{sid}
+		 update ${tablename}${termIndex} set ${celname}=#{value} where id=#{sid}
 	</select>
 	<select id="updateMonitorData" parameterType="pd" resultType="pd" useCache="false"> 
-		 update DataMonitor set DataValue=#{value} where id=#{did}
+		 update DataMonitor${termIndex} set DataValue=#{value} where id=#{did}
+	</select>
+	
+	<!-- 漏检管理 -->
+	<resultMap type="PotralForGrid" id="potralForGrid">
+		<result column="id" property="id"/>
+		<result column="StatDate" property="StatDate"/>
+		<result column="GroupName" property="GroupName"/>
+		<result column="PotralCount" property="PotralCount"/>
+	</resultMap>
+	
+	<select id="savePotral" parameterType="pd" resultType="pd" useCache="false"> 
+		  insert into vw_potral 
+		 	(	
+     			StatDate
+     			,GroupId
+     			,PotralCount
+      		) values 
+      		(
+      			#{StatDate},
+      			#{groupId},
+      			#{PotralCount}
+      		)
+	</select>
+	<select id="deletePotral" parameterType="pd" resultType="pd" useCache="false"> 
+		  delete from vw_potral where id=#{id}
+	</select>
+	
+	<select id="listAllPotralForGrid" resultMap="potralForGrid"  statementType="CALLABLE" parameterType="pd">
+		SELECT 
+			t.id,
+			 t.StatDate,
+			 gd.GroupName,
+			 t.PotralCount
+			FROM vw_potral t
+			left join GroupDic gd on t.groupId=gd.id
+			WHERE year(StatDate)= #{year} and month(StatDate) = #{month} 
+
 	</select>
 </mapper>

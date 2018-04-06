@@ -124,6 +124,7 @@
 	
 	var dutyId = $.cookie('dutyID4Tablefloor');
 	var statDate = $.cookie('statDate4Tablefloor');
+	var termIndex = $.cookie('termIndex4Tablefloor');
 	
 	 $("#datepickerForTbStart").datepicker({
 			language : 'zh-CN',
@@ -153,7 +154,7 @@
 		jQuery(grid_selector).jqGrid(
 				{
 
-					url : "powerratio/getTableFloorGridData?statDateStart="+statDateStart+"&statDateEnd="+statDateEnd,
+					url : "powerratio/getTableFloorGridData?statDateStart="+statDateStart+"&statDateEnd="+statDateEnd + "&termIndex=" + termIndex,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
@@ -768,7 +769,7 @@
 					},
 					cellEdit: ${pd.editable},
 					cellurl: "powerratio/saveTableFloorGridData",
-					caption : "表底"
+					caption : termIndex + "期表底"
 				});
 		//navButtons
 		jQuery(grid_selector).jqGrid('navGrid',pager_selector,{edit:false,add:false,del:false,search:false,refresh:false});
@@ -781,7 +782,7 @@
 				var statDateEnd = $("#datepickerForTbEnd").val();
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
-				   url : "powerratio/getTableFloorGridData?statDateStart="+statDateStart+"&statDateEnd="+statDateEnd,
+				   url : "powerratio/getTableFloorGridData?statDateStart="+statDateStart+"&statDateEnd="+statDateEnd + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -809,7 +810,7 @@
         				}
 				   var title = ['ID','机组','测点', '描述','单位', '下限', '上限',
 						'违规条件', '罚分', '竞赛类型', '惩罚类型','是否启用','取消原因','生效日期','创建日期'];
-				   var tableName = "表底_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "表底_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   
@@ -829,7 +830,7 @@
 		}
 		$.ajax({
 	        type: "GET",
-	        url : "powerratio/getTableFloorGridData?statDateStart="+statDateStart+"&statDateEnd="+statDateEnd,
+	        url : "powerratio/getTableFloorGridData?statDateStart="+statDateStart+"&statDateEnd="+statDateEnd + "&termIndex=" + termIndex,
 	        success: function(data) {
 	     	   		$("#grid-table-tablefloor").jqGrid("clearGridData");
 	                $("#grid-table-tablefloor").jqGrid('setGridParam',

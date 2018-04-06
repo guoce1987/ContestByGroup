@@ -93,6 +93,37 @@
 	}
 
 	initCharts();
+	
+	function reloadData(termIndex) {
+		var json = fusioncharts.getJSONData();
+		var model = {
+			year : year,
+			month : month,
+			json : JSON.stringify(json)
+		};
+		$.ajax({
+			type : "POST",
+			data : model,
+			url : "gastemp/getChartData?termIndex=" + termIndex,
+			success : function(data) {
+				fusioncharts.setJSONData(data);
+				fusioncharts.render();
+			}
+		});
+		$.ajax({
+	        type: "GET",
+	        url : "gastemp/getGridData?year=" + year + "&month=" + month + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
+	
 	FusionCharts.ready(function() {
 		var json = fusioncharts.getJSONData();
 		var model = {
@@ -119,8 +150,7 @@
 		jQuery(grid_selector).jqGrid(
 				{
 
-					url : "gastemp/getGridData?year=" + year + "&month="
-							+ month,
+					url : "gastemp/getGridData?year=" + year + "&month=" + month,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
@@ -160,7 +190,7 @@
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
 				   url : "gastemp/getGridData?year=" + year + "&month="
-					+ month,
+					+ month + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -177,7 +207,7 @@
 	    					array.push(filter);
 	    				}
 				   var title = ['日期','值别','偏差', '名次', '得分'];
-				   var tableName = "排烟温度列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "排烟温度列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   

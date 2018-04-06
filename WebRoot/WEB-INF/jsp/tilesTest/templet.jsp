@@ -122,12 +122,10 @@
 						<div class="ace-settings-container" id="ace-settings-container">
 							<tiles:insertAttribute name="ace-setting"></tiles:insertAttribute>
 						</div><!-- /.ace-settings-container -->
-						
+						  <!-- Tab panes -->
 						<div id="body">
-						<tiles:insertAttribute name="body"></tiles:insertAttribute>
+							<tiles:insertAttribute name="body"></tiles:insertAttribute>
 						</div>
-
-						
 					</div><!-- /.page-content -->
 				</div>
 				<!-- <div>${contestResultList}</div> -->

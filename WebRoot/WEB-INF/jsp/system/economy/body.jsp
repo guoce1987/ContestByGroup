@@ -126,6 +126,37 @@
 	}
 
 	initCharts();
+	
+	function reloadData(termIndex) {
+		var json = fusioncharts.getJSONData();
+		var model = {
+			year : year,
+			month : month,
+			json : JSON.stringify(json)
+		};
+		$.ajax({
+			type : "POST",
+			data : model,
+			url : "economy/getChartData?termIndex=" + termIndex,
+			success : function(data) {
+				fusioncharts.setJSONData(data);
+				fusioncharts.render();
+			}
+		});
+		$.ajax({
+	        type: "GET",
+	        url : "economy/getGridData?year=" + year + "&month=" + month + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
+	
 	FusionCharts.ready(function() {
 		var json = fusioncharts.getJSONData();
 		var model = {
@@ -230,7 +261,7 @@
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
 				   url : "breakpoint/getGridData?year=" + year + "&month="
-					+ month,
+					+ month + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -260,7 +291,7 @@
         					array.push(filter);
         				}
 				   var title = ['日期','值别','供电气耗', '得分','综合厂用电率', '得分', '除盐水补水率','二级污水补水率', "综合水耗得分",'排烟温度偏差累计','得分','真空偏差累计','得分','NOX偏差累计','得分','违规点罚分','操作加分','总分'];
-				   var tableName = "经济指标明细列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "经济指标明细列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   

@@ -33,6 +33,7 @@ import com.fh.entity.system.NoxIndexForChart;
 import com.fh.entity.system.NoxIndexForGrid;
 import com.fh.entity.system.OperationScoreForChart;
 import com.fh.entity.system.OperationScoreForGrid;
+import com.fh.entity.system.PotralForGrid;
 import com.fh.entity.system.PowerIndexForChart;
 import com.fh.entity.system.PowerIndexForGrid;
 import com.fh.entity.system.SecurityIndexForChart;
@@ -375,5 +376,14 @@ public class ContestResultService{
 	public Integer updateErrorData(PageData pd) throws Exception {
 		dao.save("ContestResultMapper.updateErrorData", pd);
 		return (Integer) dao.save("ContestResultMapper.updateMonitorData", pd);
+	}
+	public List<PotralForGrid> listAllPotralForGrid(PageData pd) throws Exception{
+		return (List<PotralForGrid>) dao.findForList("ContestResultMapper.listAllPotralForGrid", pd);
+	}
+	public Integer addPotral(PageData pd) throws Exception {
+		return (Integer) dao.save("ContestResultMapper.savePotral", pd);
+	}
+	public Integer deletePotral(PageData pd) throws Exception {
+		return (Integer) dao.delete("ContestResultMapper.deletePotral", pd);		
 	}
 }

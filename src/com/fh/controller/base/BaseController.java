@@ -24,7 +24,11 @@ public class BaseController {
 	 * 得到PageData
 	 */
 	public PageData getPageData(){
-		return new PageData(this.getRequest());
+		PageData pd = new PageData(this.getRequest());
+		String termIndex = pd.getString("termIndex");
+		if(termIndex == null || termIndex.equals("2")) termIndex = "";
+		pd.put("termIndex", termIndex);
+		return pd;
 	}
 	
 	/**

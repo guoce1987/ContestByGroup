@@ -93,6 +93,37 @@
 	}
 
 	initCharts();
+	
+	function reloadData(termIndex) {
+		var json = fusioncharts.getJSONData();
+		var model = {
+			year : year,
+			month : month,
+			json : JSON.stringify(json)
+		};
+		$.ajax({
+			type : "POST",
+			data : model,
+			url : "heat/getChartData?termIndex=" + termIndex,
+			success : function(data) {
+				fusioncharts.setJSONData(data);
+				fusioncharts.render();
+			}
+		});
+		$.ajax({
+	        type: "GET",
+	        url : "heat/getGridData?year=" + year + "&month=" + month + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
+	
 	FusionCharts.ready(function() {
 		var json = fusioncharts.getJSONData();
 		var model = {
@@ -177,7 +208,7 @@
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
 				   url : "heat/getGridData?year=" + year + "&month="
-					+ month,
+					+ month + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -194,7 +225,7 @@
 	    					array.push(filter);
 	    				}
 				   var title = [ '日期', '班次ID', '班次', '值别', '供热量' ];
-				   var tableName = "供热指标列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "供热指标列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   

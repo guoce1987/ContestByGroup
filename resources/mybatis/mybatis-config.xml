@@ -69,6 +69,8 @@
 		<typeAlias type="com.fh.entity.system.ImportOperationForGrid" alias="ImportOperationForGrid"/>
 		
 		<typeAlias type="com.fh.entity.system.MonitorDataForGrid" alias="MonitorDataForGrid"/>
+		
+		<typeAlias type="com.fh.entity.system.PotralForGrid" alias="PotralForGrid"/>
 
 		<!-- 分页 -->
 		<typeAlias type="com.fh.util.PageData" alias="pd"/>

@@ -542,7 +542,7 @@
  			function query(){
 				var year = $("#datepicker").val().split("-")[0];
 	 			var month = $("#datepicker").val().split("-")[1];
-
+	 			console.log("year="+year+",month="+month);
 	 			$.ajax({
 	 	               type: "GET",
 	 	               url: "security/getGridData.do?year="+year+"&&month="+month,

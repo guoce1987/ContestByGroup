@@ -103,6 +103,35 @@
 	}
 
 	initCharts();
+	function reloadData(termIndex) {
+		var json = fusioncharts.getJSONData();
+		var model = {
+			year : year,
+			month : month,
+			json : JSON.stringify(json)
+		};
+		$.ajax({
+			type : "POST",
+			data : model,
+			url : "breakpoint/getChartData?termIndex=" + termIndex,
+			success : function(data) {
+				fusioncharts.setJSONData(data);
+				fusioncharts.render();
+			}
+		});
+		$.ajax({
+	        type: "GET",
+	        url : "breakpoint/getGridData?year=" + year + "&month=" + month + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
 	FusionCharts.ready(function() {
 		var json = fusioncharts.getJSONData();
 		var model = {
@@ -219,7 +248,7 @@
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
 				   url : "breakpoint/getGridData?year=" + year + "&month="
-					+ month,
+					+ month + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -242,7 +271,7 @@
         				}
 				   var title = ['值别', '机组', '测点', '描述', '下限', '上限',
 						'违规点数量', '统计小时数', '违规点数(每小时)', '扣分方式'];
-				   var tableName = "违规点列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "违规点列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   

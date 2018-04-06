@@ -37,6 +37,11 @@
 
 	var year = getYear();
 	var month = getMonth();
+	var termIndex = 2;
+	function reloadData(ti) {
+		termIndex = ti;
+		queryBreakpointDic();
+	}
 	
 	function initGrid() {
 		var grid_selector = "#grid-table";
@@ -45,7 +50,7 @@
 		jQuery(grid_selector).jqGrid(
 				{
 
-					url : "breakpoint/getDicGridData",
+					url : "breakpoint/getDicGridData?termIndex=" + termIndex,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
@@ -285,7 +290,7 @@
 						return [true, ''];
 					},
 					cellEdit: true,
-					cellurl: "breakpoint/submitBreakDic",
+					cellurl: "breakpoint/submitBreakDic?termIndex=" + termIndex,
 					caption : "编辑违规点字典"
 				});
 		//navButtons
@@ -298,7 +303,7 @@
 			   
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
-				   url : "breakpoint/getDicGridData",
+				   url : "breakpoint/getDicGridData?termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -326,7 +331,7 @@
         				}
 				   var title = ['ID','机组','测点', '描述','单位', '下限', '上限',
 						'违规条件', '罚分', '竞赛类型', '惩罚类型','是否启用','取消原因','生效日期','创建日期'];
-				   var tableName = "违规点指标列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "违规点指标列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   
@@ -338,7 +343,7 @@
 	initGrid();
 	
 	function addBreakDic() {
-		$.post("breakpoint/addBreakDic", {}, function(data){
+		$.post("breakpoint/addBreakDic?termIndex=" + termIndex, {}, function(data){
 			if(data == "0") {
 				alert("添加失败");
 				return;
@@ -350,7 +355,7 @@
 	function deleteBreakDic(id) {
 		bootbox.confirm("确认删除当前记录?", function(result) {
 			if(result) {
-				$.post("breakpoint/deleteBreakDic", {id : id}, function(data){
+				$.post("breakpoint/deleteBreakDic?termIndex=" + termIndex, {id : id}, function(data){
 					if(data == "0") {
 						alert("删除失败，请重新尝试");
 						return;
@@ -364,7 +369,7 @@
 	function queryBreakpointDic() {
 		$.ajax({
 	        type: "GET",
-	        url : "breakpoint/getDicGridData",
+	        url : "breakpoint/getDicGridData?termIndex=" + termIndex,
 	        success: function(data) {
 	     	   		$("#grid-table").jqGrid("clearGridData");
 	                $("#grid-table").jqGrid('setGridParam',

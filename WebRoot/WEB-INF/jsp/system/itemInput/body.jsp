@@ -230,7 +230,7 @@
 				{name:'memo',index:'memo', width:50, hidden:true},
 				{name:'Unit',index:'Unit', width:50, hidden:true},
 				{name:'CheckDate',index:'CheckDate', width:100, sorttype:"date"},
-				{name:'GroupID',index:'GroupID',width:90, sorttype:"text"},
+				{name:'GroupName',index:'GroupName',width:90, sorttype:"text"},
                 {name:'Score',index:'Score',width:120, sorttype:"text"},
 				{name:'Money',index:'Money',width:120, sorttype:"text"},
 				{name:'reason',index:'reason',width:400, sorttype:"text"},
@@ -285,7 +285,7 @@
                 $("span.glyphicon.glyphicon-trash", this).on("click", function (e) {
                     var key = $(e.target).attr("tag");
                     var arr = key.split("^");
-					bootbox.confirm("确认删除当前用户?", function(result) {
+					bootbox.confirm("确认删除当前数据?", function(result) {
 						if(result) {
 							 $.ajax({
 					               type: "GET",
@@ -296,7 +296,7 @@
 					            		   $(grid_selector).jqGrid("clearGridData");
 					                        $(grid_selector).jqGrid('setGridParam',
 					                               { 
-					                        	url : "itemInput/getGridData",
+					                        	url : "itemInput/getGridData?year=" + year + "&month=" + month,
 							 	       			mtype : "GET",
 							 	       			datatype : "json"
 					                       }).trigger("reloadGrid");

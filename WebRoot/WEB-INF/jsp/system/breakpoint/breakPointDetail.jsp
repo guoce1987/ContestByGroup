@@ -85,7 +85,7 @@
 							</select>
 					   </div>
 						<div class="form-group" style="padding-top: 5px;">
-				      		<label for="isShowDelete">显示已取消</label><input id="isShowDelete" checked type="checkbox"> 
+				      		<label for="isShowDelete">显示已取消</label><input id="isShowDelete" type="checkbox"> 
 		          		</div>
 						<button id="queryBtn" type="button" class="btn btn-sm btn-success" onclick="queryDetail()">
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;查询

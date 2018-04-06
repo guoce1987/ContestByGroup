@@ -19,7 +19,7 @@
 							    <label>日期</label>
 								<input type="text" class="form-control" id="datepickerForRunProc" class="form-control" />
 						   </div>
-						   &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="breakpoint" id="breakpoint">&nbsp;&nbsp;违规点
+						   &nbsp;&nbsp;&nbsp;&nbsp;<input style="display:none" type="checkbox" name="breakpoint" id="breakpoint">&nbsp;&nbsp;
 							<button id="queryBtn" type="button" class="btn btn-sm btn-success" onclick="startRun()">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;执行
 							</button>
@@ -59,6 +59,7 @@
 	$("#datepickerForRunProc").datepicker("setDate", year + "-" + month);// 设置
 	
 	function startRun() {
+		var startTime = new Date();
 		$('#info_place').append('开始执行......');
 		var statDate = $("#datepickerForRunProc").val();
 		var breakpoint = $("#breakpoint").prop('checked') ? "1" : "0";
@@ -68,7 +69,9 @@
 			} else if("2" == data) {
 				$('#info_place').append('<p>只能执行本月或者上月的数据</p>');
 			} else {
+				var endTime = new Date();
 				$('#info_place').append('<p>执行成功</p>');
+				$('#info_place').append('<p>用时' + parseInt(endTime - startTime) / 1000 + '秒</p>');
 			}
 		});
 	}

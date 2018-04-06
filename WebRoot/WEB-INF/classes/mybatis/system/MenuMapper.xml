@@ -11,6 +11,7 @@
 		<result column="MENU_ORDER" property="MENU_ORDER"/>
 		<result column="MENU_ICON" property="MENU_ICON"/>
 		<result column="MENU_TYPE" property="MENU_TYPE"/>
+		<result column="SHOW_TAB" property="SHOW_TAB"/>
 	</resultMap>
 	
 	<!-- ztree -->
@@ -31,12 +32,12 @@
 	
 	<select id="listAllParentMenu" resultMap="menuResultMap">
 		select * from SYS_MENU 
-		where PARENT_ID = '0' order by MENU_ORDER 
+		where PARENT_ID = '0' order by MENU_ORDER desc
 	</select>
 	
 	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
 		select  * from SYS_MENU
-		where PARENT_ID = #{parentId} order by MENU_ORDER 
+		where PARENT_ID = #{parentId} order by MENU_ORDER desc
 	</select>
 	
 	<resultMap type="EditQx" id="qxmenuResultMap">

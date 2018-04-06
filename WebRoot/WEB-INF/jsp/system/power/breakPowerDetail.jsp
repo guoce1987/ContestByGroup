@@ -132,6 +132,7 @@
 	
 	var dutyId = $.cookie('dutyID4Tablefloor');
 	var statDate = $.cookie('statDate4Tablefloor');
+	var termIndex = $.cookie('termIndex4BreakPower');
 	
 	 $("#datepickerForBreakpointStart").datepicker({
 			language : 'zh-CN',
@@ -169,7 +170,7 @@
 
 		jQuery(grid_selector).jqGrid({
 
-			url : "power/getBreakpowerGridData?startDate=" + startDate + "&endDate=" + endDate + "&dutyId=" + dutyId,
+			url : "power/getBreakpowerGridData?startDate=" + startDate + "&endDate=" + endDate + "&dutyId=" + dutyId + "&termIndex=" + termIndex,
 			mtype : "GET",
 			datatype : "json",
 			autowidth : true,
@@ -195,7 +196,7 @@
 				}, 0);
 			},
 
-			caption : "违规电量明细"
+			caption : termIndex + "期违规电量明细"
 		});
 		
 		//navButtons
@@ -210,7 +211,7 @@
 				var endDate = $("#datepickerForBreakPointEnd").val();
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
-				   url : "power/getBreakpowerGridData?startDate=" + startDate + "&endDate=" + endDate + "&dutyId=" + dutyId,
+				   url : "power/getBreakpowerGridData?startDate=" + startDate + "&endDate=" + endDate + "&dutyId=" + dutyId + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   promise.done(function(data){
@@ -225,7 +226,7 @@
 	    					array.push(filter);
 	    				}
 				   var title = ['日期','班次', '值别', '违规电量'];
-				   var tableName = "违规电量列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "违规电量列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 		   }, 
@@ -245,7 +246,7 @@
 		}
 		$.ajax({
 	        type: "GET",
-	        url : "power/getBreakpowerGridData?startDate=" + startDate + "&endDate=" + endDate + "&dutyId=" + dutyId,
+	        url : "power/getBreakpowerGridData?startDate=" + startDate + "&endDate=" + endDate + "&dutyId=" + dutyId + "&termIndex=" + termIndex,
 	        success: function(data) {
 	     	   		$("#grid-table-breakpower").jqGrid("clearGridData");
 	                $("#grid-table-breakpower").jqGrid('setGridParam',

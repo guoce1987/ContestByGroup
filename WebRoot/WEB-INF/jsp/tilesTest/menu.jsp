@@ -50,7 +50,7 @@
 				<li id="lm${menu.MENU_ID }">
 					<c:if test="${empty menu.subMenu}">
 					  <a style="cursor:pointer;"
-					  	onClick=loadPage('<%=basePath%>${menu.MENU_URL}','lm${menu.MENU_ID }') >
+					  	onClick="loadPage('<%=basePath%>${menu.MENU_URL}','lm${menu.MENU_ID }', ${menu.SHOW_TAB })" >
 					</c:if>
 					<c:if test="${!empty menu.subMenu}">
 					  <a style="cursor:pointer;" class="dropdown-toggle">
@@ -68,7 +68,7 @@
 									<c:when test="${not empty sub.MENU_URL}">
 									<li id="z${sub.MENU_ID }">
 										<a style="cursor:pointer;" target="page-content" 
-											onClick=loadPage('<%=basePath%>${sub.MENU_URL}','z${sub.MENU_ID }')>
+											onClick="loadPage('<%=basePath%>${sub.MENU_URL}','z${sub.MENU_ID }',${sub.SHOW_TAB })">
 											<i class="menu-icon fa fa-caret-right"></i>${sub.MENU_NAME }
 										</a>
 									</li>
@@ -89,14 +89,16 @@
 					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
 				</div>
 			<script type="text/javascript">
- 				function loadPage(url,id) {
+ 				function loadPage(url,id, showTab) {
+ 					if(showTab) $('#termtabs').show();
+ 					else $('#termtabs').hide();
 					$("#body").load(url + " #body", function(data){
 						$(data).find("script:last").appendTo($("#body"));
 					});
-					var id ="#"+id;
+					$("#term2").tab('show');
+					termIndex = 2;
 					$("ul.nav.nav-list li.active").removeClass("active");
-					$(id).addClass("active");
-					$(".breadcrumb").text($(id).text());
+					$("#"+id).addClass("active");
 					//防止点击子菜单的时候，父菜单相应click
 					var evt = (evt) ? evt : ((window.event) ? window.event : null);
 					if(evt) evt.cancelBubble = true; 

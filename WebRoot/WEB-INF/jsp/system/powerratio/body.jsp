@@ -117,7 +117,35 @@
 			}
 		});
 	});
-
+	function reloadData(termIndex) {
+		var json = fusioncharts.getJSONData();
+		var model = {
+			year : year,
+			month : month,
+			json : JSON.stringify(json)
+		};
+		$.ajax({
+			type : "POST",
+			data : model,
+			url : "powerratio/getChartData?termIndex=" + termIndex,
+			success : function(data) {
+				fusioncharts.setJSONData(data);
+				fusioncharts.render();
+			}
+		});
+		$.ajax({
+	        type: "GET",
+	        url : "powerratio/getGridData?year=" + year + "&month=" + month + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
 	function initGrid() {
 		var grid_selector = "#grid-table";
 		var pager_selector = "#grid-pager";
@@ -195,7 +223,7 @@
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
 				   url : "powerratio/getGridData?year=" + year + "&month="
-					+ month,
+					+ month + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -215,7 +243,7 @@
 	    					array.push(filter);
 	    				}
 				   var title = ['ID','日期','值别','班名','厂用电率', '燃机发电量', '燃机供电量','#3启备变电量'];
-				   var tableName = "综合厂用电率列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "综合厂用电率列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   
@@ -238,6 +266,7 @@
 	}
 	
 	function jumpToBreakpowerDetail(dutyID,statDate) {
+		$.cookie('termIndex4BreakPower', termIndex, {path:"/"});
 		$.cookie('dutyID4BreakPower', dutyID, {
 			expires : 7
 		});
@@ -248,6 +277,7 @@
 	}
 	
 	function jumpToTableFloorPage(dutyID,statDate) {
+		$.cookie('termIndex4Tablefloor', termIndex, {path:"/"});
 		$.cookie('dutyID4Tablefloor', dutyID, {path:"/"});
 		$.cookie('statDate4Tablefloor', statDate, {path:"/"});
 		window.open("powerratio/tableFloor.do","_blank");

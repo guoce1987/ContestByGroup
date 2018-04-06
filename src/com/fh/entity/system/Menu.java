@@ -20,6 +20,7 @@ public class Menu {
 	private String MENU_ORDER;
 	private String MENU_ICON;
 	private String MENU_TYPE;
+	private Boolean SHOW_TAB;
 	private String target;
 	
 	private Menu parentMenu;
@@ -92,5 +93,11 @@ public class Menu {
 	}
 	public void setMENU_TYPE(String mENU_TYPE) {
 		MENU_TYPE = mENU_TYPE;
+	}
+	public Boolean getSHOW_TAB() {
+		return SHOW_TAB;
+	}
+	public void setSHOW_TAB(Boolean sHOW_TAB) {
+		SHOW_TAB = sHOW_TAB;
 	}
 }

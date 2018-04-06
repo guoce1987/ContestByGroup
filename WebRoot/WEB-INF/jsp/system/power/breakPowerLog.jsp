@@ -112,6 +112,26 @@
 		$("#dutyId").val($.cookie('dutyID4BreakPower'));
 	}
 	var dutyId = $("#dutyId").val();
+	
+	function reloadData(termIndex) {
+		var year = $("#datepickerForBreakPowerLog").val().split("-")[0];
+		var month = $("#datepickerForBreakPowerLog").val().split("-")[1];
+		var day = $("#datepickerForBreakPowerLog").val().split("-")[2];
+		var dutyId = $("#dutyId").val();
+		$.ajax({
+	        type: "GET",
+	        url : "power/getBreakpowerGridData?year=" + year + "&month=" + month + "&day=" + day + "&dutyId=" + dutyId + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
+	
 	function initGrid() {
 		var grid_selector = "#grid-table";
 		var pager_selector = "#grid-pager";
@@ -169,7 +189,7 @@
 				var day = $("#datepickerForBreakPowerLog").val().split("-")[2];
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
-				   url : "power/getBreakpowerGridData?year=" + year + "&month=" + month + "&day=" + day + "&dutyId=" + dutyId,
+				   url : "power/getBreakpowerGridData?year=" + year + "&month=" + month + "&day=" + day + "&dutyId=" + dutyId + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   promise.done(function(data){
@@ -184,7 +204,7 @@
 	    					array.push(filter);
 	    				}
 				   var title = ['日期','班次', '值别', '违规电量'];
-				   var tableName = "违规电量列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "违规电量列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 				}); 
 		   }, 
@@ -215,7 +235,7 @@
 				return;
 			}
 		}
-		$.post("power/addBreakPowerLog", {dutyId : dutyId, breakDate : breakDate, logs : encodeURI(logs)}, function(data){
+		$.post("power/addBreakPowerLog?termIndex=" + termIndex, {dutyId : dutyId, breakDate : breakDate, logs : encodeURI(logs)}, function(data){
 			if(data == "0") {
 				alert("提交失败");
 				return;
@@ -229,7 +249,7 @@
 	function deleteBreakpower(id) {
 		bootbox.confirm("确认删除当前记录?", function(result) {
 			if(result) {
-				$.post("power/deleteBreakpower", {id : id}, function(data){
+				$.post("power/deleteBreakpower?termIndex=" + termIndex, {id : id}, function(data){
 					if(data == "0") {
 						alert("删除失败，请重新尝试");
 						return;
@@ -247,7 +267,7 @@
 		var dutyId = $("#dutyId").val();
 		$.ajax({
 	        type: "GET",
-	        url : "power/getBreakpowerGridData?year=" + year + "&month=" + month + "&day=" + day + "&dutyId=" + dutyId,
+	        url : "power/getBreakpowerGridData?year=" + year + "&month=" + month + "&day=" + day + "&dutyId=" + dutyId + "&termIndex=" + termIndex,
 	        success: function(data){
 	     	   		$("#grid-table").jqGrid("clearGridData");
 	                 $("#grid-table").jqGrid('setGridParam',
@@ -272,7 +292,7 @@
 	function querySumInfo() {
 		var breakDate = $("#datepickerForBreakPowerLog").val();
 		var dutyId = $("#dutyId").val();
-		$.post("power/breakpowerSumInfo", {dutyId : dutyId, breakDate : breakDate}, function(data){
+		$.post("power/breakpowerSumInfo?termIndex=" + termIndex, {dutyId : dutyId, breakDate : breakDate}, function(data){
 			$("#sumDuty").text(data.sumDuty);
 			$("#sumDay").text(data.sumDay);
 			$("#sumMonth").text(data.sumMonth);

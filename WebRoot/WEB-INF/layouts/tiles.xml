@@ -365,6 +365,7 @@
             <add-attribute value="static/assets/js/bootbox.js?v=1.0.0"/>
         </put-list-attribute>
     </definition>
+    
         
     <definition name="authorization" template="/WEB-INF/jsp/authorization.jsp"></definition>
     
@@ -375,6 +376,14 @@
         <put-attribute name="body" value="/WEB-INF/jsp/system/trainscore/trainInput.jsp"/>  
     </definition>
     
+    <definition name="potral/input" extends="default">
+     	<put-attribute name="title" value="漏检管理"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/potral/input.jsp"/>  
+    </definition>
+    <definition name="potral/list" extends="default">
+     	<put-attribute name="title" value="漏检统计"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/system/potral/body.jsp"/>  
+    </definition>
     <definition name="contestResult/runprc" extends="default">
         <put-attribute name="title" value="自动运行存储过程"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/tools/runprc.jsp"/>

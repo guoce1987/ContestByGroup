@@ -265,7 +265,7 @@
                     var model = {};
                     var arr = key.split("^");
                     model.id = arr[0];
-					bootbox.confirm("确认删除当前用户?", function(result) {
+					bootbox.confirm("确认删除当前数据?", function(result) {
 						if(result) {
 							$.ajax({
 					               type: "GET",

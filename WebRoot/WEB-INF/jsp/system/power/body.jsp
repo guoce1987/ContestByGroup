@@ -96,6 +96,37 @@
 	}
 
 	initCharts();
+	
+	function reloadData(termIndex) {
+		var json = fusioncharts.getJSONData();
+		var model = {
+			year : year,
+			month : month,
+			json : JSON.stringify(json)
+		};
+		$.ajax({
+			type : "POST",
+			data : model,
+			url : "power/getChartData?termIndex=" + termIndex,
+			success : function(data) {
+				fusioncharts.setJSONData(data);
+				fusioncharts.render();
+			}
+		});
+		$.ajax({
+	        type: "GET",
+	        url : "power/getGridData?year=" + year + "&month=" + month + "&termIndex=" + termIndex,
+	        success: function(data) {
+	     	   		$("#grid-table").jqGrid("clearGridData");
+	                $("#grid-table").jqGrid('setGridParam',
+	                 { 
+	                    datatype: 'local',
+	                    data:data
+	                }).trigger("reloadGrid");
+	           }
+	     });
+	}
+	
 	FusionCharts.ready(function() {
 		var json = fusioncharts.getJSONData();
 		var model = {
@@ -114,7 +145,7 @@
 			}
 		});
 	});
-
+	
 	function initGrid() {
 		var grid_selector = "#grid-table";
 		var pager_selector = "#grid-pager";
@@ -122,8 +153,7 @@
 		jQuery(grid_selector).jqGrid(
 				{
 
-					url : "power/getGridData?year=" + year + "&month="
-							+ month,
+					url : "power/getGridData?year=" + year + "&month=" + month,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
@@ -170,7 +200,7 @@
 			   //只能拿到grid中的数据，完整数据实现应该发请求
 				   var promise = $.ajax({
 				   url : "power/getGridData?year=" + year + "&month="
-					+ month,
+					+ month + "&termIndex=" + termIndex,
 				   type: "GET"
 			   });
 			   
@@ -187,7 +217,7 @@
 	    					array.push(filter);
 	    				}
 				   var title = ['日期','班次ID','班次', '值别', '发电量'];
-				   var tableName = "电量指标列表_"+new Date().format("yyyyMMddhhmmss");
+				   var tableName = "电量指标列表_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 
 			   
