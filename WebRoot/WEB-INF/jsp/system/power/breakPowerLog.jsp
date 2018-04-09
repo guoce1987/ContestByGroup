@@ -36,6 +36,11 @@
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;添加
 							 	</button>
 						   </div>
+						   <div class="form-group">
+							 	<button id="searchBtn" style="margin-left:50px" type="button" class="btn btn-sm btn-success" onclick="jumpToBreakpowerDetail()">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;违规查询
+							 	</button>
+						   </div>
 						   <div style="margin-top: 20px;">
 						   		<div class="row">
 						   			<div class="col-sm-9">
@@ -300,4 +305,17 @@
 	}
 	
 	querySumInfo();
+	
+	function jumpToBreakpowerDetail(dutyID,statDate) {
+		var dutyID = $("#dutyId").val();
+		var statDate = $("#datepickerForBreakPowerLog").val();
+		$.cookie('termIndex4BreakPower', termIndex, {path:"/"});
+		$.cookie('dutyID4BreakPower', dutyID, {
+			expires : 7
+		});
+		$.cookie('statDate4BreakPower', statDate, {
+			expires : 7
+		});
+		window.open("power/breakpowerdetail.do","_blank");
+	}
 </script>

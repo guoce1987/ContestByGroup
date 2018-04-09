@@ -58,6 +58,7 @@
 					   <div class="form-group">
 							    <label>班次</label>
 								<select name="dutyId" id="dutyId" class="form-control" placeholder="请选择值别">
+									<option value="">全部</option>
 									<option value="0">后夜</option>
 									<option value="1">白班</option>
 									<option value="2">前夜</option>

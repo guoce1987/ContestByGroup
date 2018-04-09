@@ -175,7 +175,7 @@ var getDownloadUrl = function(text) {
     var BOM = "\uFEFF";
     // Add BOM to text for open in excel correctly
     if (window.Blob && window.URL && window.URL.createObjectURL) {
-      var csvData = new Blob([BOM + text], { type: 'text/csv' });
+      var csvData = new Blob([BOM + text], { type: 'text/csv,charset=gb2312' });
       return URL.createObjectURL(csvData);
     } else {
       return 'data:attachment/csv;charset=utf-8,' + BOM + encodeURIComponent(text);

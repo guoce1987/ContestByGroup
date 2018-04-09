@@ -148,10 +148,16 @@
 	  	left join GroupDic gd on vr.GroupId=gd.id
 	  	where
 	  	<if test="startDate!=null and endDate!=null">
-		  	BreakDate between #{startDate} and #{endDate} and DutyClass=#{dutyId}
+		  	BreakDate between #{startDate} and #{endDate}
+		  	<if test="dutyId!='' and dutyId!=null">
+		  		and DutyClass=#{dutyId}
+		  	</if>
 		</if>
 		<if test="year!=null and month!=null and day!=null">
-		  	year(BreakDate)= #{year} and month(BreakDate) = #{month} and day(BreakDate)=#{day} and DutyClass=#{dutyId}
+		  	year(BreakDate)= #{year} and month(BreakDate) = #{month} and day(BreakDate)=#{day}
+		  	<if test="dutyId!='' and dutyId!=null">
+		  		and DutyClass=#{dutyId}
+		  	</if>
 		</if>
 	  	order by CreateDate desc
 	</select>

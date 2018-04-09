@@ -37,7 +37,8 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div id="info_place" class="well">
-			<p>选择日期，点击执行</p>
+			<p><code>选择日期，点击执行</code></p>
+			<p></p>
 		</div>
 	</div>
 	<!-- /.col -->
@@ -60,18 +61,19 @@
 	
 	function startRun() {
 		var startTime = new Date();
-		$('#info_place').append('开始执行......');
+		$('#info_place p:nth-child(2)').text('正在执行......');
 		var statDate = $("#datepickerForRunProc").val();
 		var breakpoint = $("#breakpoint").prop('checked') ? "1" : "0";
+		$("#queryBtn").attr("disabled", true);
 		$.post("contestResult/runprc", {statDate : statDate, breakpoint:breakpoint}, function(data){
+			$("#queryBtn").attr("disabled", false);
 			if("0" == data) {
-				$('#info_place').append('<p>执行失败</p>');
+				$('#info_place p:nth-child(2)').text('执行失败');
 			} else if("2" == data) {
-				$('#info_place').append('<p>只能执行本月或者上月的数据</p>');
+				$('#info_place p:nth-child(2)').text('只能执行本月或者上月的数据');
 			} else {
 				var endTime = new Date();
-				$('#info_place').append('<p>执行成功</p>');
-				$('#info_place').append('<p>用时' + parseInt(endTime - startTime) / 1000 + '秒</p>');
+				$('#info_place p:nth-child(2)').text('执行成功：用时' + parseInt(endTime - startTime) / 1000 + '秒');
 			}
 		});
 	}
