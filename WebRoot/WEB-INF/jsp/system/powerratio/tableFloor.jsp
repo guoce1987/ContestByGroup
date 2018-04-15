@@ -151,6 +151,30 @@
 		 var statDateStart = $("#datepickerForTbStart").val();
 		var statDateEnd = $("#datepickerForTbEnd").val();
 
+		var colNames = ['ID','日期','班次', '值別','#6机电量', '#7机电量', '#8机电量',
+							'华台1线有功', '华台1线负有功', '华台2线有功', '华台2线负有功',
+							'#3号启备变电量','#6机厂用电量','#7机厂用电量','#8机厂用电量','总厂用电量',
+							'RJ_ProduceUsePowerFlow','RJ_HeatPureUsePowerFlow',
+							'一级1号热网泵','一级2号热网泵','一级3号热网泵',
+							'一级4号热网泵','二级1号热网泵','二级2号热网泵','二级3号热网泵',
+							'二级4号热网泵',
+							'生水量','除盐水量','生水量','污水量',
+							'RJ_AuxSteam','1号管用燃气量','2号管用燃气量','3号管用燃气量',
+							'RJ_Carb1Flow','RJ_Carb2FLow','RJ_SuplyHeat'
+							];
+		if(termIndex == 3) {
+			var colNames = ['ID','日期','班次', '值別','#9机电量', '#10机电量', '#11机电量',
+							'#10机上网电量+', '#10机上网电量-', '#9机上网电量+', '#9机上网电量-',
+							'#','#9机上网电量','#10机上网电量','#11机上网电量','总厂用电量',
+							'RJ_ProduceUsePowerFlow','RJ_HeatPureUsePowerFlow',
+							'一级1号热网泵','一级2号热网泵','一级3号热网泵',
+							'一级4号热网泵','二级1号热网泵','二级2号热网泵','二级3号热网泵',
+							'二级4号热网泵',
+							'生水量','除盐水量','生水量','污水量',
+							'RJ_AuxSteam','1号管用燃气量','2号管用燃气量','3号管用燃气量',
+							'RJ_Carb1Flow','RJ_Carb2FLow','RJ_SuplyHeat'
+							];
+		}
 		jQuery(grid_selector).jqGrid(
 				{
 
@@ -162,17 +186,7 @@
 					loadonce: true,
 					shrinkToFit : false,
 					autoScroll : true,
-					colNames : ['ID','日期','班次', '值別','#6机电量', '#7机电量', '#8机电量',
-							'华台1线有功', '华台1线负有功', '华台2线有功', '华台2线负有功',
-							'#3号启备变电量','#6机厂用电量','#7机厂用电量','#8机厂用电量','总厂用电量',
-							'RJ_ProduceUsePowerFlow','RJ_HeatPureUsePowerFlow',
-							'一级1号热网泵','一级2号热网泵','一级3号热网泵',
-							'一级4号热网泵','二级1号热网泵','二级2号热网泵','二级3号热网泵',
-							'二级4号热网泵',
-							'生水量','除盐水量','生水量','污水量',
-							'RJ_AuxSteam','1号管用燃气量','2号管用燃气量','3号管用燃气量',
-							'RJ_Carb1Flow','RJ_Carb2FLow','RJ_SuplyHeat'
-							],
+					colNames : colNames,
 					colModel : [
 						{
 						name : 'ID',
@@ -808,8 +822,7 @@
         					filter.createDate = data[index].createDate;
         					array.push(filter);
         				}
-				   var title = ['ID','机组','测点', '描述','单位', '下限', '上限',
-						'违规条件', '罚分', '竞赛类型', '惩罚类型','是否启用','取消原因','生效日期','创建日期'];
+				   var title = colNames;
 				   var tableName = "表底_" + termIndex + "期_" + new Date().format("yyyyMMddhhmmss");
 				   exportToFile(array,title, true , tableName);
 			   }); 

@@ -104,7 +104,7 @@
                         <div class="col-sm-6">
                             
                             <select name="unit" id="unit" class="form-control" placeholder="请选择机组">
-                            	<option value="0">全部</option>
+                            	<option value="0">燃机</option>
 								<option value="6">6号机</option>
 								<option value="7">7号机</option>
 								<option value="8">8号机</option>
@@ -124,8 +124,6 @@
 								<option value="10">精神文明</option>
 								<option value="14">操作加分</option>
 								<option value="15">操作启停奖</option>
-								<option value="8">设备消缺</option>
-								<option value="9">巡回检查</option>
 							</select>  
                         </div>
                     </div>
@@ -313,7 +311,16 @@
 			caption: "考核管理"
 
 		});
+		function isNumber(obj) {
+		    return typeof obj === 'number' && !isNaN(obj)
+		}
 		
+		/**
+			$('input[name="autoAlarm3"]:checked').each(function () {
+        var paraval = $(this).val();
+        tpara += paraval + ',';
+	});
+		**/
 		jQuery("#item-table").jqGrid({
 			url : "contestItem/getGridData?contestType=0",
 			mtype : "GET",
@@ -338,20 +345,33 @@
 			altRows: true,
 			
 			multiselect: true,
-	        multiboxonly: true,
-	        beforeSelectRow: function() {
-	        	$("#item-table").jqGrid('resetSelection');
-	    	    return(true);
-	        },
+	        //multiboxonly: true,
 	        onSelectRow: function() {
 	        	var selRowId = $("#item-table").jqGrid ('getGridParam', 'selrow');
-	        	var itemName = $("#item-table").jqGrid ('getCell', selRowId, 'ItemName');
-	        	var score = $("#item-table").jqGrid ('getCell', selRowId, 'Cent');
-	        	var money = $("#item-table").jqGrid ('getCell', selRowId, 'money');
-	        	var memo = $("#item-table").jqGrid ('getCell', selRowId, 'memo');
 	        	var itemID = $("#item-table").jqGrid ('getCell', selRowId, 'ID');
-	        	$("#score").val(score);
-	        	$("#money").val(money);
+	        	
+	        	var scoreVal = 0;
+	        	var moneyVal = 0;
+	        	var reason = '';
+	        	var ids = $("#item-table").jqGrid("getGridParam", "selarrrow");
+	            for (var i = 0; i < ids.length; i++) {
+	            	var itemName = $("#item-table").jqGrid ('getCell', ids[i], 'ItemName');
+		        	var score = $("#item-table").jqGrid ('getCell', ids[i], 'Cent');
+		        	var money = $("#item-table").jqGrid ('getCell', ids[i], 'money');
+		        	var memo = $("#item-table").jqGrid ('getCell', ids[i], 'memo');
+		        	
+		        	if(score == '') score = 0;
+		        	scoreVal = scoreVal + parseFloat(score);
+		        	if(money == '') money = 0;
+		        	moneyVal = moneyVal + parseInt(money);
+		        	
+		        	reason = reason + "|" +itemName
+	            }
+	            
+	            $("#score").val(scoreVal);
+	            $("#money").val(moneyVal);
+	            $("#reason").val(reason);
+	            
 	        	$("#memo").val(memo);
 	        	$("#ItemID").val(itemID);
 	        },
@@ -438,10 +458,6 @@
 					bootbox.alert("请选择值别！"); 
 					return;
 				}
-			 if(model.unit==0){
-					bootbox.alert("请选择机组！"); 
-					return;
-				}
 
 			if(isLayerEdit){
 				$.ajax({
@@ -454,7 +470,7 @@
 			 	                    insRow(data);
 			 	                   jQuery(grid_selector).jqGrid('setGridParam',
 			 	                		   {
-					 	          			url : "itemInput/getGridData",
+					 	          			url : "itemInput/getGridData?year=" + year + "&month=" + month,
 						 	       			mtype : "GET",
 						 	       			datatype : "json"
 					 	                   }).trigger("reloadGrid");
@@ -475,7 +491,7 @@
 			 	                    insRow(data);
 			 	                   jQuery(grid_selector).jqGrid('setGridParam',
 			 	                		   {
-					 	          			url : "itemInput/getGridData",
+					 	          			url : "itemInput/getGridData?year=" + year + "&month=" + month,
 						 	       			mtype : "GET",
 						 	       			datatype : "json"
 					 	                   }).trigger("reloadGrid");
