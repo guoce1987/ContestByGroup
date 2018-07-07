@@ -200,18 +200,19 @@
 		    $(this).css('width',w2);
 		})
 	}
-
-	//提交delete状态
-	function submitIsDeleteStatus(checkbox, itemID) {
-		var checked = $(checkbox).is(':checked');
-		$.post("breakpoint/submitIsDeleteStatus",{itemID:itemID, status:checked?1:0});
-	}
 	
 	var year = $.cookie('breakpointyear');
 	var month = $.cookie('breakpointmonth');
 	var kks = $.cookie('breakpointkks');
 	var groupId = $.cookie('breakpointgroupId');
 	var unit = $.cookie('breakpointunit');
+	var termIndex = $.cookie('termIndex4Breakpoint');
+	
+	//提交delete状态
+	function submitIsDeleteStatus(checkbox, itemID) {
+		var checked = $(checkbox).is(':checked');
+		$.post("breakpoint/submitIsDeleteStatus",{termIndex:termIndex,itemID:itemID, status:checked?1:0});
+	}
 	
 	function initBreakDetailGrid() {
 		var grid_selector = "#grid-table-breakpointdetail";
@@ -222,7 +223,7 @@
 
 					url : "breakpoint/getDetailGridData?year=" + year
 							+ "&month=" + month + "&grouId=" + groupId
-							+ "&unit=" + unit + "&kks=" + kks + "&isShowDelete=" + isShowDelete,
+							+ "&unit=" + unit + "&kks=" + kks + "&isShowDelete=" + isShowDelete + "&termIndex=" + termIndex,
 					mtype : "GET",
 					datatype : "json",
 					autowidth : true,
@@ -309,7 +310,7 @@
 					pager : pager_selector,
 					//这个地方是不是可以用EL表达式？
 					cellEdit: ${pd.editable},
-					cellurl: "breakpoint/submitDeleteReason",
+					cellurl: "breakpoint/submitDeleteReason?termIndex=" + termIndex,
 					loadComplete : function() {
 						var table = this;
 						setTimeout(function() {
@@ -323,7 +324,7 @@
 						return {"sid":id};
 						
 					},
-					caption : "违规详情"
+					caption : termIndex + "期 违规详情"
 				});
 	jQuery(grid_selector).jqGrid({cellEdit : false});
 	}
@@ -351,7 +352,7 @@
 	
 	$.ajax({
         type: "POST",
-        url: "breakpoint/kksSelect.do",
+        url: "breakpoint/kksSelect.do?termIndex=" + termIndex,
         dataType: "json",
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
@@ -372,7 +373,7 @@
 		var isShowDelete = $("#isShowDelete").prop('checked') ? 1 : 0;
 		$.ajax({
 	        type: "GET",
-	        url : "breakpoint/getDetailGridData?year=" + year + "&month=" + month + "&grouId=" + grouId + "&unit=" + unit + "&kks=" + kks+ "&isShowDelete=" + isShowDelete,
+	        url : "breakpoint/getDetailGridData?year=" + year + "&month=" + month + "&grouId=" + grouId + "&unit=" + unit + "&kks=" + kks+ "&isShowDelete=" + isShowDelete + "&termIndex=" + termIndex,
 	        success: function(data){
 	     	   		grid_data = data;
 	     	   		$("#grid-table-breakpointdetail").jqGrid("clearGridData");
@@ -412,7 +413,7 @@
 			start = $("#datepickerForDeleteTimeRange").val().split("  到  ")[0];
 			end = $("#datepickerForDeleteTimeRange").val().split("  到  ")[1];
 		}
-		$.post("breakpoint/submitIsDeleteBatch",{startTime:start, endTime : end, isDelete : isDelete?1:0, deleteReason:reason, kks : kks},function(data){
+		$.post("breakpoint/submitIsDeleteBatch",{termIndex:termIndex,startTime:start, endTime : end, isDelete : isDelete?1:0, deleteReason:reason, kks : kks},function(data){
 			if("0" == data) alert("提交失败");
 			$("#myModal").modal('toggle');
 			queryDetail();

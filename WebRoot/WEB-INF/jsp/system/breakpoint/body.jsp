@@ -54,6 +54,7 @@
 		$.cookie('breakpointgroupId', groupId, {path:"/"}); 
 		$.cookie('breakpointunit', unit, {path:"/"});
 		$.cookie('username', $("#username").val(), {path:"/"});
+		$.cookie('termIndex4Breakpoint', termIndex, {path:"/"});
 		window.open("breakpoint/breakpointlist.do","_blank");
 	}
 

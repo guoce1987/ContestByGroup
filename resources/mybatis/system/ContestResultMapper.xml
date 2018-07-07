@@ -874,15 +874,15 @@
 	</select>
 	<!-- 批量提交违规原因 -->
 	<select id="submitIsDeleteBatch" parameterType="pd" resultType="pd" useCache="false"> 
-		 update ${termIndex}${termIndex} set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime} and kks=#{kks}
+		 update BreakPointDetails${termIndex} set IsDelete=#{isDelete},DeleteReason=#{deleteReason} where TimeStamp between #{startTime} and #{endTime} and kks=#{kks}
 	</select>
 	<!-- 提交违规原因 -->
 	<select id="updateDeleteReason" parameterType="pd" resultType="pd" useCache="false"> 
-		 update ${termIndex}${termIndex} set DeleteReason=#{reason} where id=#{id}
+		 update BreakPointDetails${termIndex} set DeleteReason=#{reason} where id=#{id}
 	</select>
 	<!-- 提交违规详情是否delete标识 -->
 	<select id="updateIsDeleteStatus" parameterType="pd" resultType="pd" useCache="false"> 
-		 update ${termIndex}${termIndex} set IsDelete=#{status} where id=#{id}
+		 update BreakPointDetails${termIndex} set IsDelete=#{status} where id=#{id}
 	</select>
 	<!-- 列出所有的违规扣分(图) -->
 	<select id="listAllBreakPointForChart" resultMap="breakPointMapForChart"  statementType="CALLABLE" parameterType="pd">
