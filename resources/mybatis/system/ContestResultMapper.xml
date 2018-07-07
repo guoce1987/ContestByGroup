@@ -854,7 +854,7 @@
 			<if test="sid!=0 and sid!=null">
 				where id = #{sid}
 			</if>
-			order by orderDate desc
+			order by id asc
 	</select>
 	<!-- 创建一条违规字典的数据 -->
 	<select id="createBreakDicItem" parameterType="pd" resultType="pd" useCache="false"> 

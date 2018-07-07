@@ -270,6 +270,7 @@
 						}, 0);
 					},
 					beforeSubmitCell: function(rowid,celname,value,iRow,iCol){
+						jQuery(grid_selector).setGridParam({cellurl: "breakpoint/submitBreakDic?termIndex=" + termIndex})
 						var id = $(grid_selector).jqGrid("getCell",rowid,'id');
 						return {"sid":id, celname : celname, value : value};
 					},
@@ -340,6 +341,7 @@
 		   position:"last"
 		});
 	}
+	
 	initGrid();
 	
 	function addBreakDic() {
@@ -371,13 +373,13 @@
 	        type: "GET",
 	        url : "breakpoint/getDicGridData?termIndex=" + termIndex,
 	        success: function(data) {
-	     	   		$("#grid-table").jqGrid("clearGridData");
-	                $("#grid-table").jqGrid('setGridParam',
-	                 { 
-	                    datatype: 'local',
-	                    data:data
-	                }).trigger("reloadGrid");
-	           }
+     	   		$("#grid-table").jqGrid("clearGridData");
+                $("#grid-table").jqGrid('setGridParam',
+                 { 
+                    datatype: 'local',
+                    data:data
+                }).trigger("reloadGrid");
+	        }
 	     });
 	} 
 	

@@ -6,7 +6,7 @@
 											<div class="widget-header widget-header-flat">
 												<h4 class="widget-title lighter">
 													<i class="ace-icon fa fa-signal"></i>
-													总成绩
+													运行部燃机经济指标
 												</h4>
 
 												<div class="widget-toolbar">

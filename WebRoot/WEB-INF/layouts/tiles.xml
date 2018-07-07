@@ -79,10 +79,10 @@
         <put-attribute name="body" value="/WEB-INF/jsp/system/global/const_setting.jsp"/>
     </definition>
      <definition name="system/admin/index" extends="default">
-        <put-attribute name="title" value="总成绩"/>
+        <put-attribute name="title" value="运行部燃机经济指标"/>
     </definition>
     <definition name="contestResult/list" extends="default">
-        <put-attribute name="title" value="总成绩"/>
+        <put-attribute name="title" value="运行部燃机经济指标"/>
         <put-attribute name="body" value="/WEB-INF/jsp/system/contestResult/body.jsp"/>
     </definition>
     <definition name="securityIndex/list" extends="default">
